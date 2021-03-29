@@ -6,6 +6,9 @@
     <groupId>ogorek.wojciech</groupId>
     <artifactId>Cinema_Management_System</artifactId>
     <version>${revision}</version>
+    <modules>
+        <module>domain</module>
+    </modules>
     <packaging>pom</packaging>
 
 
@@ -323,6 +326,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+
+        <!--
+            *
+            * plugins configuration
+            *
+        -->
 
         <plugins>
             <plugin>
