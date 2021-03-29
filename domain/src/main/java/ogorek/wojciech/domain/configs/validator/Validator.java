@@ -19,7 +19,7 @@ public interface Validator<T> {
                     .stream()
                     .map(e -> e.getKey() + " " + e.getValue())
                     .collect(Collectors.joining(","));
-            throw new AppValidationException("Validation errors: " + message);
+            throw new AppValidationException("[VALIDATION ERROR]: " + message);
         }
     }
 }

@@ -26,7 +26,6 @@ public class CreateCityDtoValidator implements Validator<CreateCityDto> {
     }
 
     private boolean isCityNameValid(String cityName){
-        //todo zapytac o drugi czlon i dzue litery
         return cityName != null && cityName.matches("[A-Z][a-z]{0,20} ?[A-Z][a-z]{0,20}");
     }
 }
