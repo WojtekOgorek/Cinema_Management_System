@@ -1,4 +1,4 @@
-package ogorek.wojciech.domain.model.city;
+package ogorek.wojciech.domain.model.city.dto.validator;
 
 
 import ogorek.wojciech.domain.configs.validator.Validator;
@@ -16,16 +16,17 @@ public class CreateCityDtoValidator implements Validator<CreateCityDto> {
         var errors = new HashMap<String, String>();
 
         if(Objects.isNull(createCityDto)){
-            errors.put("City object", "cannot be null");
+            errors.put("City object:", "is null");
+            return errors;
         }
         if(!isCityNameValid(createCityDto.getName())){
-            errors.put("City name is invalid", "It must begin with uppercase " + createCityDto.getName());
+            errors.put("City name is invalid:", "It must begin with uppercase " + createCityDto.getName());
         }
 
         return errors;
     }
 
     private boolean isCityNameValid(String cityName){
-        return cityName != null && cityName.matches("[A-Z][a-z]{0,20} ?[A-Z][a-z]{0,20}");
+        return cityName != null && cityName.matches("[A-Z][a-z]{0,20}( [A-Z][a-z]{0,20})?");
     }
 }

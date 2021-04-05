@@ -63,7 +63,7 @@ public class CityDomainTest {
                 .build();
 
         assertThat(city.id).isGreaterThan(0);
-        assertThat(city.name).matches("[A-Z][a-z]{0,20} ?[A-Z][a-z]{0,20}");
+        assertThat(city.name).matches("[A-Z][a-z]{0,20}( [A-Z][a-z]{0,20})?");
     }
 
     @Test
