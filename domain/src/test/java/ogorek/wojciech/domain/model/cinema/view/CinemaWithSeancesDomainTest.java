@@ -10,7 +10,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class CinemaWithSeancesDomainTest {
 
     @Test
-    @DisplayName("when get cinema with seances dto is correct")
+    @DisplayName("when conversion to get cinema with seances dto is correct")
     public void test1(){
 
         var cinemaId = 1L;

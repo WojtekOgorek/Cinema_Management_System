@@ -10,7 +10,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class CinemaWithCinemaRoomsDomainTest {
 
     @Test
-    @DisplayName("when get cinema with cinemaRooms dto is correct")
+    @DisplayName("when conversion to get cinema with cinema rooms dto is correct")
     public void test1(){
 
         var cinemaId = 3L;
@@ -34,7 +34,7 @@ public class CinemaWithCinemaRoomsDomainTest {
     }
 
     @Test
-    @DisplayName("when cinema with cinemaRooms has correct properties")
+    @DisplayName("when cinema with cinema rooms has correct properties")
     public void test2(){
 
         var cinemaId = 3L;

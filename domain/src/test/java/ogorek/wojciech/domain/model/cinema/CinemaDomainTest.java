@@ -57,7 +57,7 @@ public class CinemaDomainTest {
     }
 
     @Test
-    @DisplayName("when cinema properies are correct")
+    @DisplayName("when cinema properties are correct")
     public void test3(){
 
         var id = 2L;
