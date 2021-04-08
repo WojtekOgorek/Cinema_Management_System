@@ -1,10 +1,10 @@
 package ogorek.wojciech.domain.model.cinema_room.converter;
 
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoJsonConverter;
 import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
 import ogorek.wojciech.domain.model.cinema_room.dto.converter.CreateCinemaRoomDtoJsonConverter;
-import ogorek.wojciech.extension.cinema_room.dto.converter.CreateCinemaRoomDtoConverterExtension;
+import ogorek.wojciech.extension.cinema_room.dto.converter.CreateCinemaRoomDtoJsonExtension;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +13,9 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(CreateCinemaRoomDtoConverterExtension.class)
+@ExtendWith(CreateCinemaRoomDtoJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateCinemaDtoJsonConverterTest {
+public class CreateCinemaRoomDtoJsonTest {
 
     private final CreateCinemaRoomDtoJsonConverter createCinemaRoomDtoJsonConverter;
 
@@ -33,6 +33,9 @@ public class CreateCinemaDtoJsonConverterTest {
 
         var cinemaRoomFromJson = createCinemaRoomDtoJsonConverter.fromJson().orElseThrow();
 
-        assertThat(cinemaRoomFromJson).isEqualTo(expectedCinemaRoom);
+        Assertions.assertDoesNotThrow(() -> assertThat(cinemaRoomFromJson)
+                .asList()
+                .hasSize(1)
+                .containsExactlyElementsOf(expectedCinemaRoom));
     }
 }

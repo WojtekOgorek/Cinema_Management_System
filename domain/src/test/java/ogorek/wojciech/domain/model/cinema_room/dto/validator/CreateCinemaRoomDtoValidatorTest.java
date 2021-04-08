@@ -1,27 +1,23 @@
 package ogorek.wojciech.domain.model.cinema_room.dto.validator;
 
-import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.AppValidationException;
 import ogorek.wojciech.domain.configs.validator.Validator;
 import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
-import ogorek.wojciech.extension.cinema_room.dto.validator.CreateCinemaRoomDtoValidatorExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@ExtendWith(CreateCinemaRoomDtoValidatorExtension.class)
-@RequiredArgsConstructor
+
 public class CreateCinemaRoomDtoValidatorTest {
-    private final CreateCinemaRoomDtoValidator createCinemaRoomDtoValidator;
+
 
     @Test
     @DisplayName("when create cinema room dto is null")
     public void test1(){
 
-        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator, null))
+        assertThatThrownBy(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), null))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]: ")
                 .hasMessageContaining("Cinema room object: is null");
@@ -45,7 +41,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .build();
 
 
-        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator, createCinemaRoomDto))
+        assertThatThrownBy(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]: ")
                 .hasMessageContaining("Cinema room name is invalid:");
@@ -69,7 +65,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .build();
 
 
-        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator, createCinemaRoomDto))
+        assertThatThrownBy(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]: ")
                 .hasMessageContaining("Cinema room row number is invalid:");
@@ -93,7 +89,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .build();
 
 
-        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator, createCinemaRoomDto))
+        assertThatThrownBy(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]: ")
                 .hasMessageContaining("Cinema room place number is invalid:");
@@ -117,7 +113,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .build();
 
 
-        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator, createCinemaRoomDto))
+        assertThatThrownBy(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]: ")
                 .hasMessageContaining("Cinema room cinema id is invalid:");
@@ -141,8 +137,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .build();
 
 
-        assertDoesNotThrow(() -> Validator.validate(createCinemaRoomDtoValidator, createCinemaRoomDto));
-
+        assertDoesNotThrow(() -> Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto));
     }
 
 

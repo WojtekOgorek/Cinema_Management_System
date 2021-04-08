@@ -3,7 +3,9 @@ package ogorek.wojciech.domain.model.cinema.converter;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.cinema.dto.CreateCinemaDto;
 import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoJsonConverter;
-import ogorek.wojciech.extension.cinema.dto.converter.CreateCinemaDtoConverterExtension;
+import ogorek.wojciech.extension.cinema.dto.converter.CreateCinemaDtoJsonExtension;
+import org.assertj.core.api.AssertionsForClassTypes;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +14,9 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ExtendWith(CreateCinemaDtoConverterExtension.class)
+@ExtendWith(CreateCinemaDtoJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateCinemaDtoJsonConverterTest {
+public class CreateCinemaDtoJsonTest {
     private final CreateCinemaDtoJsonConverter createCinemaDtoJsonConverter;
 
     @Test
@@ -30,6 +32,9 @@ public class CreateCinemaDtoJsonConverterTest {
 
         var cinemasFromJson = createCinemaDtoJsonConverter.fromJson().orElseThrow();
 
-        assertThat(cinemasFromJson).isEqualTo(expectedCinema);
+        Assertions.assertDoesNotThrow(() -> AssertionsForClassTypes.assertThat(cinemasFromJson)
+                .asList()
+                .hasSize(1)
+                .containsExactlyElementsOf(expectedCinema));
     }
 }
