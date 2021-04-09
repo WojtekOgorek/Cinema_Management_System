@@ -11,7 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 
 @ExtendWith(CreateCinemaRoomDtoJsonExtension.class)
 @RequiredArgsConstructor
@@ -34,7 +35,6 @@ public class CreateCinemaRoomDtoJsonTest {
         var cinemaRoomFromJson = createCinemaRoomDtoJsonConverter.fromJson().orElseThrow();
 
         Assertions.assertDoesNotThrow(() -> assertThat(cinemaRoomFromJson)
-                .asList()
                 .hasSize(1)
                 .containsExactlyElementsOf(expectedCinemaRoom));
     }

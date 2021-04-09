@@ -30,7 +30,7 @@ public class CreateCityDtoDomainTest {
     }
 
     @Test
-    @DisplayName("when createCityDto has correct properties")
+    @DisplayName("when create city dto has correct properties")
     public void test2(){
 
         var name = "City Name";

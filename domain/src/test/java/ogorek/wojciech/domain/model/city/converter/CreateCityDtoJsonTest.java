@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 
 @ExtendWith(CreateCityDtoJsonExtension.class)
@@ -35,7 +35,6 @@ public class CreateCityDtoJsonTest {
 
 
         Assertions.assertDoesNotThrow(() -> assertThat(citiesFromJson)
-                .asList()
                 .hasSize(1)
                 .containsExactlyElementsOf(expectedCity));
     }

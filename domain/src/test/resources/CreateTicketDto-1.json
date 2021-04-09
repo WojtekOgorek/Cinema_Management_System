@@ -1,0 +1,10 @@
+[
+  {
+    "seanceId": 1,
+    "seatId": 10,
+    "price": "100",
+    "discount": 0.1,
+    "state": "FREE",
+    "userId": 3
+  }
+]
