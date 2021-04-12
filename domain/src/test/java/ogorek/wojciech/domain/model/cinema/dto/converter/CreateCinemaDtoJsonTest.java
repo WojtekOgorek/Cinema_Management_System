@@ -31,6 +31,7 @@ public class CreateCinemaDtoJsonTest {
 
         var cinemasFromJson = createCinemaDtoJsonConverter.fromJson().orElseThrow();
 
+
         Assertions.assertDoesNotThrow(() -> assertThat(cinemasFromJson)
                 .hasSize(1)
                 .containsExactlyElementsOf(expectedCinema));
