@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CityDomainTest {
 
     @Test
-    @DisplayName("when conversion to GetCityDto is correct")
+    @DisplayName("when conversion to get city dto is correct")
     public void test1(){
 
         var id = 1L;
