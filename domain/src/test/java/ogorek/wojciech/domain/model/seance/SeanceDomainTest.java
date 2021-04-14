@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SeanceDomainTest {
 
     @Test
-    @DisplayName("when converstion to get seance dto is correct")
+    @DisplayName("when conversion to get seance dto is correct")
     public void test1() {
         var id = 1L;
         var movieId = 2L;

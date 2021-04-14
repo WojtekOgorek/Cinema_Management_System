@@ -37,7 +37,7 @@ public class CreateSeanceDtoDomainTest {
     }
 
     @Test
-    @DisplayName("when create seance dto has correct proprties")
+    @DisplayName("when create seance dto has correct properties")
     public void test2(){
 
         var movieId = 1L;
