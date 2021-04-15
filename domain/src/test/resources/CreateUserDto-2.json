@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "email": [1,2,3],
+    "password": "woj7eczeK%",
+    "passwordConfirmation": "woj7eczeK%",
+    "role": "USER"
+  }
+]
+
