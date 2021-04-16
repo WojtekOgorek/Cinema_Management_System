@@ -15,21 +15,20 @@ import org.springframework.context.annotation.PropertySource;
 public class AppSpringConfig {
 
 
-        @Value("${db.url}")
-        private String databaseUrl;
+    @Value("${db.url}")
+    private String databaseUrl;
 
-        @Value("${db.username}")
-        private String databaseUsername;
+    @Value("${db.username}")
+    private String databaseUsername;
 
-        @Value("${db.password}")
-        private String databasePassword;
+    @Value("${db.password}")
+    private String databasePassword;
 
 
-        @Bean
-        public Jdbi jdbi() {
-            return Jdbi.create(databaseUrl, databaseUsername, databasePassword);
-        }
-
+    @Bean
+    public Jdbi jdbi() {
+        return Jdbi.create(databaseUrl, databaseUsername, databasePassword);
+    }
 
 
 }

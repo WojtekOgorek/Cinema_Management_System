@@ -1,6 +1,6 @@
 package ogorek.wojciech.domain.model.user.enums;
 
-import ogorek.wojciech.domain.model.ticket.enums.State;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

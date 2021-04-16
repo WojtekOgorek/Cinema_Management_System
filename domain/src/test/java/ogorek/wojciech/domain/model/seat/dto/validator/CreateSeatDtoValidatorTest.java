@@ -80,7 +80,7 @@ public class CreateSeatDtoValidatorTest {
         assertThatThrownBy(() -> Validator.validate(new CreateSeatDtoValidator(), createSeatDto))
                 .isInstanceOf(AppValidationException.class)
                 .hasMessageStartingWith("[VALIDATOR ERROR]:")
-                .hasMessageContaining("Seat row is invalid:");
+                .hasMessageContaining("Seat place is invalid:");
     }
 
 }
