@@ -7,11 +7,11 @@ import ogorek.wojciech.domain.model.statistic.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface StatisticsRepository extends CrudRepository<City, Long> {
+public interface StatisticRepository extends CrudRepository<City, Long> {
     Optional<MostPopularCity> findMostPopularCity();
     List<MostPopularMovieInCities> findMostPopularMovieInCity();
     List<MostPopularGenreInCities> findMostPopularGenreInCity();
-    List<AvgPricePerUserInCities> findAvgPricePerCapitaInCities();
+    List<AvgPricePerUserInCities> findAvgPricePerUserInCities();
     List<TotalPriceSumByCities> findTotalPriceSumByCities();
     List<MostPopularDayByCities> findMostPopularDayByCities();
     List<MostPopularTicketTypeInCities> findMostPopularTicketByCities();
