@@ -1,6 +1,6 @@
 package ogorek.wojciech.domain.model.statistic;
 
-import ogorek.wojciech.domain.model.statistic.dto.GetAvgPricePerCapitaInCitiesDto;
+import ogorek.wojciech.domain.model.statistic.dto.GetAvgPricePerUserInCitiesDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ public class AvgPricePerUserInCitiesDomainTest {
                 .price(price)
                 .build();
 
-        var expectedDto = GetAvgPricePerCapitaInCitiesDto
+        var expectedDto = GetAvgPricePerUserInCitiesDto
                 .builder()
                 .cityId(cityId)
                 .price(price)

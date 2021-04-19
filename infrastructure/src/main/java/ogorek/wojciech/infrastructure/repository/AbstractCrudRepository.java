@@ -43,6 +43,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
                 .stream()
                 .map(Objects::toString)
                 .collect(Collectors.joining(","));
+
         final String SQL = "select * from" + TABLE_NAME + "where id in (" + IDS + ");";
 
         return jdbi.withHandle(handle ->

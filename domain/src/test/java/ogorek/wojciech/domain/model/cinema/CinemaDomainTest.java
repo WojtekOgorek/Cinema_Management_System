@@ -33,7 +33,7 @@ public class CinemaDomainTest {
 
         var getCinemaDto = cinema.toGetCinemaDto();
 
-        assertThat(getCinemaDto).isEqualTo(getCinemaDto);
+        assertThat(getCinemaDto).isEqualTo(expectedCinema);
     }
 
     @Test

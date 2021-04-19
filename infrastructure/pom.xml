@@ -5,7 +5,7 @@
     <parent>
         <artifactId>Cinema_Management_System</artifactId>
         <groupId>ogorek.wojciech</groupId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>infrastructure</artifactId>
@@ -58,17 +58,18 @@
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resource</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <outputDirectory>${basedir}/target/resources</outputDirectory>
-                    <resources>
-                        <resource>${basedir}/src/main/resources</resource>
-                        <filtering>true</filtering>
-                    </resources>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

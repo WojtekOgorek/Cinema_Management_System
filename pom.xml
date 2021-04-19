@@ -23,11 +23,11 @@
             *
         -->
         <revision>1.0</revision>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>15</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <java.version>15</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--
             *
             *    dependencies settings
@@ -56,8 +56,8 @@
         <j2html.version>1.4.0</j2html.version>
         <spark.version>2.9.2</spark.version>
         <log4j.version>1.2.17</log4j.version>
-        <spring.version>5.3.3</spring.version>
-        <spring.security.version>5.4.1</spring.security.version>
+        <spring.version>5.3.6</spring.version>
+        <spring.security.version>5.4.6</spring.security.version>
         <jjwt.version>0.11.2</jjwt.version>
 
         <!--
@@ -338,6 +338,13 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <configuration>
@@ -371,12 +378,12 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <requiredJavaVersion>
+                                <requireJavaVersion>
                                     <version>[11,)</version>
-                                </requiredJavaVersion>
-                                <requiredMavenVersion>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
                                     <version>[3.5,)</version>
-                                </requiredMavenVersion>
+                                </requireMavenVersion>
                             </rules>
                         </configuration>
                     </execution>
