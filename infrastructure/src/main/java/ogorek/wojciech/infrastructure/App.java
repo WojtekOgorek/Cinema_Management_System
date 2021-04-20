@@ -132,6 +132,5 @@ public class App {
         var jdbi = context.getBean("jdbi", Jdbi.class);
         createTables(jdbi);
 
-        System.out.println(cityService.findAllCities());
     }
 }

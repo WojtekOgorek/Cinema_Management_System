@@ -26,6 +26,5 @@ public class CityServiceTest {
     @Test
     @DisplayName("when finding all cities is correct")
     public void test1(){
-        System.out.println(cityService.findAllCities());
     }
 }
