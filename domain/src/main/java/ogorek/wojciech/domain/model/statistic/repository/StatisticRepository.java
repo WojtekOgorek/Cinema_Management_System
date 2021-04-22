@@ -1,7 +1,7 @@
 package ogorek.wojciech.domain.model.statistic.repository;
 
-import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.configs.repository.CrudRepository;
+import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.statistic.*;
 
 import java.util.List;

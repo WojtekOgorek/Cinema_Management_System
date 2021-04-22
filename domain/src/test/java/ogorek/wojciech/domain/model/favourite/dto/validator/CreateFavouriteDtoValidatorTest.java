@@ -2,12 +2,9 @@ package ogorek.wojciech.domain.model.favourite.dto.validator;
 
 import ogorek.wojciech.domain.configs.validator.AppValidationException;
 import ogorek.wojciech.domain.configs.validator.Validator;
-import ogorek.wojciech.domain.model.favourite.Favourite;
 import ogorek.wojciech.domain.model.favourite.dto.CreateFavDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

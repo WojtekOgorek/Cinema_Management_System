@@ -1,7 +1,6 @@
 package ogorek.wojciech.domain.model.user.dto.converter;
 
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.validator.Validator;
 import ogorek.wojciech.domain.model.user.dto.CreateUserDto;
 import ogorek.wojciech.domain.model.user.enums.Role;
 import ogorek.wojciech.extension.user.dto.converter.CreateUserDtoJsonExtension;

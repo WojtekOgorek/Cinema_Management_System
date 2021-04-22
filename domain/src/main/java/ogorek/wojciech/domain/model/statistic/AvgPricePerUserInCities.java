@@ -1,8 +1,8 @@
 package ogorek.wojciech.domain.model.statistic;
 
 import lombok.*;
-
 import ogorek.wojciech.domain.model.statistic.dto.GetAvgPricePerUserInCitiesDto;
+
 import java.math.BigDecimal;
 
 @AllArgsConstructor

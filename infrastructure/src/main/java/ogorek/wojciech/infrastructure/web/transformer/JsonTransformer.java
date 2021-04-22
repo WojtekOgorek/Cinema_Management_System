@@ -1,4 +1,4 @@
-package ogorek.wojciech.infrastructure.web.routing.transformer;
+package ogorek.wojciech.infrastructure.web.transformer;
 
 
 import com.google.gson.Gson;

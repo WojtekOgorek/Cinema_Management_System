@@ -1,7 +1,6 @@
 package ogorek.wojciech.domain.model.seance.dto.converter;
 
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.validator.Validator;
 import ogorek.wojciech.domain.model.seance.dto.CreateSeanceDto;
 import ogorek.wojciech.extension.seance.dto.converter.CreateSeanceDtoJsonExtension;
 import org.junit.jupiter.api.Assertions;

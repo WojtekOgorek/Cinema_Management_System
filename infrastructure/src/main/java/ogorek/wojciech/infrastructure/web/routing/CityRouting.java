@@ -3,7 +3,7 @@ package ogorek.wojciech.infrastructure.web.routing;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.city.dto.CreateCityDto;
-import ogorek.wojciech.infrastructure.web.routing.transformer.JsonTransformer;
+import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CityService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
