@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.cinema.dto.CreateCinemaDto;
-import ogorek.wojciech.infrastructure.web.routing.transformer.JsonTransformer;
+import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CinemaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,8 +28,8 @@ public class CinemaRouting {
 
     public void initCinemaRoutes() {
 
-        // /cinemas
-        path("/cinemas", () -> {
+        // /cinema
+        path("/cinema", () -> {
 
             //CINEMAS GENERAL CRUD
             get("", (request, response) -> {
@@ -49,7 +49,7 @@ public class CinemaRouting {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaService.deleteAllCinemas();
             }, new JsonTransformer());
-            // /cinemas/:id
+            // /cinema/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {
@@ -70,15 +70,15 @@ public class CinemaRouting {
                 }, new JsonTransformer());
             });
 
-            // /cinemas/cinemaRooms
-            path("/cinemaRooms", () -> {
+            // /cinema/cinemaRoom
+            path("/cinemaRoom", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cinemaService.findCinemasWithCinemaRooms();
                 }, new JsonTransformer());
 
-                // /cinemas/cinemaRooms/:id
-                path("/:id", () -> {
+                // /cinema/:id/cinemaRoom
+                path("/:id/cinemaRoom", () -> {
                     get("", (request, response) -> {
                         response.header(contentTypeHeader, contentTypeHeaderValue);
                         return cinemaService.findOneCinemaWithCinemaRooms(Long.parseLong(request.params("id")));
@@ -86,22 +86,22 @@ public class CinemaRouting {
                 });
 
             });
-            // /cinemas/movies
-            path("/movies", () -> {
+            // /cinema/movie
+            path("/movie", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cinemaService.findCinemasWithMovies();
                 }, new JsonTransformer());
 
-                //  /cinemas/movies/:id
-                get("/id", (request, response) -> {
+                //  /cinema/:id/movie
+                get("/:id/movie", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cinemaService.findOneCinemaWithMovies(Long.parseLong(request.params("id")));
                 }, new JsonTransformer());
 
             });
-            // /cinemas/seances/:id
-            get("/seances/:id", (request, response) -> {
+            // /cinema/:id/seance
+            get("/:id/seance", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaService.findOneCinemaWithSeances(Long.parseLong(request.params("id")));
             }, new JsonTransformer());

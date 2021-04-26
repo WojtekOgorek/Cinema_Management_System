@@ -3,7 +3,6 @@ package ogorek.wojciech.service.services.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import ogorek.wojciech.domain.model.user.UserFunctors;
 import ogorek.wojciech.domain.model.user.repository.UserRepository;
 import ogorek.wojciech.service.security.AuthenticationDto;
@@ -11,6 +10,7 @@ import ogorek.wojciech.service.security.AuthorizedUserDto;
 import ogorek.wojciech.service.security.TokensDto;
 import ogorek.wojciech.service.services.exceptions.AppTokensServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -19,20 +19,17 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class AppTokenService {
 
-    @org.springframework.beans.factory.annotation
-            .Value("${tokens.access-token.expiration-time-ms}")
+
+    @Value("${tokens.access-token.expiration-time-ms}")
     private Long accessTokenExpirationTimeMs;
 
-    @org.springframework.beans.factory.annotation
-            .Value("${tokens.refresh-token.expiration-time-ms}")
+    @Value("${tokens.refresh-token-expiration-time-ms}")
     private Long refreshTokenExpirationTimeMs;
 
-    @org.springframework.beans.factory.annotation
-            .Value("${tokens.refresh-token.property}")
+    @Value("${tokens.refresh-token.property}")
     private String refreshTokenProperty;
 
-    @org.springframework.beans.factory.annotation
-            .Value("${tokens.prefix}")
+    @Value("${tokens.prefix}")
     private String tokensPrefix;
 
     private final UserRepository userRepository;
@@ -105,9 +102,11 @@ public class AppTokenService {
     private Long id (String token){
         return Long.parseLong(claims(token).getSubject());
     }
+
     private Date expirationDate(String token){
         return claims(token).getExpiration();
     }
+
     private boolean isTokenValid(String token){
         return expirationDate(token).after(new Date());
     }

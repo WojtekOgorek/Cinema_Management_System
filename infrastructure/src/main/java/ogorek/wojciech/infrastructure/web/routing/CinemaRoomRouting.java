@@ -4,7 +4,7 @@ package ogorek.wojciech.infrastructure.web.routing;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
-import ogorek.wojciech.infrastructure.web.routing.transformer.JsonTransformer;
+import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CinemaRoomService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,10 +27,10 @@ public class CinemaRoomRouting {
 
     public void initCinemaRoomRoutes() {
 
-        // /cinemaRooms
-        path("/cinemaRooms", () -> {
+        // /cinemaRoom
+        path("/cinemaRoom", () -> {
 
-            //CINEMA ROOMS GENERAL CRUD
+            //CINEMA ROOM GENERAL CRUD
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaRoomService.findAllCinemaRooms();
@@ -50,7 +50,7 @@ public class CinemaRoomRouting {
                 return cinemaRoomService.deleteAllCinemaRooms();
             }, new JsonTransformer());
 
-            // /cinemaRooms/:id
+            // /cinemaRoom/:id
             path("/:id", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
@@ -71,14 +71,14 @@ public class CinemaRoomRouting {
                 }, new JsonTransformer());
             });
 
-            // /cinemaRooms/seats/:id
-            get("/seats/:id", (request, response) -> {
+            // /cinemaRoom/:id/seat
+            get("/:id/seat", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaRoomService.findOneCinemaRoomWithSeats(Long.parseLong(request.params("id")));
             }, new JsonTransformer());
 
-            // /cinemaRoom/seances/:id
-            get("/seances/:id", (request, response) -> {
+            // /cinemaRoom/:id/seance
+            get("/:id/seance", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaRoomService.findOneCinemaRoomWithSeances(Long.parseLong(request.params("id")));
             }, new JsonTransformer());

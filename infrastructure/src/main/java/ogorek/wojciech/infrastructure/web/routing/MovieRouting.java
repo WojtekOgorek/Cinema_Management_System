@@ -28,7 +28,7 @@ public class MovieRouting {
     public void initMovieRouting() {
 
         // /movies
-        path("/movies", () -> {
+        path("/movie", () -> {
 
             //MOVIE GENERAL CRUD
             get("", (request, response) -> {
@@ -49,7 +49,7 @@ public class MovieRouting {
                 return movieService.deleteAllMovies();
             }, new JsonTransformer());
 
-            // /movies/:id
+            // /movie/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {
@@ -73,30 +73,30 @@ public class MovieRouting {
             });
 
             //MOVIES SPECIAL CRUD
-            // /movies/:genre
+            // /movie/:genre
             get("/:genre", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var movie = movieService.findMoviesByGenre(request.params("genre"));
                 return movie;
             }, new JsonTransformer());
 
-            // /movies/:title
+            // /movie/:title
             get("/:title", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return movieService.findMovieByName(request.params("title"));
             }, new JsonTransformer());
 
-            // /movies/:date/:date2
-            get("/:date/:date2", (request, response) -> {
+            // /movie/:dateFrom/:dateTo
+            get("/:dateFrom/:dateTo", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return movieService.findMoviesByEmissionDate(request.params("date"), request.params("date2"));
+                return movieService.findMoviesByEmissionDate(request.params("dateFrom"), request.params("dateTo"));
             }, new JsonTransformer());
 
-            // /movies/:letter
-            get("/:letter", (request, response) -> {
+            // /movie/:byLetter
+            get("/:byLetter", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 System.out.println(request.params("letter"));
-                return movieService.findMoviesByFirstLetters(request.params("letter"));
+                return movieService.findMoviesByFirstLetters(request.params("byLetter"));
             }, new JsonTransformer());
         });
     }

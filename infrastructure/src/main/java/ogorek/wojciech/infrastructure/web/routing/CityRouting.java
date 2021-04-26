@@ -24,9 +24,8 @@ public class CityRouting {
 
     public void initCityRoutes() {
 
-
         // /cities
-        path("/cities", () -> {
+        path("/city", () -> {
 
             //CITIES GENERAL CRUD
             get("", (request, response) -> {
@@ -49,7 +48,7 @@ public class CityRouting {
                 return cityService.deleteAllCities();
             }, new JsonTransformer());
 
-            // /cities/:id
+            // /city/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {
@@ -71,7 +70,7 @@ public class CityRouting {
                 }, new JsonTransformer());
             });
 
-            // /cities/:name
+            // /city/:name
             get("/:name", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findCityByName(request.params("name"));
@@ -79,22 +78,22 @@ public class CityRouting {
 
 
             //CITIES SPECIAL CRUD
-            // /cities/cinemas
-            path("/cinemas", () -> {
+            // /city/cinema
+            path("/cinema", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cityService.findCitiesWithCinemas();
                 }, new JsonTransformer());
 
-                // /cities/cinemas/:name
+                // /city/:name/cinema
                 get("/:name", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cityService.findCityWithCinemasByName(request.params("name"));
                 }, new JsonTransformer());
             });
             //------------------------STATISTICS-------------------------------
-            // /cities/mostPopular
+            // /city/mostPopular
             get("/mostPopular", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularCity();
@@ -110,7 +109,7 @@ public class CityRouting {
                 return cityService.findMostPopularGenreInCities();
             }, new JsonTransformer());
 
-            get("/avgPricePerCapitaInCities", (request, response) -> {
+            get("/avgPricePerUserInCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findAvgPricePerUserInCities();
             }, new JsonTransformer());

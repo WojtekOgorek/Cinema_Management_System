@@ -24,12 +24,10 @@ public class SeanceRouting {
 
     private final SeanceService seanceService;
 
-    private final Gson gson;
-
     public void initSeanceRouting() {
 
         // /seances
-        path("/seances", () -> {
+        path("/seance", () -> {
 
             //SEANCES GENERAL CRUD
             get("", (request, response) -> {
@@ -74,10 +72,10 @@ public class SeanceRouting {
             });
 
             //SEANCES SPECIAL CRUD
-            // /seances/:from/:to
-            get("/:from/:to", (request, response) -> {
+            // /seances/:dateFrom/:dateTo
+            get("/:dateFrom/:dateTo", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return seanceService.findSeancesByDate(request.params("from"), request.params("to"));
+                return seanceService.findSeancesByDate(request.params("dateFrom"), request.params("dateTo"));
             }, new JsonTransformer());
         });
     }
