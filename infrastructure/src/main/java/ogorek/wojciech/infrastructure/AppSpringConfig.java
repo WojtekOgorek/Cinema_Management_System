@@ -31,6 +31,8 @@ public class AppSpringConfig {
     private String databasePassword;
 
 
+
+
     @Bean
     public Jdbi jdbi() {
         return Jdbi.create(databaseUrl, databaseUsername, databasePassword);
