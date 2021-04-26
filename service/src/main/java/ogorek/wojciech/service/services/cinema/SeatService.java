@@ -97,14 +97,23 @@ public class SeatService {
         };
     }
 
-    public Map<Long, State> getSeatState(List<Long> ids) {
-        return ids
-                .stream()
-                .map(seatRepository::getSeatWithState)
-                .map(mapper -> mapper
-                        .orElseThrow(() -> new AppServiceException("Seat state mapper failed"))
-                        .toGetSeatWithState())
-                .collect(Collectors.toMap(GetSeatWithState::getSeatId, GetSeatWithState::getState));
+    public boolean getSeatState(List<Long> ids) {
+
+        var reservedSeats=
+                ids
+                        .stream()
+                        .map(seatRepository::getSeatWithState)
+                        .map(mapper -> mapper
+                                .orElseThrow(() -> new AppServiceException("Seat state mapper failed"))
+                                .toGetSeatWithState())
+                        .filter(free -> !free.getState().equals(State.FREE))
+                        .collect(Collectors.toMap(GetSeatWithState::getSeatId, GetSeatWithState::getState));
+
+        if(!reservedSeats.isEmpty()){
+            reservedSeats.forEach((k,v)  -> System.out.println(k + " " + v ));
+            return false;
+        }
+        return true;
 
     }
 

@@ -2,7 +2,9 @@ package ogorek.wojciech.infrastructure.web.routing;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import ogorek.wojciech.domain.configs.converter.AppConverterException;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
+import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.TicketService;
@@ -27,7 +29,6 @@ public class TicketRouting {
 
     private final TicketService ticketService;
 
-    private final Gson gson;
 
 
     public void initUserRouting() {
@@ -92,6 +93,15 @@ public class TicketRouting {
             get("/:username", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return ticketService.findTicketByUserNameAndSurname(request.params("username"));
+            }, new JsonTransformer());
+
+            //todo check it
+            post("/order", (request, response) -> {
+                response.header(contentTypeHeader, contentTypeHeaderValue);
+                var tickets = new JsonConverter<CreateOrderDto>(request.body())
+                        .fromJson()
+                        .orElseThrow(() -> new AppConverterException("Order json body request is invalid"));
+                return ticketService.orderATicket(tickets);
             }, new JsonTransformer());
         });
     }

@@ -2,6 +2,7 @@ package ogorek.wojciech.service.services.cinema;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
+import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.order.enums.Occupancy;
 import ogorek.wojciech.domain.model.seance.repository.SeanceRepository;
 import ogorek.wojciech.domain.model.seat.repository.SeatRepository;
@@ -16,9 +17,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @Service
@@ -28,7 +32,9 @@ public class TicketService {
     private final SeanceRepository seanceRepository;
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
-//    private final EmailService emailService;
+    //todo check it
+    private final SeatService seatService;
+    private final EmailService emailService;
 
     @Value("${ticket.standard.price}")
     private BigDecimal price;
@@ -119,41 +125,85 @@ public class TicketService {
                 .collect(Collectors.toList());
     }
 
-    //---------------------------------BUYING TICKET-------------------------------------
+    /*
+    *
+    * ---- BUYING A TICKET ----
+    *
+    */
 
-//
-//    public Long orderATicket(CreateOrderDto createOrderDto) {
-//        if (Objects.isNull(createOrderDto)) {
-//            throw new AppServiceException("getOrder cannot be null");
-//        }
-//        if (createOrderDto.getSeatIds().forEach(id ->
-//        ))
-//
-//
-//            var discounts = discounts()
-//                    .entrySet()
-//                    .stream()
-//                    .filter(o -> o.getKey().equals(CreateOrderDto.getOccupancies().stream().))
-//                    .map(Map.Entry::getValue)
-//                    .findFirst()
-//                    .orElseThrow();
-//
-//
-//        var user = userRepository.getUserByUsername(createOrderDto.getUsername());
-//
-//        var ticket = CreateTicketDto
-//                .builder()
-//                .seanceId(CreateOrderDto.getSeanceId())
-//                .discount(discounts)
-//                .price(NORMAL_PRICE.multiply(BigDecimal.ONE.subtract(discount)))
-//                .userId(user.getId())
-//                .seatId()
-//                .build();
-//
-//
-//        emailService.orderToMail(user.getEmail(), ticket);
-//
-//    }
+    public List<Long> orderATicket(CreateOrderDto createOrderDto) {
+        if (Objects.isNull(createOrderDto)) {
+            throw new AppServiceException("getOrder cannot be null");
+        }
+
+        if (!seatService.getSeatState(createOrderDto.getSeatIds())) {
+            throw new AppServiceException("order dto is invalid - seats are not free");
+        }
+
+        var user = userRepository
+                .getUserByUsername(createOrderDto.getUsername())
+                .orElseThrow(() -> new AppServiceException("create order dto username is invalid. There is no such user in db"));
+
+        var createTicketsDtos = getTickets(createOrderDto);
+
+        var totalPrice = totalPrice(createTicketsDtos);
+        emailService.orderToMail(user.toGetUserDto().getEmail(), createTicketsDtos, totalPrice);
+        return createTicketsDtos
+                .stream()
+                .map(CreateTicketDto::toTicket)
+                .map(Ticket::toGetTicketDto)
+                .map(GetTicketDto::getId)
+                .collect(Collectors.toList());
+    }
+
+
+    private List<CreateTicketDto> getTickets(CreateOrderDto createOrderDto) {
+
+        var createTicketsDto = new ArrayList<CreateTicketDto>();
+
+        IntStream.range(0, fromCreateOrderToSeatsAndDiscounts(createOrderDto).size())
+                .boxed()
+                .forEach(i -> {
+                    var createTicketDto = CreateTicketDto.builder()
+                            .seanceId(createOrderDto.getSeanceId())
+                            .price(price)
+                            .seatId(new ArrayList<>(fromCreateOrderToSeatsAndDiscounts(createOrderDto).keySet()).get(i))
+                            .state(createOrderDto.getState())
+                            .userId(userRepository.getUserByUsername(createOrderDto.getUsername()).orElseThrow().toGetUserDto().getId())
+                            .discount(discounts().entrySet().stream()
+                                    .filter(occu -> occu
+                                            .getKey()
+                                            .equals(new ArrayList<>(fromCreateOrderToSeatsAndDiscounts(createOrderDto).values()).get(i)))
+                                    .findFirst()
+                                    .orElseThrow(() -> new AppServiceException("Creating discount is invalid"))
+                                    .getValue())
+                            .build();
+                    createTicketsDto.add(createTicketDto);
+                });
+
+        return createTicketsDto;
+
+    }
+
+    private Map<Long, Occupancy> fromCreateOrderToSeatsAndDiscounts(CreateOrderDto createOrderDto) {
+        if (createOrderDto.getSeatIds().size() != createOrderDto.getOccupancies().size()) {
+            throw new AppServiceException("create order seats size and occupancies size is invalid. It must be equal");
+        }
+        return IntStream.range(0, createOrderDto.getSeatIds().size())
+                .boxed()
+                .collect(Collectors.toMap(
+                        i -> createOrderDto.getSeatIds().get(i),
+                        i -> createOrderDto.getOccupancies().get(i)));
+    }
+
+    private BigDecimal totalPrice(List<CreateTicketDto> createTicketsDtos) {
+        return
+                createTicketsDtos
+                        .stream()
+                        .map(CreateTicketDto::toTicket)
+                        .map(Ticket::totalPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
     static Map<Occupancy, BigDecimal> discounts() {
         return Map.ofEntries(
