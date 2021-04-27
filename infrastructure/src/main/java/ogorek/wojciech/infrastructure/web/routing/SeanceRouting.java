@@ -48,7 +48,7 @@ public class SeanceRouting {
                 return seanceService.deleteAllSeances();
             }, new JsonTransformer());
 
-            // /seances/:id
+            // /seance/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {

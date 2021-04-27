@@ -117,7 +117,7 @@ public class TicketService {
                 .deleteAll();
     }
 
-    public List<GetTicketDto> findTicketByUserNameAndSurname(String username) {
+    public List<GetTicketDto> findTicketByUsername(String username) {
         return ticketRepository
                 .findTicketByUsername(username)
                 .stream()
@@ -131,7 +131,7 @@ public class TicketService {
     *
     */
 
-    public List<Long> orderATicket(CreateOrderDto createOrderDto) {
+    public List<GetTicketDto> orderATicket(CreateOrderDto createOrderDto) {
         if (Objects.isNull(createOrderDto)) {
             throw new AppServiceException("getOrder cannot be null");
         }
@@ -147,12 +147,13 @@ public class TicketService {
         var createTicketsDtos = getTickets(createOrderDto);
 
         var totalPrice = totalPrice(createTicketsDtos);
+
         emailService.orderToMail(user.toGetUserDto().getEmail(), createTicketsDtos, totalPrice);
+
         return createTicketsDtos
                 .stream()
                 .map(CreateTicketDto::toTicket)
                 .map(Ticket::toGetTicketDto)
-                .map(GetTicketDto::getId)
                 .collect(Collectors.toList());
     }
 
@@ -205,6 +206,8 @@ public class TicketService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+
+    //todo check it -> add regular occupancy
     static Map<Occupancy, BigDecimal> discounts() {
         return Map.ofEntries(
                 Map.entry(Occupancy.FAMILY, new BigDecimal("0.2")),

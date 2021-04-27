@@ -1,6 +1,5 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.AppConverterException;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
@@ -29,11 +28,9 @@ public class TicketRouting {
 
     private final TicketService ticketService;
 
-
-
     public void initUserRouting() {
-        // /tickets
-        path("/tickets", () -> {
+        // /ticket
+        path("/ticket", () -> {
 
             //TICKET GENERAL CRUD
             get("", (request, response) -> {
@@ -54,7 +51,7 @@ public class TicketRouting {
                 return ticketService.deleteAllTickets();
             }, new JsonTransformer());
 
-            // /tickets/:id
+            // /ticket/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {
@@ -76,7 +73,7 @@ public class TicketRouting {
                 }, new JsonTransformer());
             });
 
-            //todo check it, swap to object
+            //todo check it
             get(":ids", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var ids =
@@ -89,13 +86,13 @@ public class TicketRouting {
             }, new JsonTransformer());
 
             //SPECIAL TICKETS CRUD
-            //tickets/:name/:surname
+            //ticket/:username
             get("/:username", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return ticketService.findTicketByUserNameAndSurname(request.params("username"));
+                return ticketService.findTicketByUsername(request.params("username"));
             }, new JsonTransformer());
 
-            //todo check it
+            //todo check it, swap to object
             post("/order", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var tickets = new JsonConverter<CreateOrderDto>(request.body())

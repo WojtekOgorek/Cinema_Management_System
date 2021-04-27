@@ -24,14 +24,12 @@ public class UserRouting {
     private String contentTypeHeaderValue;
 
     private final UserService userService;
-    private final Gson gson;
-
 
     public void initUserRouting() {
 
         //USER GENERAL CRUD/
-        // /users
-        path("/users", () -> {
+        // /user
+        path("/user", () -> {
 
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
@@ -51,7 +49,7 @@ public class UserRouting {
                 return userService.deleteAllUsers();
             }, new JsonTransformer());
 
-            // /users/:id
+            // /user/:id
             path("/:id", () -> {
 
                 get("", (request, response) -> {
@@ -74,45 +72,45 @@ public class UserRouting {
             });
             //USER SPECIAL CRUD
 
-            // /users/:name/:surname
+            // /user/:name/:surname
             get("/:name/:surname", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return userService.findUserByNameAndSurname(request.params("name"), request.params("surname"));
             }, new JsonTransformer());
 
-            //users/favourites
-            path("/favourites", () -> {
-                //users/favourites/:id
-                get("/:id", (request, response) -> {
+            //user/:id
+
+            path("/:id", () -> {
+                //users/:id/favourite
+                get("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return userService.findUserFavourites(Long.parseLong(request.params("id")));
                 }, new JsonTransformer());
-                get("/genre/:id", (request, response) -> {
-                    response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findFavouritesUserGenre(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
-                //users/favourites/add
-                post("/add", (request, response) -> {
+                post("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     var favToAdd = new JsonConverter<CreateFavDto>(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for favourite add"));
                     return userService.addFavourite(favToAdd);
                 }, new JsonTransformer());
+                get("/genre", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return userService.findFavouritesUserGenre(Long.parseLong(request.params("id")));
+                }, new JsonTransformer());
+                //users/:id/ticket
+                get("/ticket", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return userService.findUserWithTicket(Long.parseLong(request.params("id")));
+                }, new JsonTransformer());
+
+                //users/:id/history
+                get("/history", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return userService.findUserHistory(Long.parseLong(request.params("id")));
+                }, new JsonTransformer());
+
             });
 
-
-            //users/tickets/:id
-            get("/tickets/:id", (request, response) -> {
-                response.header(contentTypeHeader, contentTypeHeaderValue);
-                return userService.findUserWithTicket(Long.parseLong(request.params("id")));
-            }, new JsonTransformer());
-
-            //users/history/:id
-            get("/history/:id", (request, response) -> {
-                response.header(contentTypeHeader, contentTypeHeaderValue);
-                return userService.findUserHistory(Long.parseLong(request.params("id")));
-            }, new JsonTransformer());
         });
     }
 }

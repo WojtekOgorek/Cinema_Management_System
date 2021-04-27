@@ -27,13 +27,9 @@ public class SeatRouting {
 
     public void initSeatRouting(){
 
-        // /seats
-        path("/seats", () -> {
+        // /seat
+        path("/seat", () -> {
             //SEATS GENERAL CRUD
-            get("/:id", (request, response) -> {
-                response.header(contentTypeHeader, contentTypeHeaderValue);
-                return seatService.findSeatById(Long.parseLong(request.params("id")));
-            }, new JsonTransformer());
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var seatToAdd = new JsonConverter<CreateSeatDto>(request.body())
@@ -41,9 +37,24 @@ public class SeatRouting {
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seat add"));
                 return seatService.addSeat(seatToAdd);
             }, new JsonTransformer());
+            path("/:id", () -> {
+                get("", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return seatService.findSeatById(Long.parseLong(request.params("id")));
+                }, new JsonTransformer());
+                delete("", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return seatService.deleteSeat(Long.parseLong(request.params("id")));
+                },new JsonTransformer());
+                //seat/:id/free
+                get("/free", (request, response) -> {
+                    response.header(contentTypeHeader, contentTypeHeaderValue);
+                    return seatService.isSeatFree(Long.parseLong(request.params("id")));
+                }, new JsonTransformer());
+            });
 
         });
-        //method for seat check
+
     }
 }
 
