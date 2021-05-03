@@ -1,6 +1,4 @@
-[
-  {
-    "name": "Multikino",
-    "cityId": 1
-  }
-]
+{
+  "name": "Multikino",
+  "cityId": 1
+}

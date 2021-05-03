@@ -1,110 +1,113 @@
 package ogorek.wojciech.infrastructure.repository.impl;
 
 
+import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.cinema.Cinema;
 import ogorek.wojciech.domain.model.cinema.repository.CinemaRepository;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithMovies;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithSeances;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
-import org.jdbi.v3.core.Jdbi;
+import ogorek.wojciech.infrastructure.repository.entity.CinemaEntity;
+import ogorek.wojciech.infrastructure.repository.jdbi.JdbiCinemaEntityRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public class CinemaRepositoryImpl extends AbstractCrudRepository<Cinema, Long> implements CinemaRepository {
-    public CinemaRepositoryImpl(Jdbi jdbi) {
-        super(jdbi);
+@RequiredArgsConstructor
+public class CinemaRepositoryImpl implements CinemaRepository {
+
+    private final JdbiCinemaEntityRepository jdbiCinemaEntityRepository;
+
+    @Override
+    public List<Cinema> findAll() {
+        return jdbiCinemaEntityRepository
+                .findAll()
+                .stream()
+                .map(CinemaEntity::toCinema)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Cinema> findAllById(List<Long> ids) {
+        return jdbiCinemaEntityRepository
+                .findAllById(ids)
+                .stream()
+                .map(CinemaEntity::toCinema)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Cinema> findById(Long id) {
+        return jdbiCinemaEntityRepository
+                .findById(id)
+                .map(CinemaEntity::toCinema);
+    }
+
+    @Override
+    public Optional<Cinema> findLast() {
+        return jdbiCinemaEntityRepository
+                .findLast()
+                .map(CinemaEntity::toCinema);
+    }
+
+    @Override
+    public Optional<Cinema> add(Cinema cinema) {
+        return jdbiCinemaEntityRepository
+                .add(new CinemaEntity().fromCinema(cinema))
+                .map(CinemaEntity::toCinema);
+    }
+
+    @Override
+    public Optional<Cinema> update(Cinema cinema) {
+        return jdbiCinemaEntityRepository
+                .update(new CinemaEntity().fromCinema(cinema))
+                .map(CinemaEntity::toCinema);
+    }
+
+    @Override
+    public Optional<Cinema> delete(Long id) {
+        return jdbiCinemaEntityRepository
+                .delete(id)
+                .map(CinemaEntity::toCinema);
+    }
+
+    @Override
+    public boolean deleteAll() {
+        return jdbiCinemaEntityRepository
+                .deleteAll();
+    }
+
+    @Override
+    public List<CinemaWithCinemaRooms> specificCinemaWithCinemaRooms(Long cinemaId) {
+        return jdbiCinemaEntityRepository
+                .specificCinemaWithCinemaRooms(cinemaId);
     }
 
     @Override
     public List<CinemaWithCinemaRooms> cinemasWithCinemaRooms() {
-
-        final String SQL = """
-                select c.id, cr.id
-                from cinemas c join cinema_rooms cr on c.id = cr.cinema_id
-                """;
-
-        return jdbi.withHandle(handle ->
-                handle
-                        .createQuery(SQL)
-                        .mapToBean(CinemaWithCinemaRooms.class)
-                        .list()
-        );
-    }
-
-    public List<CinemaWithCinemaRooms> specificCinemaWithCinemaRooms(Long cinemaId) {
-        final String SQL = """
-                select c.id, cr.id
-                from cinemas c join cinema_rooms cr on c.id = cr.cinema_id
-                where c.id = :id
-                """;
-
-        return jdbi.withHandle(handle ->
-                handle
-                        .createQuery(SQL)
-                        .bind("id", cinemaId)
-                        .mapToBean(CinemaWithCinemaRooms.class)
-                        .list()
-        );
-    }
-
-    @Override
-    public List<CinemaWithMovies> cinemasWithMovies() {
-        final String SQL = """
-                select c.id, m.title, s.id
-                from cinemas c 
-                join cities c2 on c2.id = c.city_id
-                join cinema_rooms cr on c.id = cr.cinema_id
-                join seances s on cr.id = s.cinema_room_id
-                join movies m on m.id = s.movie_id
-                """;
-        return jdbi.withHandle(handle ->
-                handle
-                        .createQuery(SQL)
-                        .mapToBean(CinemaWithMovies.class)
-                        .list());
+        return jdbiCinemaEntityRepository
+                .cinemasWithCinemaRooms();
     }
 
     @Override
     public List<CinemaWithMovies> specificCinemaWithMovies(Long cinemaId) {
-        final String SQL = """
-                select c.id, m.title, s.id
-                from cinemas c 
-                join cities c2 on c2.id = c.city_id
-                join cinema_rooms cr on c.id = cr.cinema_id
-                join seances s on cr.id = s.cinema_room_id
-                join movies m on m.id = s.movie_id
-                where c.id = :id
-                """;
+        return jdbiCinemaEntityRepository
+                .specificCinemaWithMovies(cinemaId);
+    }
 
-        return jdbi.withHandle(handle ->
-                handle
-                        .createQuery(SQL)
-                        .bind("id", cinemaId)
-                        .mapToBean(CinemaWithMovies.class)
-                        .list());
+    @Override
+    public List<CinemaWithMovies> cinemasWithMovies() {
+        return jdbiCinemaEntityRepository
+                .cinemasWithMovies();
     }
 
     @Override
     public List<CinemaWithSeances> specificCinemaWithSeances(Long cinemaId) {
-        final String SQL = """
-                select c.id,
-                        s.id
-                       from seances s 
-                       join cinema_rooms cr on cr.id = s.cinema_room_id 
-                       join cinemas c on c.id = cr.cinema_id
-                       where c.id = :id
-                                
-                """;
-        return jdbi.withHandle(handle ->
-                handle
-                        .createQuery(SQL)
-                        .bind("id", cinemaId)
-                        .mapToBean(CinemaWithSeances.class)
-                        .list());
+        return jdbiCinemaEntityRepository
+                .specificCinemaWithSeances(cinemaId);
     }
-
 }
 

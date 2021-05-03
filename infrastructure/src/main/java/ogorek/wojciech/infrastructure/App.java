@@ -145,7 +145,7 @@ public class App {
         var jdbi = context.getBean("jdbi", Jdbi.class);
         createTables(jdbi);
 
-        cityService.findAllCities();
+        cinemaService.findAllCinemas();
 
 //
 //        initExceptionHandler(e -> System.out.println(e.getMessage()));

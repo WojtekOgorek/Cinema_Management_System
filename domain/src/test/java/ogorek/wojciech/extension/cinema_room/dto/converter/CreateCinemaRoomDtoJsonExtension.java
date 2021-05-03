@@ -1,6 +1,5 @@
 package ogorek.wojciech.extension.cinema_room.dto.converter;
 
-import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoJsonConverter;
 import ogorek.wojciech.domain.model.cinema_room.dto.converter.CreateCinemaRoomDtoJsonConverter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
