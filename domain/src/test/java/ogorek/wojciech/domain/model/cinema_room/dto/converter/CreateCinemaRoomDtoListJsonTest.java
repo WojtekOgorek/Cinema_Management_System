@@ -2,7 +2,7 @@ package ogorek.wojciech.domain.model.cinema_room.dto.converter;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
-import ogorek.wojciech.extension.cinema_room.dto.converter.CreateCinemaRoomDtoJsonExtension;
+import ogorek.wojciech.extension.cinema_room.dto.converter.CreateCinemaRoomDtoListJsonExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,11 +13,11 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 
-@ExtendWith(CreateCinemaRoomDtoJsonExtension.class)
+@ExtendWith(CreateCinemaRoomDtoListJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateCinemaRoomDtoJsonTest {
+public class CreateCinemaRoomDtoListJsonTest {
 
-    private final CreateCinemaRoomDtoJsonConverter createCinemaRoomDtoJsonConverter;
+    private final CreateCinemaRoomDtoListJsonConverter createCinemaRoomDtoListJsonConverter;
 
     @Test
     @DisplayName("when create cinema room json converter work properly")
@@ -31,7 +31,7 @@ public class CreateCinemaRoomDtoJsonTest {
                 .cinemaId(2L)
                 .build());
 
-        var cinemaRoomFromJson = createCinemaRoomDtoJsonConverter.fromJson().orElseThrow();
+        var cinemaRoomFromJson = createCinemaRoomDtoListJsonConverter.fromJson().orElseThrow();
 
         Assertions.assertDoesNotThrow(() -> assertThat(cinemaRoomFromJson)
                 .hasSize(1)

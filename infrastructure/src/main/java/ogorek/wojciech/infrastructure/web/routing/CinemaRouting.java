@@ -1,9 +1,9 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.cinema.dto.CreateCinemaDto;
+import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CinemaService;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class CinemaRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var cinemaToAdd = new JsonConverter<CreateCinemaDto>(request.body())
+                var cinemaToAdd = new CreateCinemaDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for cinema add"));
                 return cinemaService.addCinema(cinemaToAdd);
@@ -58,7 +58,7 @@ public class CinemaRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var cinemaToUpdate = new JsonConverter<CreateCinemaDto>(request.body())
+                    var cinemaToUpdate = new CreateCinemaDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for cinema update"));
                     return cinemaService.updateCinema(cinemaToUpdate);

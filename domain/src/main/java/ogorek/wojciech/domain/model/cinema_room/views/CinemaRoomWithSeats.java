@@ -7,12 +7,11 @@ import ogorek.wojciech.domain.model.ticket.enums.State;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class CinemaRoomWithSeats {
-    Long cinemaRoomId;
-    Long seatId;
-    State state;
+    private Long cinemaRoomId;
+    private Long seatId;
+    private State state;
 
     public GetCinemaRoomWithSeatsDto toCinemaRoomWithSeatsDto(){
         return GetCinemaRoomWithSeatsDto
