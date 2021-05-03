@@ -73,7 +73,7 @@ public class TicketRouting {
                 }, new JsonTransformer());
             });
 
-            //todo check it
+            //todo check split
             get(":ids", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var ids =

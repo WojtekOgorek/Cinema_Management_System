@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//todo czy tu np tylko wystarczy ticketid
 public class GetUserWithTicketDto {
    private Long userId;
    private Long ticketId;

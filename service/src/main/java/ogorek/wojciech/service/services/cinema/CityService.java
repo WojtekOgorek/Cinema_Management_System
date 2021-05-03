@@ -126,7 +126,7 @@ public class CityService {
         return statisticRepository
                 .findAvgPricePerUserInCities()
                 .stream()
-                .map(AvgPricePerUserInCities)
+                .map(AvgPricePerUserInCities::toGetAvgPricePerUserInCitiesDto)
                 .collect(Collectors.toList());
     }
 

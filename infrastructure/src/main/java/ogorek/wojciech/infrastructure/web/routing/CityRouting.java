@@ -3,6 +3,8 @@ package ogorek.wojciech.infrastructure.web.routing;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.city.dto.CreateCityDto;
+import ogorek.wojciech.domain.model.city.dto.converter.CreateCityDtoJsonConverter;
+import ogorek.wojciech.domain.model.city.dto.converter.CreateCityDtoListJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CityService;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +26,7 @@ public class CityRouting {
 
     public void initCityRoutes() {
 
-        // /cities
+        // /city
         path("/city", () -> {
 
             //CITIES GENERAL CRUD
@@ -35,8 +37,7 @@ public class CityRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                //todo check it
-                var cityToAdd = new JsonConverter<CreateCityDto>(request.body())
+                var cityToAdd = new CreateCityDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for city"));
                 return cityService.addCity(cityToAdd);
@@ -58,7 +59,7 @@ public class CityRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var cityToUpdate = new JsonConverter<CreateCityDto>(request.body())
+                    var cityToUpdate = new CreateCityDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("invalid json body for city"));
                     return cityService.updateCity(cityToUpdate);

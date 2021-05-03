@@ -6,11 +6,10 @@ import ogorek.wojciech.domain.model.city.dto.GetCityWithCinemasDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class CityWithCinemas {
-    Long cityId;
-    Long cinemaId;
+    private Long cityId;
+    private Long cinemaId;
 
     public GetCityWithCinemasDto getCityWithCinemasDto(){
         return GetCityWithCinemasDto

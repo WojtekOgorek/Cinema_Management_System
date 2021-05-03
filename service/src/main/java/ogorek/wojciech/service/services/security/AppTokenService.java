@@ -23,7 +23,7 @@ public class AppTokenService {
     @Value("${tokens.access-token.expiration-time-ms}")
     private Long accessTokenExpirationTimeMs;
 
-    @Value("${tokens.refresh-token-expiration-time-ms}")
+    @Value("${tokens.refresh-token.expiration-time-ms}")
     private Long refreshTokenExpirationTimeMs;
 
     @Value("${tokens.refresh-token.property}")

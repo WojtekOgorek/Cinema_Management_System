@@ -6,11 +6,10 @@ import ogorek.wojciech.domain.model.cinema.dto.GetCinemaWithSeancesDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class CinemaWithSeances {
-    Long cinemaId;
-    Long seanceId;
+    private Long cinemaId;
+    private Long seanceId;
 
     public GetCinemaWithSeancesDto getCinemaWithSeancesDto(){
         return GetCinemaWithSeancesDto

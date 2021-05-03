@@ -23,7 +23,6 @@ public class CinemaRouting {
 
     private final CinemaService cinemaService;
 
-    private final Gson gson;
 
 
     public void initCinemaRoutes() {

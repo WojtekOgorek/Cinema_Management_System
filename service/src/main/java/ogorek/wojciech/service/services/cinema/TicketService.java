@@ -207,7 +207,7 @@ public class TicketService {
     }
 
 
-    //todo check it -> add regular occupancy
+    //todo check it -> add regular occupancy price change
     static Map<Occupancy, BigDecimal> discounts() {
         return Map.ofEntries(
                 Map.entry(Occupancy.FAMILY, new BigDecimal("0.2")),

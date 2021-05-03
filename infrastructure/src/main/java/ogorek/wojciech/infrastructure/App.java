@@ -1,9 +1,15 @@
 package ogorek.wojciech.infrastructure;
 
-import ogorek.wojciech.service.services.cinema.CityService;
+import ogorek.wojciech.infrastructure.web.routing.*;
+import ogorek.wojciech.service.services.cinema.*;
+import ogorek.wojciech.service.services.security.UserService;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import spark.Route;
+
+import static spark.Spark.initExceptionHandler;
+import static spark.Spark.port;
 
 public class App {
 
@@ -128,9 +134,49 @@ public class App {
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
         var cityService = context.getBean("cityService", CityService.class);
+        var cinemaService = context.getBean("cinemaService", CinemaService.class);
+        var cinemaRoomService = context.getBean("cinemaRoomService", CinemaRoomService.class);
+        var movieService = context.getBean("movieService", MovieService.class);
+        var seanceService = context.getBean("seanceService", SeanceService.class);
+        var seatService = context.getBean("seatService", SeatService.class);
+        var ticketService = context.getBean("ticketService", TicketService.class);
+        var userService = context.getBean("userService", UserService.class);
 
         var jdbi = context.getBean("jdbi", Jdbi.class);
         createTables(jdbi);
+
+        cityService.findAllCities();
+
+//
+//        initExceptionHandler(e -> System.out.println(e.getMessage()));
+//        port(8081);
+//
+//
+//        var cityRouting = new CityRouting(cityService);
+//        cityRouting.initCityRoutes();
+//
+//        var cinemaRouting = new CinemaRouting(cinemaService);
+//        cinemaRouting.initCinemaRoutes();
+//
+//        var cinemaRoomRouting = new CinemaRoomRouting(cinemaRoomService);
+//        cinemaRoomRouting.initCinemaRoomRoutes();
+//
+//        var movieRouting = new MovieRouting(movieService);
+//        movieRouting.initMovieRouting();
+//
+//        var seanceRouting = new SeanceRouting(seanceService);
+//        seanceRouting.initSeanceRouting();
+//
+//        var seatRouting = new SeatRouting(seatService);
+//        seatRouting.initSeatRouting();
+//
+//        var ticketRouting = new TicketRouting(ticketService);
+//        ticketRouting.initUserRouting();
+//
+//        var userRouting = new UserRouting(userService);
+//        userRouting.initUserRouting();
+
+
 
     }
 }
