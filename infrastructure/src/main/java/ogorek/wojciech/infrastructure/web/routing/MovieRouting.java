@@ -3,6 +3,7 @@ package ogorek.wojciech.infrastructure.web.routing;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
+import ogorek.wojciech.domain.model.movie.dto.converter.CreateMovieDtoJsonConverter;
 import ogorek.wojciech.service.services.cinema.MovieService;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 
@@ -38,7 +39,7 @@ public class MovieRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var movieToAdd = new JsonConverter<CreateMovieDto>(request.body())
+                var movieToAdd = new CreateMovieDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalStateException("Invalid json body for movie add"));
                 return movieService.addMovie(movieToAdd);
@@ -59,7 +60,7 @@ public class MovieRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var movieToUpdate = new JsonConverter<CreateMovieDto>(request.body())
+                    var movieToUpdate = new CreateMovieDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for movie update"));
                     return movieService.updateMovie(movieToUpdate);

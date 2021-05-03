@@ -2,7 +2,7 @@ package ogorek.wojciech.domain.model.movie.dto.converter;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
-import ogorek.wojciech.extension.movie.dto.converter.CreateMovieDtoJsonExtension;
+import ogorek.wojciech.extension.movie.dto.converter.CreateMovieDtoListJsonExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +14,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
-@ExtendWith(CreateMovieDtoJsonExtension.class)
+@ExtendWith(CreateMovieDtoListJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateMovieDtoJsonTest {
+public class CreateMovieDtoListJsonTest {
 
-    private final CreateMovieDtoJsonConverter createMovieDtoJsonConverter;
+    private final CreateMovieDtoListJsonConverter createMovieDtoListJsonConverter;
 
     @Test
     @DisplayName("when create movie dto json conversion works properly")
@@ -33,7 +33,7 @@ public class CreateMovieDtoJsonTest {
                         .endDate(LocalDateTime.of(2022, 12, 20, 12, 15))
                         .build());
 
-        var moviesFromJson = createMovieDtoJsonConverter.fromJson().orElseThrow();
+        var moviesFromJson = createMovieDtoListJsonConverter.fromJson().orElseThrow();
 
         assertDoesNotThrow(() -> assertThat(moviesFromJson))
                 .hasSize(1)
