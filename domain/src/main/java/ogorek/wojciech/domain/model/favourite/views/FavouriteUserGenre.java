@@ -6,12 +6,11 @@ import ogorek.wojciech.domain.model.favourite.dto.GetFavUserGenreDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class FavouriteUserGenre {
-    Long id;
-    Long userId;
-    String genre;
+    private Long id;
+    private Long userId;
+    private String genre;
 
     public GetFavUserGenreDto toGetFavUserGenreDto(){
         return GetFavUserGenreDto

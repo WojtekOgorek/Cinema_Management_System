@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.favourite.dto.CreateFavDto;
+import ogorek.wojciech.domain.model.favourite.dto.converter.CreateFavouriteDtoJsonConverter;
 import ogorek.wojciech.domain.model.user.dto.CreateUserDto;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.security.UserService;
@@ -88,7 +89,7 @@ public class UserRouting {
                 }, new JsonTransformer());
                 post("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var favToAdd = new JsonConverter<CreateFavDto>(request.body())
+                    var favToAdd = new CreateFavouriteDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for favourite add"));
                     return userService.addFavourite(favToAdd);

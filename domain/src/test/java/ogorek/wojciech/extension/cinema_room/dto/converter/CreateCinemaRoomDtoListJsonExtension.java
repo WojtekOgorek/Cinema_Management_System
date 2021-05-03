@@ -14,7 +14,7 @@ public class CreateCinemaRoomDtoListJsonExtension implements ParameterResolver {
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        var filename = "C:\\Work\\KmPrograms\\Java\\Coding\\Projects_GIT\\Cinema_Management_System\\domain\\src\\test\\resources\\CreateCinemaRoomDto-1.json";
+        var filename = "C:\\Work\\KmPrograms\\Java\\Coding\\Projects_GIT\\Cinema_Management_System\\domain\\src\\test\\resources\\CreateCinemaRoomDtoList-1.json";
         return new CreateCinemaRoomDtoListJsonConverter(filename);
     }
 }

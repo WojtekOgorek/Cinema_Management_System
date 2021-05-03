@@ -2,7 +2,7 @@ package ogorek.wojciech.domain.model.favourite.dto.converter;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.favourite.dto.CreateFavDto;
-import ogorek.wojciech.extension.favourite.dto.converter.CreateFavDtoJsonExtension;
+import ogorek.wojciech.extension.favourite.dto.converter.CreateFavDtoListJsonExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +12,11 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ExtendWith(CreateFavDtoJsonExtension.class)
+@ExtendWith(CreateFavDtoListJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateFavDtoJsonTest {
+public class CreateFavDtoListJsonTest {
 
-    private final CreateFavouriteDtoJsonConverter createFavouriteDtoJsonConverter;
+    private final CreateFavouriteDtoListJsonConverter createFavouriteDtoListJsonConverter;
 
     @Test
     @DisplayName("when create favourite dto json converter work properly")
@@ -30,7 +30,7 @@ public class CreateFavDtoJsonTest {
                 .movieId(movieId)
                 .build());
 
-        var favouriteFromJson = createFavouriteDtoJsonConverter.fromJson().orElseThrow();
+        var favouriteFromJson = createFavouriteDtoListJsonConverter.fromJson().orElseThrow();
 
 
         Assertions.assertDoesNotThrow(() -> assertThat(favouriteFromJson))
