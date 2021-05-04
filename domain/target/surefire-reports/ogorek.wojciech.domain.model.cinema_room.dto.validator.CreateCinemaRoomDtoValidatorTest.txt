@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: ogorek.wojciech.domain.model.cinema_room.dto.validator.CreateCinemaRoomDtoValidatorTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in ogorek.wojciech.domain.model.cinema_room.dto.validator.CreateCinemaRoomDtoValidatorTest

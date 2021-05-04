@@ -1,5 +1,6 @@
 package ogorek.wojciech.infrastructure.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.statistic.*;
 import ogorek.wojciech.domain.model.statistic.repository.StatisticRepository;
@@ -11,11 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-//todo check it
-public class StatisticRepositoryImpl extends AbstractCrudRepository<City, Long> implements StatisticRepository {
-    public StatisticRepositoryImpl(Jdbi jdbi) {
-        super(jdbi);
-    }
+@RequiredArgsConstructor
+public class StatisticRepositoryImpl  implements StatisticRepository {
+
+    protected final Jdbi jdbi;
 
     @Override
     public Optional<MostPopularCity> findMostPopularCity() {

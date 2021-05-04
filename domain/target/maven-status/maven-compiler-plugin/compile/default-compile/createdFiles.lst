@@ -10,6 +10,8 @@ ogorek\wojciech\domain\model\user\dto\GetUserDto$GetUserDtoBuilder.class
 ogorek\wojciech\domain\model\seat\Seat$SeatBuilder.class
 ogorek\wojciech\domain\model\user\enums\Role.class
 ogorek\wojciech\domain\configs\validator\Validator.class
+ogorek\wojciech\domain\model\seat\dto\converter\CreateSeatDtoListJsonConverter.class
+ogorek\wojciech\domain\model\user\dto\converter\CreateUserDtoListJsonConverter.class
 ogorek\wojciech\domain\model\ticket\repository\TicketRepository.class
 ogorek\wojciech\domain\model\favourite\dto\GetFavUserGenreDto.class
 ogorek\wojciech\domain\model\seat\dto\GetSeatDto.class
@@ -43,6 +45,7 @@ ogorek\wojciech\domain\model\user\dto\GetUserDto.class
 ogorek\wojciech\domain\model\cinema_room\dto\GetCinemaRoomWithSeanceDto.class
 ogorek\wojciech\domain\model\cinema\dto\GetCinemaWithSeancesDto$GetCinemaWithSeancesDtoBuilder.class
 ogorek\wojciech\domain\model\cinema\dto\GetCinemaDto.class
+ogorek\wojciech\domain\model\cinema_room\dto\converter\CreateCinemaRoomDtoListJsonConverter.class
 ogorek\wojciech\domain\model\city\views\CityWithCinemas$CityWithCinemasBuilder.class
 ogorek\wojciech\domain\model\favourite\repository\FavouritesRepository.class
 ogorek\wojciech\domain\model\cinema\views\CinemaWithSeances$CinemaWithSeancesBuilder.class
@@ -51,6 +54,7 @@ ogorek\wojciech\domain\model\movie\dto\GetMovieDto$GetMovieDtoBuilder.class
 ogorek\wojciech\domain\model\seance\dto\GetSeanceByDateDto$GetSeanceByDateDtoBuilder.class
 ogorek\wojciech\domain\model\ticket\views\TicketInfo.class
 ogorek\wojciech\domain\model\seance\repository\SeanceRepository.class
+ogorek\wojciech\domain\model\ticket\dto\converter\CreateTicketDtoListJsonConverter.class
 ogorek\wojciech\domain\configs\validator\AppValidationException.class
 ogorek\wojciech\domain\model\cinema_room\dto\GetCinemaRoomDto.class
 ogorek\wojciech\domain\model\statistic\dto\GetMostPopularGenreInCitiesDto$GetMostPopularGenreInCitiesDtoBuilder.class
@@ -71,6 +75,7 @@ ogorek\wojciech\domain\model\user\views\UserWithTicket.class
 ogorek\wojciech\domain\model\user\dto\GetUserWithTicketDto$GetUserWithTicketDtoBuilder.class
 ogorek\wojciech\domain\model\statistic\TotalPriceSumByCities$TotalPriceSumByCitiesBuilder.class
 ogorek\wojciech\domain\model\user\dto\GetUserHistoryDto.class
+ogorek\wojciech\domain\model\favourite\dto\converter\CreateFavouriteDtoListJsonConverter.class
 ogorek\wojciech\domain\model\seat\dto\CreateSeatDto$CreateSeatDtoBuilder.class
 ogorek\wojciech\domain\model\seance\dto\GetSeanceDto.class
 ogorek\wojciech\domain\model\user\repository\UserRepository.class
@@ -83,10 +88,12 @@ ogorek\wojciech\domain\model\favourite\dto\CreateFavDto.class
 ogorek\wojciech\domain\model\user\User$UserBuilder.class
 ogorek\wojciech\domain\model\favourite\dto\GetFavDto.class
 ogorek\wojciech\domain\model\favourite\dto\CreateFavDto$CreateFavDtoBuilder.class
+ogorek\wojciech\domain\model\seance\dto\converter\CreateSeanceDtoListJsonConverter.class
 ogorek\wojciech\domain\model\cinema_room\dto\GetCinemaRoomDto$GetCinemaRoomDtoBuilder.class
 ogorek\wojciech\domain\model\statistic\dto\GetMostPopularCityDto$GetMostPopularCityDtoBuilder.class
 ogorek\wojciech\domain\model\cinema_room\CinemaRoom.class
 ogorek\wojciech\domain\model\ticket\dto\GetTicketInfoDto.class
+ogorek\wojciech\domain\model\city\dto\converter\CreateCityDtoListJsonConverter.class
 ogorek\wojciech\domain\model\seance\dto\CreateSeanceDto$CreateSeanceDtoBuilder.class
 ogorek\wojciech\domain\model\order\dto\validator\CreateOrderDtoValidator.class
 ogorek\wojciech\domain\model\user\dto\CreateUserDto$CreateUserDtoBuilder.class
@@ -101,6 +108,7 @@ ogorek\wojciech\domain\model\statistic\dto\GetMostPopularCityDto.class
 ogorek\wojciech\domain\model\statistic\MostPopularCity$MostPopularCityBuilder.class
 ogorek\wojciech\domain\model\city\dto\GetCityWithCinemasDto.class
 ogorek\wojciech\domain\model\seance\views\SeanceByDate$SeanceByDateBuilder.class
+ogorek\wojciech\domain\model\movie\dto\converter\CreateMovieDtoListJsonConverter.class
 ogorek\wojciech\domain\model\movie\Movie$MovieBuilder.class
 ogorek\wojciech\domain\model\statistic\AvgPricePerUserInCities.class
 ogorek\wojciech\domain\model\seat\Seat.class
@@ -128,12 +136,14 @@ ogorek\wojciech\domain\model\favourite\dto\GetFavUserGenreDto$GetFavUserGenreDto
 ogorek\wojciech\domain\model\statistic\AvgPricePerUserInCities$AvgPricePerUserInCitiesBuilder.class
 ogorek\wojciech\domain\model\cinema\views\CinemaWithCinemaRooms.class
 ogorek\wojciech\domain\model\ticket\dto\GetTicketDto$GetTicketDtoBuilder.class
+ogorek\wojciech\domain\model\cinema\dto\converter\CreateCinemaDtoListJsonConverter.class
 ogorek\wojciech\domain\model\ticket\dto\converter\CreateTicketDtoJsonConverter.class
 ogorek\wojciech\domain\model\city\City.class
 ogorek\wojciech\domain\model\statistic\MostPopularGenreInCities.class
 ogorek\wojciech\domain\configs\converter\LocalDateSerializer.class
 ogorek\wojciech\domain\model\order\dto\CreateOrderDto$CreateOrderDtoBuilder.class
 ogorek\wojciech\domain\model\statistic\MostPopularTicketTypeInCities.class
+ogorek\wojciech\domain\model\order\dto\SeatOccupancyDto$SeatOccupancyDtoBuilder.class
 ogorek\wojciech\domain\model\seance\dto\GetSeanceWithSeatAndStateDto$GetSeanceWithSeatAndStateDtoBuilder.class
 ogorek\wojciech\domain\model\seat\dto\GetSeatWithState.class
 ogorek\wojciech\domain\model\city\dto\CreateCityDto$CreateCityDtoBuilder.class
@@ -146,6 +156,7 @@ ogorek\wojciech\domain\model\city\dto\CreateCityDto.class
 ogorek\wojciech\domain\model\statistic\MostPopularGenreInCities$MostPopularGenreInCitiesBuilder.class
 ogorek\wojciech\domain\model\statistic\dto\GetMostPopularMovieInCitiesDto$GetMostPopularMovieInCitiesDtoBuilder.class
 ogorek\wojciech\domain\model\city\views\CityWithCinemas.class
+ogorek\wojciech\domain\model\order\dto\converter\CreateOrderDtoListJsonConverter.class
 ogorek\wojciech\domain\model\cinema\views\CinemaWithMovies.class
 ogorek\wojciech\domain\model\favourite\Favourite$FavouriteBuilder.class
 ogorek\wojciech\domain\model\statistic\dto\GetMostPopularDayByCitiesDto$GetMostPopularDayByCitiesDtoBuilder.class
@@ -155,6 +166,7 @@ ogorek\wojciech\domain\model\cinema\dto\CreateCinemaDto$CreateCinemaDtoBuilder.c
 ogorek\wojciech\domain\model\seance\dto\validator\CreateSeanceDtoValidator.class
 ogorek\wojciech\domain\model\cinema\views\CinemaWithMovies$CinemaWithMoviesBuilder.class
 ogorek\wojciech\domain\model\ticket\dto\validator\CreateTicketDtoValidator.class
+ogorek\wojciech\domain\model\order\dto\SeatOccupancyDto.class
 ogorek\wojciech\domain\model\statistic\dto\GetTotalPriceSumByCitiesDto.class
 ogorek\wojciech\domain\model\statistic\dto\GetAvgPricePerUserInCitiesDto.class
 ogorek\wojciech\domain\model\cinema_room\views\CinemaRoomWithSeats$CinemaRoomWithSeatsBuilder.class

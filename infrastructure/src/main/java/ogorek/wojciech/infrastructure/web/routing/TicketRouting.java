@@ -75,12 +75,13 @@ public class TicketRouting {
                 }, new JsonTransformer());
             });
 
-            //todo check split
-            get(":ids", (request, response) -> {
+            //todo check
+            //ticket?ids=1,2,3,4,5;
+            get("?ids=:ids", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var ids =
                         Arrays
-                                .stream(request.params(request.body()).split(";"))
+                                .stream(request.params(request.body()).split(","))
                                 .mapToLong(Long::getLong)
                                 .boxed()
                                 .collect(Collectors.toList());
@@ -94,7 +95,7 @@ public class TicketRouting {
                 return ticketService.findTicketByUsername(request.params("username"));
             }, new JsonTransformer());
 
-            //todo check it, swap to object
+
             post("/order", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 var tickets = new CreateOrderDtoJsonConverter(request.body())

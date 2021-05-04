@@ -1,16 +1,17 @@
 package ogorek.wojciech.infrastructure.repository.jdbi.impl;
 
-import ogorek.wojciech.domain.model.user.User;
 import ogorek.wojciech.domain.model.user.views.UserHistory;
 import ogorek.wojciech.domain.model.user.views.UserWithTicket;
 import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.UserEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiUserEntityRepository;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JdbiUserEntityRepositoryImpl extends AbstractCrudRepository<UserEntity, Long> implements JdbiUserEntityRepository {
     public JdbiUserEntityRepositoryImpl(Jdbi jdbi) {
         super(jdbi);

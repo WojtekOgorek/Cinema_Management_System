@@ -1,6 +1,7 @@
 package ogorek.wojciech.domain.model.user;
 
 import lombok.*;
+import ogorek.wojciech.domain.configs.validator.AppDomainException;
 import ogorek.wojciech.domain.model.user.dto.GetUserDto;
 import ogorek.wojciech.domain.model.user.enums.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,8 +36,10 @@ public class User {
         passwordEncoder.encode(password);
     }
 
-    public User withChangedPassword(String changedPassword){
-        //todo check confirmation
+    public User withChangedPassword(String changedPassword, String confirmPassword){
+        if(!changedPassword.equals(confirmPassword)){
+            throw new AppDomainException("User password change failed. Password must be confirmed");
+        }
         return User
                 .builder()
                 .id(id)

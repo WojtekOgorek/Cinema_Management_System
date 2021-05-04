@@ -6,8 +6,7 @@ import ogorek.wojciech.domain.model.statistic.*;
 
 import java.util.List;
 import java.util.Optional;
-
-public interface StatisticRepository extends CrudRepository<City, Long> {
+public interface StatisticRepository {
     Optional<MostPopularCity> findMostPopularCity();
     List<MostPopularMovieInCities> findMostPopularMovieInCity();
     List<MostPopularGenreInCities> findMostPopularGenreInCity();

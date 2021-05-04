@@ -2,11 +2,10 @@ package ogorek.wojciech.infrastructure;
 
 import ogorek.wojciech.infrastructure.web.routing.*;
 import ogorek.wojciech.service.services.cinema.*;
-import ogorek.wojciech.service.services.security.UserService;
+import ogorek.wojciech.service.services.cinema.UserService;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
-import spark.Route;
 
 import static spark.Spark.initExceptionHandler;
 import static spark.Spark.port;
@@ -145,15 +144,18 @@ public class App {
         var jdbi = context.getBean("jdbi", Jdbi.class);
         createTables(jdbi);
 
-        cinemaService.findAllCinemas();
 
-//
-//        initExceptionHandler(e -> System.out.println(e.getMessage()));
-//        port(8081);
-//
-//
-//        var cityRouting = new CityRouting(cityService);
-//        cityRouting.initCityRoutes();
+        initExceptionHandler(e -> System.out.println(e.getMessage()));
+        port(8081);
+
+        var security = new SecurityFilter();
+        security.routes();
+
+        var cityRouting = new CityRouting(cityService);
+        cityRouting.initCityRoutes();
+
+
+
 //
 //        var cinemaRouting = new CinemaRouting(cinemaService);
 //        cinemaRouting.initCinemaRoutes();

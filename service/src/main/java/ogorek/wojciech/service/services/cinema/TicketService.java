@@ -3,6 +3,7 @@ package ogorek.wojciech.service.services.cinema;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
+import ogorek.wojciech.domain.model.order.dto.SeatOccupancyDto;
 import ogorek.wojciech.domain.model.order.enums.Occupancy;
 import ogorek.wojciech.domain.model.seance.repository.SeanceRepository;
 import ogorek.wojciech.domain.model.seat.repository.SeatRepository;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,12 +35,14 @@ public class TicketService {
     private final SeanceRepository seanceRepository;
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
-    //todo check it
+
     private final SeatService seatService;
     private final EmailService emailService;
 
     @Value("${ticket.standard.price}")
     private BigDecimal price;
+
+    private Lock lock = new ReentrantLock(true);
 
 
     public List<GetTicketDto> findAllTickets() {
@@ -68,13 +73,13 @@ public class TicketService {
     public GetTicketDto addTicket(CreateTicketDto createTicketDto) {
         Validator.validate(new CreateTicketDtoValidator(), createTicketDto);
 
-        if(userRepository.findById(createTicketDto.getUserId()).isEmpty()){
+        if (userRepository.findById(createTicketDto.getUserId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such user id in db");
 
-        }else if(seanceRepository.findById(createTicketDto.getSeanceId()).isEmpty()){
+        } else if (seanceRepository.findById(createTicketDto.getSeanceId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such seance id in db");
 
-        }else if(seatRepository.findById(createTicketDto.getSeatId()).isEmpty()){
+        } else if (seatRepository.findById(createTicketDto.getSeatId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such seat id in db");
         }
 
@@ -88,13 +93,13 @@ public class TicketService {
     public GetTicketDto updateTicket(CreateTicketDto createTicketDto) {
         Validator.validate(new CreateTicketDtoValidator(), createTicketDto);
 
-        if(userRepository.findById(createTicketDto.getUserId()).isEmpty()){
+        if (userRepository.findById(createTicketDto.getUserId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such user id in db");
 
-        }else if(seanceRepository.findById(createTicketDto.getSeanceId()).isEmpty()){
+        } else if (seanceRepository.findById(createTicketDto.getSeanceId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such seance id in db");
 
-        }else if(seatRepository.findById(createTicketDto.getSeatId()).isEmpty()){
+        } else if (seatRepository.findById(createTicketDto.getSeatId()).isEmpty()) {
             throw new AppServiceException("Fail to add ticket. There is no such seat id in db");
         }
 
@@ -126,75 +131,83 @@ public class TicketService {
     }
 
     /*
-    *
-    * ---- BUYING A TICKET ----
-    *
-    */
+     *
+     * ---- BUYING A TICKET ----
+     *
+     */
 
     public List<GetTicketDto> orderATicket(CreateOrderDto createOrderDto) {
-        if (Objects.isNull(createOrderDto)) {
-            throw new AppServiceException("getOrder cannot be null");
+        try {
+            lock.lock();
+
+            if (Objects.isNull(createOrderDto)) {
+                throw new AppServiceException("Order a ticket failed. Order is null.");
+            }
+
+            var seatIds = createOrderDto
+                    .getSeatOccupancy()
+                    .stream()
+                    .map(SeatOccupancyDto::getSeatId)
+                    .collect(Collectors.toList());
+
+            if (!seatService.getSeatState(seatIds)) {
+                throw new AppServiceException("order dto is invalid - seats are not free");
+            }
+
+            var user = userRepository
+                    .getUserByUsername(createOrderDto.getUsername())
+                    .orElseThrow(() -> new AppServiceException("create order dto username is invalid. There is no such user in db"));
+
+            var createTicketsDto = getTickets(createOrderDto);
+            var totalPrice = totalPrice(createTicketsDto);
+            emailService.orderToMail(user.toGetUserDto().getEmail(), createTicketsDto, totalPrice);
+
+            return createTicketsDto
+                    .stream()
+                    .map(CreateTicketDto::toTicket)
+                    .map(Ticket::toGetTicketDto)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new AppServiceException("Order a ticket failed " + e.getMessage());
+        } finally {
+            lock.unlock();
         }
-
-        if (!seatService.getSeatState(createOrderDto.getSeatIds())) {
-            throw new AppServiceException("order dto is invalid - seats are not free");
-        }
-
-        var user = userRepository
-                .getUserByUsername(createOrderDto.getUsername())
-                .orElseThrow(() -> new AppServiceException("create order dto username is invalid. There is no such user in db"));
-
-        var createTicketsDtos = getTickets(createOrderDto);
-
-        var totalPrice = totalPrice(createTicketsDtos);
-
-        emailService.orderToMail(user.toGetUserDto().getEmail(), createTicketsDtos, totalPrice);
-
-        return createTicketsDtos
-                .stream()
-                .map(CreateTicketDto::toTicket)
-                .map(Ticket::toGetTicketDto)
-                .collect(Collectors.toList());
     }
-
 
     private List<CreateTicketDto> getTickets(CreateOrderDto createOrderDto) {
 
         var createTicketsDto = new ArrayList<CreateTicketDto>();
 
-        IntStream.range(0, fromCreateOrderToSeatsAndDiscounts(createOrderDto).size())
+        var userId = userRepository
+                .getUserByUsername(createOrderDto.getUsername())
+                .orElseThrow()
+                .toGetUserDto()
+                .getId();
+
+        IntStream.range(0, createOrderDto.getSeatOccupancy().size())
                 .boxed()
                 .forEach(i -> {
+                    var discount = discounts()
+                            .entrySet()
+                            .stream()
+                            .filter(o -> o.getKey().equals(createOrderDto.getSeatOccupancy().get(i).getOccupancy()))
+                            .findFirst()
+                            .orElseThrow()
+                            .getValue();
+
                     var createTicketDto = CreateTicketDto.builder()
                             .seanceId(createOrderDto.getSeanceId())
                             .price(price)
-                            .seatId(new ArrayList<>(fromCreateOrderToSeatsAndDiscounts(createOrderDto).keySet()).get(i))
+                            .seatId(createOrderDto.getSeatOccupancy().get(i).getSeatId())
                             .state(createOrderDto.getState())
-                            .userId(userRepository.getUserByUsername(createOrderDto.getUsername()).orElseThrow().toGetUserDto().getId())
-                            .discount(discounts().entrySet().stream()
-                                    .filter(occu -> occu
-                                            .getKey()
-                                            .equals(new ArrayList<>(fromCreateOrderToSeatsAndDiscounts(createOrderDto).values()).get(i)))
-                                    .findFirst()
-                                    .orElseThrow(() -> new AppServiceException("Creating discount is invalid"))
-                                    .getValue())
+                            .userId(userId)
+                            .discount(discount)
                             .build();
+
                     createTicketsDto.add(createTicketDto);
                 });
-
         return createTicketsDto;
-
-    }
-
-    private Map<Long, Occupancy> fromCreateOrderToSeatsAndDiscounts(CreateOrderDto createOrderDto) {
-        if (createOrderDto.getSeatIds().size() != createOrderDto.getOccupancies().size()) {
-            throw new AppServiceException("create order seats size and occupancies size is invalid. It must be equal");
-        }
-        return IntStream.range(0, createOrderDto.getSeatIds().size())
-                .boxed()
-                .collect(Collectors.toMap(
-                        i -> createOrderDto.getSeatIds().get(i),
-                        i -> createOrderDto.getOccupancies().get(i)));
     }
 
     private BigDecimal totalPrice(List<CreateTicketDto> createTicketsDtos) {
@@ -206,10 +219,9 @@ public class TicketService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-
-    //todo check it -> add regular occupancy price change
     static Map<Occupancy, BigDecimal> discounts() {
         return Map.ofEntries(
+                Map.entry(Occupancy.REGULAR, BigDecimal.ZERO),
                 Map.entry(Occupancy.FAMILY, new BigDecimal("0.2")),
                 Map.entry(Occupancy.GROUP, new BigDecimal("0.3")),
                 Map.entry(Occupancy.MINOR, new BigDecimal("0.1")),
@@ -217,8 +229,6 @@ public class TicketService {
                 Map.entry(Occupancy.STUDENT, new BigDecimal("0.2"))
         );
     }
-
-
 
 
 }

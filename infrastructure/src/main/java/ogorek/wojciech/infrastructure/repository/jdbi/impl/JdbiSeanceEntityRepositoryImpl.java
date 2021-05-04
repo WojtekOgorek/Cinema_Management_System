@@ -5,9 +5,11 @@ import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.SeanceEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiSeanceEntityRepository;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class JdbiSeanceEntityRepositoryImpl extends AbstractCrudRepository<SeanceEntity, Long> implements JdbiSeanceEntityRepository {
     public JdbiSeanceEntityRepositoryImpl(Jdbi jdbi) {
         super(jdbi);

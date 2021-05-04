@@ -20,13 +20,16 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
     protected final Jdbi jdbi;
 
     private final Class<T> entityType = (Class<T>) ((ParameterizedType) super.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    private final String TABLE_NAME = English.plural(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityType.getSimpleName()));
-    //todo zmienic nazwe tabeli
+    private final String TABLE_NAME = English.plural(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityGetSimpleNameSplit()));
 
     public AbstractCrudRepository(Jdbi jdbi) {
         this.jdbi = jdbi;
     }
 
+
+    private String entityGetSimpleNameSplit(){
+        return entityType.getSimpleName().split("E")[0];
+    }
 
     @Override
     public List<T> findAll() {

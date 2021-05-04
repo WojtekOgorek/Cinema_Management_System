@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @Data
-//todo check it
 public class AvgPricePerUserInCities {
     private Long cityId;
     private BigDecimal price;

@@ -1,15 +1,11 @@
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\TicketService.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\CinemaService.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\MovieService.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\exceptions\AppServiceException.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\security\UserService.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\security\TokensDto.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\EmailService.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\exceptions\AppTokensServiceException.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\SeatService.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\security\AuthorizedUserDto.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\security\AppTokenService.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\MovieService.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\exceptions\AppServiceException.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\CityService.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\SeanceService.java
-C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\security\AuthenticationDto.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\service\src\main\java\ogorek\wojciech\service\services\cinema\CinemaRoomService.java

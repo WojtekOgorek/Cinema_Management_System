@@ -81,7 +81,7 @@ public class UserDomainTest {
                 .role(role)
                 .build();
 
-        var userWithChangedPassword = user.withChangedPassword(newPassword);
+        var userWithChangedPassword = user.withChangedPassword(newPassword, newPassword);
 
         assertThat(userWithChangedPassword).isEqualTo(expectedUser);
     }
