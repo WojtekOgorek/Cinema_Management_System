@@ -6,11 +6,10 @@ import ogorek.wojciech.domain.model.user.dto.GetUserWithTicketDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class UserWithTicket {
-    Long userId;
-    Long ticketId;
+    private Long userId;
+    private Long ticketId;
 
     public GetUserWithTicketDto toGetUserWithTicketDto(){
         return GetUserWithTicketDto

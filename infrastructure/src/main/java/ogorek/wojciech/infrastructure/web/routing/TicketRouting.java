@@ -6,6 +6,7 @@ import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.order.dto.converter.CreateOrderDtoJsonConverter;
 import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
+import ogorek.wojciech.domain.model.ticket.dto.converter.CreateTicketDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.TicketService;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +42,7 @@ public class TicketRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var ticketToAdd = new JsonConverter<CreateTicketDto>(request.body())
+                var ticketToAdd = new CreateTicketDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket add"));
                 return ticketService.addTicket(ticketToAdd);
@@ -62,7 +63,7 @@ public class TicketRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var ticketToUpdate = new JsonConverter<CreateTicketDto>(request.body())
+                    var ticketToUpdate = new CreateTicketDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket update"));
                     return ticketService.updateTicket(ticketToUpdate);

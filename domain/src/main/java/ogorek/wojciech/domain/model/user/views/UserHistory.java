@@ -9,14 +9,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class UserHistory {
-    Long userId;
-    String cinemaName;
-    String movieTitle;
-    LocalDateTime date_time;
-    BigDecimal price;
+    private Long userId;
+    private String cinemaName;
+    private String movieTitle;
+    private LocalDateTime date_time;
+    private BigDecimal price;
 
     public GetUserHistoryDto toGetUserHistoryDto(){
         return GetUserHistoryDto

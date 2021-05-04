@@ -1,98 +1,106 @@
 package ogorek.wojciech.infrastructure.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.user.User;
 import ogorek.wojciech.domain.model.user.repository.UserRepository;
 import ogorek.wojciech.domain.model.user.views.UserHistory;
 import ogorek.wojciech.domain.model.user.views.UserWithTicket;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
-import org.jdbi.v3.core.Jdbi;
+import ogorek.wojciech.infrastructure.repository.entity.UserEntity;
+import ogorek.wojciech.infrastructure.repository.jdbi.JdbiUserEntityRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public class UserRepositoryImpl extends AbstractCrudRepository<User, Long> implements UserRepository {
-    public UserRepositoryImpl(Jdbi jdbi) {
-        super(jdbi);
+@RequiredArgsConstructor
+public class UserRepositoryImpl implements UserRepository {
+
+    private final JdbiUserEntityRepository jdbiUserEntityRepository;
+
+    @Override
+    public List<User> findAll() {
+        return jdbiUserEntityRepository
+                .findAll()
+                .stream()
+                .map(UserEntity::toUser)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public List<User> findAllById(List<Long> ids) {
+        return jdbiUserEntityRepository
+                .findAllById(ids)
+                .stream()
+                .map(UserEntity::toUser)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public Optional<User> findById(Long id) {
+        return jdbiUserEntityRepository
+                .findById(id)
+                .map(UserEntity::toUser);
+    }
+
+    @Override
+    public Optional<User> findLast() {
+        return jdbiUserEntityRepository
+                .findLast()
+                .map(UserEntity::toUser);
+    }
+
+    @Override
+    public Optional<User> add(User user) {
+        return jdbiUserEntityRepository
+                .add(new UserEntity().fromUser(user))
+                .map(UserEntity::toUser);
+    }
+
+    @Override
+    public Optional<User> update(User user) {
+        return jdbiUserEntityRepository
+                .update(new UserEntity().fromUser(user))
+                .map(UserEntity::toUser);
+    }
+
+    @Override
+    public Optional<User> delete(Long id) {
+        return jdbiUserEntityRepository
+                .delete(id)
+                .map(UserEntity::toUser);
+    }
+
+    @Override
+    public boolean deleteAll() {
+        return jdbiUserEntityRepository
+                .deleteAll();
+    }
 
     @Override
     public List<UserWithTicket> getUserWithTickets(Long userId) {
-        final String SQL = """
-                     select 
-                       u.id,
-                       t.id
-                       from users u 
-                       join tickets t on u.id = t.user_id
-                       where u.id = :id                 
-                """;
-        return jdbi.withHandle(handle -> handle
-                .createQuery(SQL)
-                .bind("id", userId)
-                .mapToBean(UserWithTicket.class)
-                .list());
+        return jdbiUserEntityRepository
+                .getUserWithTickets(userId);
     }
-
 
     @Override
     public List<UserHistory> getUserHistory(Long userId) {
-        final String SQL = """
-                select
-                u.id,
-                c.name,
-                m.title,
-                s.date_time,
-                t.price
-                from tickets t
-                join users u on u.id = t.user_id
-                join seances s on s.id = t.seance_id
-                join movies m on s.movie_id = m.id
-                join cinema_rooms cr on cr.id = s.cinema_room_id
-                join cinemas c on c.id = cr.cinema_id
-                where u.id = :id
-                """;
-        return jdbi.withHandle(handle -> handle
-                .createQuery(SQL)
-                .bind("id", userId)
-                .mapToBean(UserHistory.class)
-                .list()
-        );
+        return jdbiUserEntityRepository
+                .getUserHistory(userId);
     }
 
     @Override
     public Optional<User> getUserByNameAndSurname(String name, String surname) {
-
-        final String SQL = """
-                select
-                u.id
-                from users u
-                where u.name = :name and u.surname = :surname
-                """;
-        return jdbi.withHandle(handle -> handle
-                .createQuery(SQL)
-                .bind("name", name)).bind("surname", surname)
-                .mapToBean(User.class)
-                .findFirst();
+        return jdbiUserEntityRepository
+                .getUserByNameAndSurname(name,surname)
+                .map(UserEntity::toUser);
     }
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        final String SQL = """
-                select
-                u.id
-                from users u
-                where u.name = :username
-                """;
-        return jdbi.withHandle(handle -> handle
-                .createQuery(SQL)
-                .bind("name", username))
-                .mapToBean(User.class)
-                .findFirst();
-
+        return jdbiUserEntityRepository
+                .getUserByUsername(username)
+                .map(UserEntity::toUser);
     }
-
-
 }

@@ -3,7 +3,7 @@ package ogorek.wojciech.domain.model.user.dto.converter;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.user.dto.CreateUserDto;
 import ogorek.wojciech.domain.model.user.enums.Role;
-import ogorek.wojciech.extension.user.dto.converter.CreateUserDtoJsonExtension;
+import ogorek.wojciech.extension.user.dto.converter.CreateUserDtoListJsonExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +13,11 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@ExtendWith(CreateUserDtoJsonExtension.class)
+@ExtendWith(CreateUserDtoListJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateUserDtoJsonTest {
+public class CreateUserDtoListJsonTest {
 
-    private final CreateUserDtoJsonConverter createUserDtoJsonConverter;
+    private final CreateUserDtoListJsonConverter createUserDtoListJsonConverter;
 
     @Test
     @DisplayName("when create user dto conversion from json is correct")
@@ -42,7 +42,7 @@ public class CreateUserDtoJsonTest {
                 .role(role)
                 .build());
 
-        var userFromJson = createUserDtoJsonConverter.fromJson().orElseThrow();
+        var userFromJson = createUserDtoListJsonConverter.fromJson().orElseThrow();
 
         assertDoesNotThrow(() -> assertThat(userFromJson))
                 .hasSize(1)
