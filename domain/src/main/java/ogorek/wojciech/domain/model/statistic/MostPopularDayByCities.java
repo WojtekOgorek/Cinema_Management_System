@@ -8,12 +8,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class MostPopularDayByCities {
-    Long cityId;
-    Long ticketId;
-    LocalDateTime dateTime;
+    private Long cityId;
+    private Long ticketId;
+    private LocalDateTime dateTime;
 
     public GetMostPopularDayByCitiesDto toGetMostPopularDayByCitiesDto(){
         return GetMostPopularDayByCitiesDto

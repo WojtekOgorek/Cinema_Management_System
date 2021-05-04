@@ -8,16 +8,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class TicketInfo {
-    String city;
-    String cinema;
-    String cinemaRoom;
-    String title;
-    LocalDateTime time;
-    int seatRow;
-    int seatPlace;
+    private String city;
+    private String cinema;
+    private String cinemaRoom;
+    private String title;
+    private LocalDateTime time;
+    private int seatRow;
+    private int seatPlace;
 
     public GetTicketInfoDto toGetTicketInfoDto(){
         return GetTicketInfoDto

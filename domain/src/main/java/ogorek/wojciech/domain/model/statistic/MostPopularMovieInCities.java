@@ -6,11 +6,10 @@ import ogorek.wojciech.domain.model.statistic.dto.GetMostPopularMovieInCitiesDto
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class MostPopularMovieInCities {
-    Long movieId;
-    Long cityId;
+    private Long movieId;
+    private Long cityId;
 
     public GetMostPopularMovieInCitiesDto toGetMostPopularMovieInCitiesDto(){
         return GetMostPopularMovieInCitiesDto

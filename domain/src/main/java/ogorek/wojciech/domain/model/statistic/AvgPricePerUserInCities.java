@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
+//todo check it
 public class AvgPricePerUserInCities {
-    Long cityId;
-    BigDecimal price;
+    private Long cityId;
+    private BigDecimal price;
 
     public GetAvgPricePerUserInCitiesDto toGetAvgPricePerUserInCitiesDto(){
         return GetAvgPricePerUserInCitiesDto

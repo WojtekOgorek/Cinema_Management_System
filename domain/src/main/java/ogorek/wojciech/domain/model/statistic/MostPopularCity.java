@@ -6,11 +6,10 @@ import ogorek.wojciech.domain.model.statistic.dto.GetMostPopularCityDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class MostPopularCity {
-    String city;
-    Integer counter;
+    private String city;
+    private Integer counter;
 
     public GetMostPopularCityDto toGetMostPopularCityDto(){
         return GetMostPopularCityDto

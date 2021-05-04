@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+//todo check it
 public class StatisticRepositoryImpl extends AbstractCrudRepository<City, Long> implements StatisticRepository {
     public StatisticRepositoryImpl(Jdbi jdbi) {
         super(jdbi);

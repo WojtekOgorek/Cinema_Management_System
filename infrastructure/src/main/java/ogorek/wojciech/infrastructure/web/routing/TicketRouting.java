@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.AppConverterException;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
+import ogorek.wojciech.domain.model.order.dto.converter.CreateOrderDtoJsonConverter;
 import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.TicketService;
@@ -95,7 +96,7 @@ public class TicketRouting {
             //todo check it, swap to object
             post("/order", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var tickets = new JsonConverter<CreateOrderDto>(request.body())
+                var tickets = new CreateOrderDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new AppConverterException("Order json body request is invalid"));
                 return ticketService.orderATicket(tickets);

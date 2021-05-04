@@ -8,11 +8,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class TotalPriceSumByCities {
-    Long cityId;
-    BigDecimal price;
+    private Long cityId;
+    private BigDecimal price;
 
     public GetTotalPriceSumByCitiesDto toGetTotalPriceSumByCitiesDto(){
         return GetTotalPriceSumByCitiesDto

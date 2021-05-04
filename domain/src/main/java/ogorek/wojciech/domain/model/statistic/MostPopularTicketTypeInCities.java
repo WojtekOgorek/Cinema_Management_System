@@ -7,11 +7,10 @@ import ogorek.wojciech.domain.model.ticket.enums.State;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class MostPopularTicketTypeInCities {
-    Long cityId;
-    State state;
+    private Long cityId;
+    private State state;
 
     public GetMostPopularTicketTypeInCitiesDto toGetMostPopularTicketTypeInCitiesDto(){
         return GetMostPopularTicketTypeInCitiesDto

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.order.enums.Occupancy;
 import ogorek.wojciech.domain.model.ticket.enums.State;
-import ogorek.wojciech.extension.order.dto.converter.CreateOrderDtoJsonExtension;
+import ogorek.wojciech.extension.order.dto.converter.CreateOrderDtoListJsonExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +14,11 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@ExtendWith(CreateOrderDtoJsonExtension.class)
+@ExtendWith(CreateOrderDtoListJsonExtension.class)
 @RequiredArgsConstructor
 public class CreateOrderDtoJsonTest{
 
-    private final CreateOrderDtoJsonConverter createOrderDtoJsonConverter;
+    private final CreateOrderDtoListJsonConverter createOrderDtoListJsonConverter;
 
     @Test
     @DisplayName("when create order dto json converter works properly")
@@ -39,7 +39,7 @@ public class CreateOrderDtoJsonTest{
                 .state(state)
                 .build());
 
-        var orderFromJson = createOrderDtoJsonConverter.fromJson().orElseThrow();
+        var orderFromJson = createOrderDtoListJsonConverter.fromJson().orElseThrow();
 
         assertDoesNotThrow(() -> assertThat(orderFromJson))
                 .hasSize(1)
