@@ -7,11 +7,10 @@ import ogorek.wojciech.domain.model.ticket.enums.State;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class SeatWithState {
-    Long seatId;
-    State state;
+    private Long seatId;
+    private State state;
 
     public GetSeatWithState toGetSeatWithState(){
         return GetSeatWithState

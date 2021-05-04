@@ -3,6 +3,7 @@ package ogorek.wojciech.infrastructure.web.routing;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
+import ogorek.wojciech.domain.model.seat.dto.converter.CreateSeatDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.SeatService;
 
@@ -32,7 +33,7 @@ public class SeatRouting {
             //SEATS GENERAL CRUD
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var seatToAdd = new JsonConverter<CreateSeatDto>(request.body())
+                var seatToAdd = new CreateSeatDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seat add"));
                 return seatService.addSeat(seatToAdd);

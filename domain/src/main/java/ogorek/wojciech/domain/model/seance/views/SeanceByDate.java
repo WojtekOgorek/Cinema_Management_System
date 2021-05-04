@@ -8,12 +8,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class SeanceByDate {
-    Long seanceId;
-    LocalDateTime dateTime;
-    Long ticketId;
+    private Long seanceId;
+    private LocalDateTime dateTime;
+    private Long ticketId;
 
     public GetSeanceByDateDto toGetSeanceByDateDto(){
         return GetSeanceByDateDto

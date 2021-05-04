@@ -6,12 +6,11 @@ import ogorek.wojciech.domain.model.seance.dto.GetSeanceWithSeatAndStateDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class SeanceWithSeatAndState {
-    Long seanceId;
-    Long seatId;
-    Long ticketId;
+    private Long seanceId;
+    private Long seatId;
+    private Long ticketId;
 
     public GetSeanceWithSeatAndStateDto toGetSeanceWithSeatAndState(){
         return GetSeanceWithSeatAndStateDto

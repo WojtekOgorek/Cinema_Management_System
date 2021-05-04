@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.seance.dto.CreateSeanceDto;
+import ogorek.wojciech.domain.model.seance.dto.converter.CreateSeanceDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.SeanceService;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +38,7 @@ public class SeanceRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var seanceToAdd = new JsonConverter<CreateSeanceDto>(request.body())
+                var seanceToAdd = new CreateSeanceDtoJsonConverter(request.body())
                         .fromJson()
                         .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance add"));
                 return seanceService.addSeance(seanceToAdd);
@@ -59,7 +60,7 @@ public class SeanceRouting {
                 put("", (request, response) -> {
 
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var seanceToUpdate = new JsonConverter<CreateSeanceDto>(request.body())
+                    var seanceToUpdate = new CreateSeanceDtoJsonConverter(request.body())
                             .fromJson()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance update"));
                     return seanceService.updateSeance(seanceToUpdate);

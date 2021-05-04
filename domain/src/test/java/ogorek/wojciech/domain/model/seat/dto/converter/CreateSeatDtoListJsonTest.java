@@ -2,7 +2,7 @@ package ogorek.wojciech.domain.model.seat.dto.converter;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
-import ogorek.wojciech.extension.seat.dto.converter.CreateSeatDtoJsonExtension;
+import ogorek.wojciech.extension.seat.dto.converter.CreateSeatDtoListJsonExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +12,11 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@ExtendWith(CreateSeatDtoJsonExtension.class)
+@ExtendWith(CreateSeatDtoListJsonExtension.class)
 @RequiredArgsConstructor
-public class CreateSeatDtoJsonTest {
+public class CreateSeatDtoListJsonTest {
 
-    private final CreateSeatDtoJsonConverter createSeatDtoJsonConverter;
+    private final CreateSeatDtoListJsonConverter createSeatDtoListJsonConverter;
 
     @Test
     @DisplayName("when create seat dto json converter work properly")
@@ -34,7 +34,7 @@ public class CreateSeatDtoJsonTest {
                 .build());
 
 
-        var seatFromJson = createSeatDtoJsonConverter.fromJson().orElseThrow();
+        var seatFromJson = createSeatDtoListJsonConverter.fromJson().orElseThrow();
 
         assertDoesNotThrow(() -> assertThat(seatFromJson))
                 .hasSize(1)
