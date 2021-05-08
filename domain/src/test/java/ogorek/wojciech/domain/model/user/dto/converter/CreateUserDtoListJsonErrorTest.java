@@ -16,7 +16,7 @@ public class CreateUserDtoListJsonErrorTest {
     private final CreateUserDtoListJsonConverter createUserDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create user dto conversion from json throws exception")
+    @DisplayName("when create user dto list conversion from json throws exception")
     public void test1(){
 
         assertThatThrownBy(() -> createUserDtoListJsonConverter.fromJson().orElseThrow())

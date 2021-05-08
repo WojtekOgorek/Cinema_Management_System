@@ -21,7 +21,7 @@ public class CreateMovieDtoListJsonTest {
     private final CreateMovieDtoListJsonConverter createMovieDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create movie dto json conversion works properly")
+    @DisplayName("when create movie dto list json conversion works properly")
     public void test1() {
 
         var expectedMovie = List.of(

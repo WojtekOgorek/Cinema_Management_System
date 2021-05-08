@@ -16,7 +16,7 @@ public class CreateMovieDtoListJsonErrorTest {
     private final CreateMovieDtoListJsonConverter createMovieDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create movie dto conversion throws exception")
+    @DisplayName("when create movie dto list conversion throws exception")
     public void test1(){
         assertThatThrownBy(() -> createMovieDtoListJsonConverter.fromJson().orElseThrow())
                 .isInstanceOf(AppConverterException.class)

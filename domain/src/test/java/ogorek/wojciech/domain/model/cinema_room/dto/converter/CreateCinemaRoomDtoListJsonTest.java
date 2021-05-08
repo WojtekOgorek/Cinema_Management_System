@@ -20,7 +20,7 @@ public class CreateCinemaRoomDtoListJsonTest {
     private final CreateCinemaRoomDtoListJsonConverter createCinemaRoomDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create cinema room json converter work properly")
+    @DisplayName("when create cinema room list json converter work properly")
     public void test1(){
 
         var expectedCinemaRoom = List.of(CreateCinemaRoomDto

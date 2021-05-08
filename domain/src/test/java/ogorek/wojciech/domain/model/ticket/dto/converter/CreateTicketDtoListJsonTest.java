@@ -20,7 +20,7 @@ public class CreateTicketDtoListJsonTest {
     private final CreateTicketDtoListJsonConverter createTicketDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create ticket dto json converter works properly")
+    @DisplayName("when create ticket dto list json converter works properly")
     public void test1() {
 
         var seanceId = 1L;

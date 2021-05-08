@@ -16,7 +16,7 @@ public class CreateSeanceDtoListJsonErrorTest {
     private final CreateSeanceDtoListJsonConverter createSeanceDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create seance dto json converter throws exception")
+    @DisplayName("when create seance dto list json converter throws exception")
     public void test1(){
 
         assertThatThrownBy(() -> createSeanceDtoListJsonConverter.fromJson().orElseThrow())

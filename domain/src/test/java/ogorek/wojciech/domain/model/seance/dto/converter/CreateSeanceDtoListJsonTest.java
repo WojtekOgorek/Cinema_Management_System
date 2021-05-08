@@ -20,7 +20,7 @@ public class CreateSeanceDtoListJsonTest {
     private final CreateSeanceDtoListJsonConverter createSeanceDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create seance dto json converter works properly")
+    @DisplayName("when create seance dto list json converter works properly")
     public void test1() {
 
         var movieId = 1L;

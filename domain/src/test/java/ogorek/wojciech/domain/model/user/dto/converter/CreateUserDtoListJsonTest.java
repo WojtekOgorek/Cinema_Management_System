@@ -20,7 +20,7 @@ public class CreateUserDtoListJsonTest {
     private final CreateUserDtoListJsonConverter createUserDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create user dto conversion from json is correct")
+    @DisplayName("when create user dto list conversion from json is correct")
     public void test1(){
 
         var name = "Name";

@@ -19,7 +19,7 @@ public class CreateSeatDtoListJsonTest {
     private final CreateSeatDtoListJsonConverter createSeatDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create seat dto json converter work properly")
+    @DisplayName("when create seat dto list json converter work properly")
     public void test1(){
         var seatRow = 2;
         var seatPlace = 5;

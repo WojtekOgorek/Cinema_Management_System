@@ -2,8 +2,19 @@
   {
     "username": "User",
     "seanceId": "1L",
-    "seatIds": [1,2,3],
-    "occupancies": ["FAMILY","GROUP","MINOR"],
+    "seatOccupancy": [
+      {
+        "seatId": 1,
+        "occupancy": "FAMILY"
+      },
+      {
+        "seatId": 2,
+        "occupancy": "MINOR"
+      },
+      {
+        "seatId": 3,
+        "occupancy": "REGULAR"
+      }],
     "state": "RESERVED"
   }
 ]

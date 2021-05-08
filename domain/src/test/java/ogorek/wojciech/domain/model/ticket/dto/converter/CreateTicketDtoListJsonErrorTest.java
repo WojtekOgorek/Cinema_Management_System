@@ -16,7 +16,7 @@ public class CreateTicketDtoListJsonErrorTest {
     private final CreateTicketDtoListJsonConverter createTicketDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create ticket dto json converter throws exception")
+    @DisplayName("when create ticket dto list json converter throws exception")
     public void test1(){
 
         assertThatThrownBy(() -> createTicketDtoListJsonConverter.fromJson().orElseThrow())

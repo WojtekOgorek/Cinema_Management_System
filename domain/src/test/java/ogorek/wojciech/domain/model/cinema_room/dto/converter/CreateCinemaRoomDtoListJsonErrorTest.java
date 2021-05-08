@@ -16,7 +16,7 @@ public class CreateCinemaRoomDtoListJsonErrorTest {
     private final CreateCinemaRoomDtoListJsonConverter createCinemaRoomDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create cinema room dto converter throws exception")
+    @DisplayName("when create cinema room list dto converter throws exception")
     public void test1(){
 
         assertThatThrownBy(() -> createCinemaRoomDtoListJsonConverter.fromJson().orElseThrow())

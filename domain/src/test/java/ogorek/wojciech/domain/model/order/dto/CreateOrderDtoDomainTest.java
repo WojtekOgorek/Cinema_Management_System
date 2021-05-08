@@ -17,23 +17,23 @@ public class CreateOrderDtoDomainTest {
 
         var username = "User";
         var seanceId = 1L;
-        var seatIds = List.of(1L,2L,3L);
-        var occupancies = List.of(Occupancy.MINOR,Occupancy.MINOR,Occupancy.MINOR);
+        var seatOccupancy = List.of(
+                SeatOccupancyDto.builder().seatId(1L).occupancy(Occupancy.FAMILY).build(),
+                SeatOccupancyDto.builder().seatId(2L).occupancy(Occupancy.MINOR).build(),
+                SeatOccupancyDto.builder().seatId(3L).occupancy(Occupancy.REGULAR).build());
         var state = State.RESERVED;
 
         var createOrderDto = CreateOrderDto
                 .builder()
                 .username(username)
                 .seanceId(seanceId)
-                .seatIds(seatIds)
-                .occupancies(occupancies)
+                .seatOccupancy(seatOccupancy)
                 .state(state)
                 .build();
 
         assertThat(createOrderDto).hasFieldOrProperty("username");
         assertThat(createOrderDto).hasFieldOrProperty("seanceId");
-        assertThat(createOrderDto).hasFieldOrProperty("seatIds");
-        assertThat(createOrderDto).hasFieldOrProperty("occupancies");
+        assertThat(createOrderDto).hasFieldOrProperty("seatOccupancy");
         assertThat(createOrderDto).hasFieldOrProperty("state");
     }
 }

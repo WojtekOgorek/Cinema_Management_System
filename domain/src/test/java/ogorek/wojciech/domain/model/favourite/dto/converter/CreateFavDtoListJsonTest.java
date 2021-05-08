@@ -19,7 +19,7 @@ public class CreateFavDtoListJsonTest {
     private final CreateFavouriteDtoListJsonConverter createFavouriteDtoListJsonConverter;
 
     @Test
-    @DisplayName("when create favourite dto json converter work properly")
+    @DisplayName("when create favourite dto list json converter work properly")
     public void test1() {
         var userId = 1L;
         var movieId = 2L;

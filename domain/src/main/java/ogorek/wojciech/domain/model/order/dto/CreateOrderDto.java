@@ -16,8 +16,6 @@ import java.util.List;
 public class CreateOrderDto {
     private String username;
     private Long seanceId;
-//    private List<Long> seatIds;
-//    private List<Occupancy> occupancies;
     private List<SeatOccupancyDto> seatOccupancy;
     private State state;
 
