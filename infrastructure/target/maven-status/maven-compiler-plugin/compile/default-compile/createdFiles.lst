@@ -18,7 +18,9 @@ ogorek\wojciech\infrastructure\repository\entity\CinemaRoomEntity.class
 ogorek\wojciech\infrastructure\repository\impl\MovieRepositoryImpl.class
 ogorek\wojciech\infrastructure\repository\entity\MovieEntity$MovieEntityBuilder.class
 ogorek\wojciech\infrastructure\web\routing\CinemaRoomRouting.class
+ogorek\wojciech\infrastructure\web\error\ErrorRouting.class
 ogorek\wojciech\infrastructure\repository\jdbi\JdbiCityEntityRepository.class
+ogorek\wojciech\infrastructure\web\error\ErrorMessage$ErrorMessageBuilder.class
 ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiUserEntityRepositoryImpl.class
 ogorek\wojciech\infrastructure\web\routing\SecurityFilter.class
 ogorek\wojciech\infrastructure\App.class
@@ -52,6 +54,7 @@ ogorek\wojciech\infrastructure\repository\entity\SeatEntity.class
 ogorek\wojciech\infrastructure\repository\entity\UserEntity$UserEntityBuilder.class
 ogorek\wojciech\infrastructure\security\dto\AuthorizedUserDto.class
 ogorek\wojciech\infrastructure\security\dto\AuthenticationDto.class
+ogorek\wojciech\infrastructure\web\error\ErrorMessage.class
 ogorek\wojciech\infrastructure\web\routing\CityRouting.class
 ogorek\wojciech\infrastructure\security\dto\TokensDto.class
 ogorek\wojciech\infrastructure\web\routing\SeatRouting.class

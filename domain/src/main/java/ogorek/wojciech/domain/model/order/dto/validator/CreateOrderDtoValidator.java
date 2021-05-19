@@ -30,9 +30,6 @@ public class CreateOrderDtoValidator implements Validator<CreateOrderDto> {
             errors.put("Create order dto seat id is invalid:", "It cannot be null and must be grater than 0 - " + seats);
         }
         var occupancies = createOrderDto.getSeatOccupancy().stream().map(SeatOccupancyDto::getOccupancy).collect(Collectors.toList());
-        if(!isOccupancySizeValid(occupancies.size(),seats.size())){
-            errors.put("Create order dto occupancies and seat id size is invalid:", "There must be one occupancy for every seat id - ");
-        }
         if(!invalidOrderOccupancies(occupancies)){
             errors.put("Create order dto occupancies is invalid:", "It must be one of this: FAMILY,GROUP,MINOR,REGULAR,SENIOR,STUDENT - " + occupancies);
         }
@@ -53,9 +50,6 @@ public class CreateOrderDtoValidator implements Validator<CreateOrderDto> {
 
     private boolean isOrderSeatIdsValid(List<Long> ids){
         return ids != null && ids.stream().allMatch(element -> element > 0);
-    }
-    private boolean isOccupancySizeValid(int occupancySize, int seatSize){
-        return occupancySize == seatSize;
     }
 
     private boolean invalidOrderOccupancies(List<Occupancy> occupancies) {

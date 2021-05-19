@@ -15,20 +15,17 @@ public class MostPopularDayByCitiesDomainTest {
     public void test1(){
 
         var cityId = 1L;
-        var ticketId = 2L;
         var dateTime = LocalDateTime.of(2021,1,1,12,15);
 
         var mostPopularDayByCities = MostPopularDayByCities
                 .builder()
                 .cityId(cityId)
-                .ticketId(ticketId)
                 .dateTime(dateTime)
                 .build();
 
         var expectedDto = GetMostPopularDayByCitiesDto
                 .builder()
                 .cityId(cityId)
-                .ticketId(ticketId)
                 .dateTime(dateTime)
                 .build();
 
@@ -42,18 +39,15 @@ public class MostPopularDayByCitiesDomainTest {
     public void test2(){
 
         var cityId = 1L;
-        var ticketId = 2L;
         var dateTime = LocalDateTime.of(2021,1,1,12,15);
 
         var mostPopularDayByCities = MostPopularDayByCities
                 .builder()
                 .cityId(cityId)
-                .ticketId(ticketId)
                 .dateTime(dateTime)
                 .build();
 
         assertThat(mostPopularDayByCities).hasFieldOrProperty("cityId");
-        assertThat(mostPopularDayByCities).hasFieldOrProperty("ticketId");
         assertThat(mostPopularDayByCities).hasFieldOrProperty("dateTime");
     }
 }

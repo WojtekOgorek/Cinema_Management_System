@@ -84,7 +84,7 @@ public class CreateOrderDtoValidatorTest {
         var username = "User";
         var seanceId = 1L;
         var seatOccupancy = List.of(
-                SeatOccupancyDto.builder().seatId(1L).occupancy(Occupancy.MINOR).build(),
+                SeatOccupancyDto.builder().seatId(0L).occupancy(Occupancy.MINOR).build(),
                 SeatOccupancyDto.builder().seatId(2L).occupancy(Occupancy.SENIOR).build(),
                 SeatOccupancyDto.builder().seatId(3L).occupancy(Occupancy.REGULAR).build());
         var state = State.RESERVED;
@@ -103,31 +103,6 @@ public class CreateOrderDtoValidatorTest {
                 .hasMessageContaining("Create order dto seat id is invalid:");
     }
 
-    @Test
-    @DisplayName("when create order dto occupancy size is invalid")
-    public void test5() {
-
-        var username = "User";
-        var seanceId = 1L;
-        var seatOccupancy = List.of(
-                SeatOccupancyDto.builder().seatId(1L).occupancy(Occupancy.MINOR).build(),
-                SeatOccupancyDto.builder().seatId(2L).occupancy(Occupancy.SENIOR).build(),
-                SeatOccupancyDto.builder().seatId(3L).occupancy(Occupancy.REGULAR).build());
-        var state = State.RESERVED;
-
-        var createOrderDto = CreateOrderDto
-                .builder()
-                .username(username)
-                .seanceId(seanceId)
-                .seatOccupancy(seatOccupancy)
-                .state(state)
-                .build();
-
-        assertThatThrownBy(() -> Validator.validate(new CreateOrderDtoValidator(), createOrderDto))
-                .isInstanceOf(AppValidationException.class)
-                .hasMessageStartingWith("[VALIDATOR ERROR]:")
-                .hasMessageContaining("Create order dto occupancies and seat id size is invalid:");
-    }
 
     @Test
     @DisplayName("when create order dto occupancy is invalid")

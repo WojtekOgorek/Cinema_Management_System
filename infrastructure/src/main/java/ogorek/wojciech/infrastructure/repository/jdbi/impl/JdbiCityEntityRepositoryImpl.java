@@ -38,8 +38,8 @@ public class JdbiCityEntityRepositoryImpl extends AbstractCrudRepository<CityEnt
     public List<CityWithCinemas> citiesWithCinemas() {
         final String SQL = """
                     select 
-                    c.id,
-                    c2.id
+                    c.id as cityId,
+                    c2.id as cinemaId
                     from cities c 
                     join cinemas c2 on c.id = c2.city_id
                 """;
@@ -55,11 +55,11 @@ public class JdbiCityEntityRepositoryImpl extends AbstractCrudRepository<CityEnt
     public List<CityWithCinemas> findCityWithCinemasByName(String cityName) {
         final String SQL = """
                 select
-                c.id, 
-                c2.id
+                c.id as cityId, 
+                c2.id as cinemaId
                 from cities c 
                 join cinemas c2 on c.id = c2.city_id
-                where c.name = :name;
+                where c.name = :name
                 """;
         return jdbi.withHandle(handle ->
                 handle

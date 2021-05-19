@@ -12,6 +12,7 @@ C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\model\favourite\dto\validator\CreateFavouriteDtoValidator.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\model\movie\dto\converter\CreateMovieDtoJsonConverter.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\configs\repository\CrudRepository.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\configs\validator\AppDomainException.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\model\statistic\dto\GetMostPopularMovieInCitiesDto.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\model\user\dto\validator\CreateUserDtoValidator.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\domain\src\main\java\ogorek\wojciech\domain\model\order\dto\converter\CreateOrderDtoJsonConverter.java

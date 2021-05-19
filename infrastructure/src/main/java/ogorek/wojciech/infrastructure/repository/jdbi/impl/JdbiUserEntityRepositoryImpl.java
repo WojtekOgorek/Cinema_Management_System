@@ -81,13 +81,13 @@ public class JdbiUserEntityRepositoryImpl extends AbstractCrudRepository<UserEnt
                 select
                 u.id
                 from users u
-                where u.name = :username
+                where u.username = :username
                 """;
         return jdbi.withHandle(handle -> handle
                 .createQuery(SQL)
-                .bind("name", username))
+                .bind("username", username)
                 .mapToBean(UserEntity.class)
-                .findFirst();
+                .findFirst());
 
     }
 }

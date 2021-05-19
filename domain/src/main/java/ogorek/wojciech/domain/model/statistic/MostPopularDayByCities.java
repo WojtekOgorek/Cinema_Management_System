@@ -11,14 +11,12 @@ import java.time.LocalDateTime;
 @Data
 public class MostPopularDayByCities {
     private Long cityId;
-    private Long ticketId;
     private LocalDateTime dateTime;
 
     public GetMostPopularDayByCitiesDto toGetMostPopularDayByCitiesDto(){
         return GetMostPopularDayByCitiesDto
                 .builder()
                 .cityId(cityId)
-                .ticketId(ticketId)
                 .dateTime(dateTime)
                 .build();
 

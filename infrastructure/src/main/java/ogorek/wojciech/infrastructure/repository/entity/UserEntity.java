@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ogorek.wojciech.domain.model.user.User;
+import ogorek.wojciech.domain.model.user.UserFunctors;
 import ogorek.wojciech.domain.model.user.enums.Role;
 
 @Data
@@ -32,17 +33,21 @@ public class UserEntity {
                 .role(role)
                 .build();
     }
+    //todo check it password tez
+    public UserEntity fromUser(User user) {
 
-    public UserEntity fromUser(User user){
+    var toGetUserDto = user.toGetUserDto();
+        //change with password confirmation
+
         return UserEntity
                 .builder()
-                .id(id)
-                .name(name)
-                .surname(surname)
-                .username(username)
-                .password(password)
-                .email(email)
-                .role(role)
+                .id(toGetUserDto.getId())
+                .name(toGetUserDto.getName())
+                .surname(toGetUserDto.getSurname())
+                .username(toGetUserDto.getUsername())
+                .password(UserFunctors.toPassword.apply(user))
+                .email(toGetUserDto.getEmail())
+                .role(toGetUserDto.getRole())
                 .build();
     }
 }

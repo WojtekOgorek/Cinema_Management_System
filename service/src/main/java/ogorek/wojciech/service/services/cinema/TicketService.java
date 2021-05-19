@@ -219,7 +219,7 @@ public class TicketService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    static Map<Occupancy, BigDecimal> discounts() {
+    private static Map<Occupancy, BigDecimal> discounts() {
         return Map.ofEntries(
                 Map.entry(Occupancy.REGULAR, BigDecimal.ZERO),
                 Map.entry(Occupancy.FAMILY, new BigDecimal("0.2")),

@@ -22,6 +22,7 @@ ogorek\wojciech\domain\model\seance\dto\converter\CreateSeanceDtoJsonConverter.c
 ogorek\wojciech\domain\model\statistic\MostPopularTicketTypeInCities$MostPopularTicketTypeInCitiesBuilder.class
 ogorek\wojciech\domain\model\favourite\dto\validator\CreateFavouriteDtoValidator.class
 ogorek\wojciech\domain\model\seat\dto\validator\CreateSeatDtoValidator.class
+ogorek\wojciech\domain\configs\validator\AppDomainException.class
 ogorek\wojciech\domain\model\order\enums\Occupancy.class
 ogorek\wojciech\domain\model\user\dto\validator\CreateUserDtoValidator.class
 ogorek\wojciech\domain\model\city\dto\GetCityWithCinemasDto$GetCityWithCinemasDtoBuilder.class

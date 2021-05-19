@@ -50,11 +50,18 @@ public class CityService {
     }
 
 
-    public GetCityDto updateCity(CreateCityDto createCityDto){
+    public GetCityDto updateCity(Long id, CreateCityDto createCityDto){
         Validator.validate(new CreateCityDtoValidator(), createCityDto);
-        var city = createCityDto.toCity();
+
+
+        var cityToUpdate = City
+                .builder()
+                .id(id)
+                .name(createCityDto.getName())
+                .build();
+
         return cityRepository
-                .update(city)
+                .update(cityToUpdate)
                 .map(City::toGetCityDto)
                 .orElseThrow();
     }
@@ -88,7 +95,7 @@ public class CityService {
 
     public List<GetCityWithCinemasDto> findCityWithCinemasByName(String name){
         return cityRepository
-                .citiesWithCinemas()
+                .findCityWithCinemasByName(name)
                 .stream()
                 .map(CityWithCinemas::getCityWithCinemasDto)
                 .collect(Collectors.toList());
@@ -96,7 +103,7 @@ public class CityService {
 
     //--------------------- STATISTICS MOST POPULAR CITY ---------------------------------------
 
-    
+
     public GetMostPopularCityDto findMostPopularCity(){
         return statisticRepository
                 .findMostPopularCity()

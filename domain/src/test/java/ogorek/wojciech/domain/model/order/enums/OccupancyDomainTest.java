@@ -20,6 +20,6 @@ public class OccupancyDomainTest {
                 .map(Objects::toString)
                 .collect(Collectors.toList());
 
-        assertThat(ocuupancies).containsExactly("FAMILY","GROUP","MINOR","SENIOR","STUDENT");
+        assertThat(ocuupancies).containsExactly("FAMILY","GROUP","MINOR","REGULAR","SENIOR","STUDENT");
     }
 }

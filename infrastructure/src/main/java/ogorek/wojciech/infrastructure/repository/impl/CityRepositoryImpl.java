@@ -21,6 +21,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     private final JdbiCityEntityRepository jdbiCityEntityRepository;
 
+
     @Override
     public List<City> findAll() {
         return jdbiCityEntityRepository

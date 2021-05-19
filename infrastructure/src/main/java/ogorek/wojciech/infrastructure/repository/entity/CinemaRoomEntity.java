@@ -29,13 +29,14 @@ public class CinemaRoomEntity {
     }
 
     public CinemaRoomEntity fromCinemaRoom(CinemaRoom cinemaRoom){
+        var toGetCinemaRoomDto = cinemaRoom.toGetCinemaRoomDto();
         return CinemaRoomEntity
                 .builder()
-                .id(id)
-                .name(name)
-                .rowQuantity(rowQuantity)
-                .placeQuantity(placeQuantity)
-                .cinemaId(cinemaId)
+                .id(toGetCinemaRoomDto.getId())
+                .name(toGetCinemaRoomDto.getName())
+                .rowQuantity(toGetCinemaRoomDto.getRowQuantity())
+                .placeQuantity(toGetCinemaRoomDto.getPlaceQuantity())
+                .cinemaId(toGetCinemaRoomDto.getCinemaId())
                 .build();
     }
 }

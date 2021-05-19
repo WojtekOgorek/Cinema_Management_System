@@ -13,6 +13,5 @@ import java.time.LocalDateTime;
 @Data
 public class GetMostPopularDayByCitiesDto {
     private Long cityId;
-    private Long ticketId;
     private LocalDateTime dateTime;
 }

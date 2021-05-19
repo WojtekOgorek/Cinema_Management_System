@@ -1,8 +1,12 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
+import ogorek.wojciech.domain.model.favourite.dto.CreateFavDto;
 import ogorek.wojciech.domain.model.favourite.dto.converter.CreateFavouriteDtoJsonConverter;
+import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.user.dto.CreateUserDto;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.UserService;
@@ -24,11 +28,13 @@ public class UserRouting {
 
     private final UserService userService;
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     public void initUserRouting() {
 
         //USER GENERAL CRUD/
         // /user
-        path("/user", () -> {
+        path("/api/user", () -> {
 
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
@@ -37,9 +43,7 @@ public class UserRouting {
 
             post("/register", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var userToAdd = new JsonConverter<CreateUserDto>(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for user registration"));
+                var userToAdd = gson.fromJson(request.body(), CreateUserDto.class);
                 return userService.registerUser(userToAdd);
             }, new JsonTransformer());
 
@@ -58,9 +62,7 @@ public class UserRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var userToUpdate = new JsonConverter<CreateUserDto>(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for user update"));
+                    var userToUpdate = gson.fromJson(request.body(), CreateUserDto.class);
                     return userService.updateUser(userToUpdate);
                 }, new JsonTransformer());
 
@@ -87,9 +89,10 @@ public class UserRouting {
                 }, new JsonTransformer());
                 post("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var favToAdd = new CreateFavouriteDtoJsonConverter(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for favourite add"));
+//                    var favToAdd = new CreateFavouriteDtoJsonConverter(request.body())
+//                            .fromJson()
+//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for favourite add"));
+                    var favToAdd = gson.fromJson(request.body(), CreateFavDto.class);
                     return userService.addFavourite(favToAdd);
                 }, new JsonTransformer());
                 get("/genre", (request, response) -> {

@@ -48,7 +48,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
                 .map(Objects::toString)
                 .collect(Collectors.joining(","));
 
-        final String SQL = "select * from" + TABLE_NAME + "where id in (" + IDS + ");";
+        final String SQL = "select * from " + TABLE_NAME + " where id in (" + IDS + ");";
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(SQL)
@@ -58,7 +58,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     @Override
     public Optional<T> findById(ID id) {
-        final String SQL = "select * from" + TABLE_NAME + "where id = :id";
+        final String SQL = "select * from " + TABLE_NAME + " where id = :id";
         return jdbi.withHandle(handle ->
                 handle.createQuery(SQL)
                         .bind("id", id)
@@ -68,7 +68,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     @Override
     public Optional<T> findLast() {
-        final String SQL = "select * from" + TABLE_NAME + "order by id desc limit 1";
+        final String SQL = "select * from " + TABLE_NAME + " order by id desc limit 1";
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(SQL)
@@ -80,8 +80,8 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
     public Optional<T> add(T t) {
         final String COLUMN_NAMES = columnNamesToInsert();
         final String COLUMN_VALUES = columnValuesToInsert(t);
-        final String SQL = "insert into " + TABLE_NAME + "("+ COLUMN_NAMES +") values (" + COLUMN_VALUES +");";
-        var result =jdbi.withHandle(handle -> handle.execute(SQL));
+        final String SQL = "insert into " + TABLE_NAME + " ("+ COLUMN_NAMES +") values (" + COLUMN_VALUES +");";
+        var result = jdbi.withHandle(handle -> handle.execute(SQL));
 
         if(result == 0){
             return Optional.empty();
@@ -92,9 +92,8 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
     @Override
     public Optional<T> update(T t) {
         final String COLUMN_AND_VALUES = columnAndValuesForUpdate(t);
-        final String SQL = "update " + TABLE_NAME + " set (" + COLUMN_AND_VALUES +") where id = " + getId(t);
+        final String SQL = "update " + TABLE_NAME + " set " + COLUMN_AND_VALUES + " where id = " + getId(t);
         var result = jdbi.withHandle(handle -> handle.execute(SQL));
-
         if(result == 0){
             return Optional.empty();
         }
@@ -136,6 +135,8 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
                 .collect(Collectors.joining(","));
     }
 
+
+
     private String columnValuesToInsert(T t){
 
         return Arrays
@@ -174,7 +175,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
                     try{
                         field.setAccessible(true);
                         if(field.getType().equals(String.class)){
-                            return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + "= '" + field.get(t) + "'";
+                            return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = '" + field.get(t) + "'";
                         }
                         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = " + field.get(t);
                     }catch(Exception e){
@@ -185,7 +186,7 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     private ID getId(T t){
         try{
-            Field field = entityType.getField("id");
+            Field field = entityType.getDeclaredField("id");
             field.setAccessible(true);
             return (ID)field.get(t);
         }catch (Exception e){

@@ -32,13 +32,14 @@ public class MovieEntity {
     }
 
     public MovieEntity fromMovie(Movie movie){
+        var toGetMovieDto = movie.toGetMovieDto();
         return MovieEntity
                 .builder()
-                .id(id)
-                .title(title)
-                .genre(genre)
-                .startDate(startDate)
-                .endDate(endDate)
+                .id(toGetMovieDto.getId())
+                .title(toGetMovieDto.getTitle())
+                .genre(toGetMovieDto.getGenre())
+                .startDate(toGetMovieDto.getStartDate())
+                .endDate(toGetMovieDto.getEndDate())
                 .build();
     }
 }

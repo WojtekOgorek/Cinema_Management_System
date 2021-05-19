@@ -1,10 +1,13 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.AppConverterException;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.order.dto.converter.CreateOrderDtoJsonConverter;
+import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
 import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
 import ogorek.wojciech.domain.model.ticket.dto.converter.CreateTicketDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
@@ -30,9 +33,11 @@ public class TicketRouting {
 
     private final TicketService ticketService;
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     public void initUserRouting() {
         // /ticket
-        path("/ticket", () -> {
+        path("/api/ticket", () -> {
 
             //TICKET GENERAL CRUD
             get("", (request, response) -> {
@@ -42,9 +47,10 @@ public class TicketRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var ticketToAdd = new CreateTicketDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket add"));
+//                var ticketToAdd = new CreateTicketDtoJsonConverter(request.body())
+//                        .fromJson()
+//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket add"));
+                var ticketToAdd = gson.fromJson(request.body(), CreateTicketDto.class);
                 return ticketService.addTicket(ticketToAdd);
             }, new JsonTransformer());
 
@@ -63,9 +69,10 @@ public class TicketRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var ticketToUpdate = new CreateTicketDtoJsonConverter(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket update"));
+//                    var ticketToUpdate = new CreateTicketDtoJsonConverter(request.body())
+//                            .fromJson()
+//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket update"));
+                    var ticketToUpdate = gson.fromJson(request.body(), CreateTicketDto.class);
                     return ticketService.updateTicket(ticketToUpdate);
                 }, new JsonTransformer());
 
@@ -76,9 +83,11 @@ public class TicketRouting {
             });
 
             //todo check
-            //ticket?ids=1,2,3,4,5;
-            get("?ids=:ids", (request, response) -> {
+            //ticket/many?ids=1,2,3,4,5;
+            get("/many", (request, response) -> {
+                var params = request.queryParams("ids");
                 response.header(contentTypeHeader, contentTypeHeaderValue);
+
                 var ids =
                         Arrays
                                 .stream(request.params(request.body()).split(","))
@@ -98,9 +107,10 @@ public class TicketRouting {
 
             post("/order", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var tickets = new CreateOrderDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new AppConverterException("Order json body request is invalid"));
+//                var tickets = new CreateOrderDtoJsonConverter(request.body())
+//                        .fromJson()
+//                        .orElseThrow(() -> new AppConverterException("Order json body request is invalid"));
+                var tickets = gson.fromJson(request.body(), CreateOrderDto.class);
                 return ticketService.orderATicket(tickets);
             }, new JsonTransformer());
         });

@@ -1,7 +1,10 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
+import ogorek.wojciech.domain.model.seance.dto.CreateSeanceDto;
 import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
 import ogorek.wojciech.domain.model.seat.dto.converter.CreateSeatDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
@@ -25,17 +28,20 @@ public class SeatRouting {
 
     private final SeatService seatService;
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 
     public void initSeatRouting(){
 
         // /seat
-        path("/seat", () -> {
+        path("/api/seat", () -> {
             //SEATS GENERAL CRUD
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var seatToAdd = new CreateSeatDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seat add"));
+//                var seatToAdd = new CreateSeatDtoJsonConverter(request.body())
+//                        .fromJson()
+//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seat add"));
+                var seatToAdd = gson.fromJson(request.body(), CreateSeatDto.class);
                 return seatService.addSeat(seatToAdd);
             }, new JsonTransformer());
             path("/:id", () -> {

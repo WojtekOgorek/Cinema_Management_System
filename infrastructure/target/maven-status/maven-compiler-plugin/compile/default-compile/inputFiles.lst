@@ -1,4 +1,5 @@
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\MovieEntity.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\web\error\ErrorMessage.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\SeatEntity.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\impl\CityRepositoryImpl.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\SeanceEntity.java
@@ -12,6 +13,7 @@ C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastruct
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiCinemaEntityRepositoryImpl.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\CinemaEntity.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\jdbi\JdbiCinemaRoomEntityRepository.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\web\error\ErrorRouting.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\jdbi\JdbiFavouriteEntityRepository.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\CityEntity.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiMovieEntityRepositoryImpl.java

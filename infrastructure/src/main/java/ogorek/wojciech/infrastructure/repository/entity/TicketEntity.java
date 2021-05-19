@@ -36,15 +36,17 @@ public class TicketEntity {
     }
 
     public TicketEntity fromTicket(Ticket ticket){
+
+        var toGetTicketDto = ticket.toGetTicketDto();
         return TicketEntity
                 .builder()
-                .id(id)
-                .seanceId(seanceId)
-                .seatId(seatId)
-                .price(price)
-                .discount(discount)
-                .state(state)
-                .userId(userId)
+                .id(toGetTicketDto.getId())
+                .seanceId(toGetTicketDto.getSeanceId())
+                .seatId(toGetTicketDto.getSeatId())
+                .price(toGetTicketDto.getPrice())
+                .discount(toGetTicketDto.getDiscount())
+                .state(toGetTicketDto.getState())
+                .userId(toGetTicketDto.getUserId())
                 .build();
     }
 }

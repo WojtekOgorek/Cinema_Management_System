@@ -23,10 +23,11 @@ public class CityEntity {
     }
 
     public CityEntity fromCity(City city){
+        var getCityDto = city.toGetCityDto();
         return CityEntity
                 .builder()
-                .id(id)
-                .name(name)
+                .id(getCityDto.getId())
+                .name(getCityDto.getName())
                 .build();
     }
 }

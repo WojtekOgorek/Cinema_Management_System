@@ -1,8 +1,10 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
+import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
 import ogorek.wojciech.domain.model.seance.dto.CreateSeanceDto;
 import ogorek.wojciech.domain.model.seance.dto.converter.CreateSeanceDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
@@ -25,10 +27,12 @@ public class SeanceRouting {
 
     private final SeanceService seanceService;
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     public void initSeanceRouting() {
 
         // /seances
-        path("/seance", () -> {
+        path("/api/seance", () -> {
 
             //SEANCES GENERAL CRUD
             get("", (request, response) -> {
@@ -38,9 +42,10 @@ public class SeanceRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var seanceToAdd = new CreateSeanceDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance add"));
+//                var seanceToAdd = new CreateSeanceDtoJsonConverter(request.body())
+//                        .fromJson()
+//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance add"));
+                var seanceToAdd = gson.fromJson(request.body(), CreateSeanceDto.class);
                 return seanceService.addSeance(seanceToAdd);
             }, new JsonTransformer());
 
@@ -60,9 +65,10 @@ public class SeanceRouting {
                 put("", (request, response) -> {
 
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var seanceToUpdate = new CreateSeanceDtoJsonConverter(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance update"));
+//                    var seanceToUpdate = new CreateSeanceDtoJsonConverter(request.body())
+//                            .fromJson()
+//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance update"));
+                    var seanceToUpdate = gson.fromJson(request.body(), CreateSeanceDto.class);
                     return seanceService.updateSeance(seanceToUpdate);
                 }, new JsonTransformer());
 

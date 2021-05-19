@@ -25,11 +25,12 @@ public class CinemaEntity {
     }
 
     public CinemaEntity fromCinema(Cinema cinema){
+        var toGetCinemaDto = cinema.toGetCinemaDto();
         return CinemaEntity
                 .builder()
-                .id(id)
-                .name(name)
-                .cityId(cityId)
+                .id(toGetCinemaDto.getId())
+                .name(toGetCinemaDto.getName())
+                .cityId(toGetCinemaDto.getCityId())
                 .build();
     }
 }

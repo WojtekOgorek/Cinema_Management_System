@@ -1,11 +1,11 @@
 ogorek\wojciech\service\services\cinema\SeatService.class
 ogorek\wojciech\service\services\exceptions\AppServiceException.class
-ogorek\wojciech\service\services\security\UserService.class
 ogorek\wojciech\service\services\cinema\TicketService.class
 ogorek\wojciech\service\services\cinema\CinemaRoomService.class
 ogorek\wojciech\service\services\cinema\CinemaService.class
 ogorek\wojciech\service\services\cinema\EmailService$1.class
 ogorek\wojciech\service\services\cinema\MovieService.class
+ogorek\wojciech\service\services\cinema\UserService.class
 ogorek\wojciech\service\services\exceptions\AppTokensServiceException.class
 ogorek\wojciech\service\services\cinema\SeanceService.class
 ogorek\wojciech\service\services\cinema\EmailService.class

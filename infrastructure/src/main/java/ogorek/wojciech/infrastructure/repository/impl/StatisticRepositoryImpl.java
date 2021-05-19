@@ -21,8 +21,8 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     public Optional<MostPopularCity> findMostPopularCity() {
         final String SQL = """
                 select 
-                c.name,
-                count(t.id)
+                c.name as city,
+                count(t.id) as counter
                 from cities c
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id
@@ -41,8 +41,8 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     public List<MostPopularMovieInCities> findMostPopularMovieInCity() {
         final String SQL = """
                 select
-                c.id,
-                count(m.id)
+                c.id as cityId,
+                count(m.id) as movieId
                 from cities c 
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id
@@ -63,14 +63,14 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     public List<MostPopularGenreInCities> findMostPopularGenreInCity() {
         final String SQL = """
                 select
-                c.id,
-                count(m.genre)
+                c.id as cityId,
+                m.genre as genre
                 from cities c 
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id
                 join seances s on cr.id = s.cinema_room_id
                 join movies m on m.id = s.movie_id
-                group by c.name
+                group by c.id
                 order by count(m.genre) desc
                 """;
 
@@ -83,17 +83,18 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     }
 
     @Override
+    //todo checkit
     public List<AvgPricePerUserInCities> findAvgPricePerUserInCities() {
         final String SQL = """
                 select
-                c.name,
-                avg(t.price)
+                c.id as cityId,
+                avg(t.price) as price
                 from cities c
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id
                 join seances s on cr.id = s.cinema_room_id
                 join tickets t on s.id = t.seance_id
-                group by c.name
+                group by c.id
                 order by avg(t.price) desc
                 """;
 
@@ -107,8 +108,8 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     public List<TotalPriceSumByCities> findTotalPriceSumByCities() {
         final String SQL = """
                 select
-                c.id,
-                sum(t.price)
+                c.id as cityId,
+                sum(t.price) as price
                 from cities c 
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id
@@ -126,12 +127,12 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
 
 
     @Override
+    //todo check it
     public List<MostPopularDayByCities> findMostPopularDayByCities() {
         final String SQL = """
                 select
                 s.date_time,
-                c.id,
-                count(t.id)     
+                c.id as cityId  
                 from tickets t 
                 join seances s on s.id = t.seance_id
                 join cinema_rooms cr on cr.id = s.cinema_room_id
@@ -152,8 +153,8 @@ public class StatisticRepositoryImpl  implements StatisticRepository {
     public List<MostPopularTicketTypeInCities> findMostPopularTicketByCities() {
         final String SQL = """
                 select
-                c.id,
-                count(t.state)
+                c.id as cityId,
+                t.state as state
                 from cities c 
                 join cinemas c2 on c.id = c2.city_id
                 join cinema_rooms cr on c2.id = cr.cinema_id

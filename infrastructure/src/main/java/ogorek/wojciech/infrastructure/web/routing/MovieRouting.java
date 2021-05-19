@@ -1,7 +1,10 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.converter.JsonConverter;
+import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
 import ogorek.wojciech.domain.model.movie.dto.converter.CreateMovieDtoJsonConverter;
 import ogorek.wojciech.service.services.cinema.MovieService;
@@ -25,11 +28,13 @@ public class MovieRouting {
 
     private final MovieService movieService;
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 
     public void initMovieRouting() {
 
         // /movies
-        path("/movie", () -> {
+        path("/api/movie", () -> {
 
             //MOVIE GENERAL CRUD
             get("", (request, response) -> {
@@ -39,9 +44,10 @@ public class MovieRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var movieToAdd = new CreateMovieDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalStateException("Invalid json body for movie add"));
+//                var movieToAdd = new CreateMovieDtoJsonConverter(request.body())
+//                        .fromJson()
+//                        .orElseThrow(() -> new IllegalStateException("Invalid json body for movie add"));
+                var movieToAdd = gson.fromJson(request.body(), CreateMovieDto.class);
                 return movieService.addMovie(movieToAdd);
             }, new JsonTransformer());
 
@@ -60,9 +66,10 @@ public class MovieRouting {
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var movieToUpdate = new CreateMovieDtoJsonConverter(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for movie update"));
+//                    var movieToUpdate = new CreateMovieDtoJsonConverter(request.body())
+//                            .fromJson()
+//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for movie update"));
+                    var movieToUpdate = gson.fromJson(request.body(), CreateMovieDto.class);
                     return movieService.updateMovie(movieToUpdate);
 
                 }, new JsonTransformer());

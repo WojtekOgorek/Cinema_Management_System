@@ -1,10 +1,10 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.city.dto.CreateCityDto;
-import ogorek.wojciech.domain.model.city.dto.converter.CreateCityDtoJsonConverter;
-import ogorek.wojciech.domain.model.city.dto.converter.CreateCityDtoListJsonConverter;
+import ogorek.wojciech.infrastructure.web.error.ErrorMessage;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.CityService;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,12 +22,15 @@ public class CityRouting {
     @Value("${http.response.header.content-type}")
     private String contentTypeHeaderValue;
 
+
+    private final JsonTransformer jsonTransformer;
+
     private final CityService cityService;
 
     public void initCityRoutes() {
 
         // /city
-        path("/city", () -> {
+        path("/api/city", () -> {
 
             //CITIES GENERAL CRUD
             get("", (request, response) -> {
@@ -37,99 +40,99 @@ public class CityRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var cityToAdd = new CreateCityDtoJsonConverter(request.body())
-                        .fromJson()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for city"));
+                var cityToAdd = jsonTransformer.fromJson(request.body(), CreateCityDto.class);
                 return cityService.addCity(cityToAdd);
-
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.deleteAllCities();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /city/:id
-            path("/:id", () -> {
-
+            // /api/city/:id
+            path("/id/:id", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cityService.findCityById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return cityService.findCityById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var cityToUpdate = new CreateCityDtoJsonConverter(request.body())
-                            .fromJson()
-                            .orElseThrow(() -> new IllegalArgumentException("invalid json body for city"));
-                    return cityService.updateCity(cityToUpdate);
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    var cityToUpdate = jsonTransformer.fromJson(request.body(), CreateCityDto.class);
+                    return cityService.updateCity(id, cityToUpdate);
+                }, jsonTransformer);
 
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cityService.deleteCity(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return cityService.deleteCity(id);
+                }, jsonTransformer);
             });
-
-            // /city/:name
-            get("/:name", (request, response) -> {
+            // /api/city/name?name=City A
+            get("/name", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return cityService.findCityByName(request.params("name"));
-            }, new JsonTransformer());
+                var name = request.queryParams("name");
+                return cityService.findCityByName(name);
+            }, jsonTransformer);
+
 
 
             //CITIES SPECIAL CRUD
-            // /city/cinema
+            // /api/city/cinema
             path("/cinema", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return cityService.findCitiesWithCinemas();
-                }, new JsonTransformer());
+                }, jsonTransformer);
 
-                // /city/:name/cinema
-                get("/:name", (request, response) -> {
+                // /api/city/cinema/name
+                get("/name", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cityService.findCityWithCinemasByName(request.params("name"));
-                }, new JsonTransformer());
+                    var cityName = request.queryParams("cityName");
+                    return cityService.findCityWithCinemasByName(cityName);
+                }, jsonTransformer);
             });
             //------------------------STATISTICS-------------------------------
-            // /city/mostPopular
+            // /api/city/mostPopular
             get("/mostPopular", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularCity();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             get("/mostPopularMovieInCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularMoviesInCities();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             get("/mostPopularGenreInCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularGenreInCities();
-            }, new JsonTransformer());
+            },jsonTransformer);
 
             get("/avgPricePerUserInCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findAvgPricePerUserInCities();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             get("/totalPriceSumByCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findTotalPriceSumByCities();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             get("/mostPopularDayByCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularDayByCities();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             get("/mostPopularTicketTypeInCities", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cityService.findMostPopularTicketType();
-            }, new JsonTransformer());
+            }, jsonTransformer);
         });
+
     }
 }
 

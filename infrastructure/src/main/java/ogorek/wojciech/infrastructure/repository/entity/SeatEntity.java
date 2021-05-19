@@ -27,12 +27,13 @@ public class SeatEntity {
     }
 
     public SeatEntity fromSeat(Seat seat){
+        var toGetSeatDto = seat.toGetSeatDto();
         return SeatEntity
                 .builder()
-                .id(id)
-                .seatRow(seatRow)
-                .seatPlace(seatPlace)
-                .cinemaRoomId(cinemaRoomId)
+                .id(toGetSeatDto.getId())
+                .seatRow(toGetSeatDto.getSeatRow())
+                .seatPlace(toGetSeatDto.getSeatPlace())
+                .cinemaRoomId(toGetSeatDto.getCinemaRoomId())
                 .build();
     }
 }

@@ -30,12 +30,13 @@ public class FavouriteEntity {
     }
 
     public FavouriteEntity fromFavourite(Favourite favourite){
+        var toGetFavDto = favourite.toGetFavDto();
         return FavouriteEntity
                 .builder()
-                .id(id)
-                .userId(userId)
-                .movieId(movieId)
-                .addDate(addDate)
+                .id(toGetFavDto.getId())
+                .userId(toGetFavDto.getUserId())
+                .movieId(toGetFavDto.getMovieId())
+                .addDate(toGetFavDto.getAddDate())
                 .build();
 
     }

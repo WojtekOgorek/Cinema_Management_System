@@ -29,12 +29,13 @@ public class SeanceEntity {
     }
 
     public SeanceEntity fromSeance(Seance seance){
+        var toGetSeanceDto = seance.toGetSeanceDto();
         return SeanceEntity
                 .builder()
-                .id(id)
-                .movieId(movieId)
-                .cinemaRoomId(cinemaRoomId)
-                .dateTime(dateTime)
+                .id(toGetSeanceDto.getId())
+                .movieId(toGetSeanceDto.getMovieId())
+                .cinemaRoomId(toGetSeanceDto.getCinemaRoomId())
+                .dateTime(toGetSeanceDto.getDateTime())
                 .build();
     }
 }

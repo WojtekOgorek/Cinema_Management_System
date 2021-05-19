@@ -1,8 +1,7 @@
 package ogorek.wojciech.infrastructure;
 
+import ogorek.wojciech.infrastructure.web.error.ErrorRouting;
 import ogorek.wojciech.infrastructure.web.routing.*;
-import ogorek.wojciech.service.services.cinema.*;
-import ogorek.wojciech.service.services.cinema.UserService;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -132,53 +131,44 @@ public class App {
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
-        var cityService = context.getBean("cityService", CityService.class);
-        var cinemaService = context.getBean("cinemaService", CinemaService.class);
-        var cinemaRoomService = context.getBean("cinemaRoomService", CinemaRoomService.class);
-        var movieService = context.getBean("movieService", MovieService.class);
-        var seanceService = context.getBean("seanceService", SeanceService.class);
-        var seatService = context.getBean("seatService", SeatService.class);
-        var ticketService = context.getBean("ticketService", TicketService.class);
-        var userService = context.getBean("userService", UserService.class);
+        /*
+         * -----------------JDBI-----------------
+         *
+         */
 
         var jdbi = context.getBean("jdbi", Jdbi.class);
         createTables(jdbi);
 
 
+        /*
+         * -----------------ROUTES-----------------
+         *
+         */
+
         initExceptionHandler(e -> System.out.println(e.getMessage()));
         port(8081);
 
-        var security = new SecurityFilter();
-        security.routes();
+        var errorRouting = context.getBean("errorRouting", ErrorRouting.class);
+        var securityFilter = context.getBean("securityFilter", SecurityFilter.class);
+        var cityRouting = context.getBean("cityRouting", CityRouting.class);
+        var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
+        var cinemaRoomRouting = context.getBean("cinemaRoomRouting", CinemaRoomRouting.class);
+        var movieRouting = context.getBean("movieRouting", MovieRouting.class);
+        var seanceRouting = context.getBean("seanceRouting", SeanceRouting.class);
+        var seatRouting = context.getBean("seatRouting", SeatRouting.class);
+        var ticketRouting = context.getBean("ticketRouting", TicketRouting.class);
+        var userRouting = context.getBean("userRouting", UserRouting.class);
 
-        var cityRouting = new CityRouting(cityService);
+        securityFilter.initSecurityFilter();
+        errorRouting.initErrorRoutes();
         cityRouting.initCityRoutes();
-
-
-
-//
-//        var cinemaRouting = new CinemaRouting(cinemaService);
-//        cinemaRouting.initCinemaRoutes();
-//
-//        var cinemaRoomRouting = new CinemaRoomRouting(cinemaRoomService);
-//        cinemaRoomRouting.initCinemaRoomRoutes();
-//
-//        var movieRouting = new MovieRouting(movieService);
-//        movieRouting.initMovieRouting();
-//
-//        var seanceRouting = new SeanceRouting(seanceService);
-//        seanceRouting.initSeanceRouting();
-//
-//        var seatRouting = new SeatRouting(seatService);
-//        seatRouting.initSeatRouting();
-//
-//        var ticketRouting = new TicketRouting(ticketService);
-//        ticketRouting.initUserRouting();
-//
-//        var userRouting = new UserRouting(userService);
-//        userRouting.initUserRouting();
-
-
+        cinemaRouting.initCinemaRoutes();
+        cinemaRoomRouting.initCinemaRoomRoutes();
+        movieRouting.initMovieRouting();
+        seanceRouting.initSeanceRouting();
+        seatRouting.initSeatRouting();
+        ticketRouting.initUserRouting();
+        userRouting.initUserRouting();
 
     }
 }
