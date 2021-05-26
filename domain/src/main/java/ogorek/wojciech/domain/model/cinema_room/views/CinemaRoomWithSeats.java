@@ -11,14 +11,12 @@ import ogorek.wojciech.domain.model.ticket.enums.State;
 public class CinemaRoomWithSeats {
     private Long cinemaRoomId;
     private Long seatId;
-    private State state;
 
     public GetCinemaRoomWithSeatsDto toCinemaRoomWithSeatsDto(){
         return GetCinemaRoomWithSeatsDto
                 .builder()
                 .cinemaRoomId(cinemaRoomId)
                 .seatId(seatId)
-                .state(state)
                 .build();
     }
 }

@@ -27,6 +27,7 @@ C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastruct
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiFavouriteEntityRepositoryImpl.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\exception\AbstractCrudRepositoryException.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\FavouriteEntity.java
+C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\web\utils\Permission.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\security\dto\AuthorizedUserDto.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\repository\entity\TicketEntity.java
 C:\Work\KmPrograms\Java\Coding\Projects_GIT\Cinema_Management_System\infrastructure\src\main\java\ogorek\wojciech\infrastructure\security\dto\TokensDto.java

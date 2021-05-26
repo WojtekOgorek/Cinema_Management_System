@@ -16,20 +16,17 @@ public class CinemaRoomWithSeatsDomainTest {
 
         var cinemaRoomId = 1L;
         var seatId = 3L;
-        var state = State.FREE;
 
         var cinemaRoomWithSeats = CinemaRoomWithSeats
                 .builder()
                 .cinemaRoomId(cinemaRoomId)
                 .seatId(seatId)
-                .state(state)
                 .build();
 
         var expectedCinemaRoomWithSeats = GetCinemaRoomWithSeatsDto
                 .builder()
                 .cinemaRoomId(cinemaRoomId)
                 .seatId(seatId)
-                .state(state)
                 .build();
 
         var getCinemaRoomWithSeatsDto = cinemaRoomWithSeats.toCinemaRoomWithSeatsDto();
@@ -43,13 +40,11 @@ public class CinemaRoomWithSeatsDomainTest {
 
         var cinemaRoomId = 1L;
         var seatId = 3L;
-        var state = State.FREE;
 
         var cinemaRoomWithSeats = CinemaRoomWithSeats
                 .builder()
                 .cinemaRoomId(cinemaRoomId)
                 .seatId(seatId)
-                .state(state)
                 .build();
 
         assertThat(cinemaRoomWithSeats).hasFieldOrProperty("cinemaRoomId");

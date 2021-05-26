@@ -21,11 +21,12 @@ public class JdbiFavouriteEntityRepositoryImpl extends AbstractCrudRepository<Fa
         final String SQL = """
                 select
                 f.id,
-                u.id,
-                count(m.genre)
+                u.id as userId,
+                m.genre as genre
                 from favourites f 
                 join users u on u.id = f.user_id
                 join movies m on m.id = f.movie_id
+                where u.id = :id
                 group by u.id
                 order by count(m.genre) desc
                 """;
@@ -37,14 +38,14 @@ public class JdbiFavouriteEntityRepositoryImpl extends AbstractCrudRepository<Fa
     }
 
     @Override
-    public List<Favourite> getUserFavourites(Long userId) {
+    public List<FavouriteEntity> getUserFavourites(Long userId) {
         final String SQL = """
                 select
-                f.id,
-                f.add_date,
-                u.id,
-                m.id
-                from favourites f 
+                f.id as id,
+                u.id as userId,
+                m.id as movieId,
+                f.add_date as addDate
+                from favourites f
                 join users u on u.id = f.user_id
                 join movies m on m.id = f.movie_id
                 where u.id = :id
@@ -52,7 +53,7 @@ public class JdbiFavouriteEntityRepositoryImpl extends AbstractCrudRepository<Fa
         return jdbi.withHandle(handle -> handle
                 .createQuery(SQL)
                 .bind("id", userId)
-                .mapToBean(Favourite.class)
+                .mapToBean(FavouriteEntity.class)
                 .list());
     }
 }

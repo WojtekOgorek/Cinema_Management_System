@@ -26,38 +26,40 @@ public class SeatRouting {
     @Value("${http.response.header.content-type.value")
     private String contentTypeHeaderValue;
 
+    private final JsonTransformer jsonTransformer;
+
     private final SeatService seatService;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
     public void initSeatRouting(){
 
-        // /seat
+        // /api/seat
         path("/api/seat", () -> {
             //SEATS GENERAL CRUD
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var seatToAdd = new CreateSeatDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seat add"));
-                var seatToAdd = gson.fromJson(request.body(), CreateSeatDto.class);
+                var seatToAdd = jsonTransformer.fromJson(request.body(), CreateSeatDto.class);
                 return seatService.addSeat(seatToAdd);
-            }, new JsonTransformer());
-            path("/:id", () -> {
+            }, jsonTransformer);
+
+            path("/id/:id", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return seatService.findSeatById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return seatService.findSeatById(id);
+                }, jsonTransformer);
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return seatService.deleteSeat(Long.parseLong(request.params("id")));
-                },new JsonTransformer());
-                //seat/:id/free
+                    var id = Long.parseLong(request.params("id"));
+                    return seatService.deleteSeat(id);
+                },jsonTransformer);
+                // api/seat/id/:id/free
                 get("/free", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return seatService.isSeatFree(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return seatService.isSeatFree(id);
+                }, jsonTransformer);
             });
 
         });

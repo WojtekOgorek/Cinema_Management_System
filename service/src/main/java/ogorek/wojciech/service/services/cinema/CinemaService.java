@@ -9,6 +9,7 @@ import ogorek.wojciech.domain.model.cinema.repository.CinemaRepository;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithMovies;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithSeances;
+import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.city.repository.CityRepository;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
@@ -51,14 +52,22 @@ public class CinemaService {
                 .orElseThrow();
     }
 
-    public GetCinemaDto updateCinema(CreateCinemaDto createCinemaDto) {
+    public GetCinemaDto updateCinema(Long id, CreateCinemaDto createCinemaDto) {
         Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
         if(cityRepository.findById(createCinemaDto.getCityId()).isEmpty()){
             throw new AppServiceException("There is no such city id in Db - fail adding cinema");
         }
-        var cinema = createCinemaDto.toCinema();
+
+        var cinemaToUpdate = Cinema
+                .builder()
+                .id(id)
+                .name(createCinemaDto.getName())
+                .cityId(createCinemaDto.getCityId())
+                .build();
+
+
         return cinemaRepository
-                .update(cinema)
+                .update(cinemaToUpdate)
                 .map(Cinema::toGetCinemaDto)
                 .orElseThrow();
     }
@@ -101,7 +110,7 @@ public class CinemaService {
 
     public List<GetCinemaWithMoviesDto> findOneCinemaWithMovies(Long id) {
         return cinemaRepository
-                .cinemasWithMovies()
+                .specificCinemaWithMovies(id)
                 .stream()
                 .map(CinemaWithMovies::getCinemaWithMoviesDto)
                 .collect(Collectors.toList());

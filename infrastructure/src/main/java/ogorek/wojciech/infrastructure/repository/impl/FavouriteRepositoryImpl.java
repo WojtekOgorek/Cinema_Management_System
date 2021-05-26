@@ -87,6 +87,9 @@ public class FavouriteRepositoryImpl implements FavouritesRepository {
     @Override
     public List<Favourite> getUserFavourites(Long userId) {
         return jdbiFavouriteEntityRepository
-                .getUserFavourites(userId);
+                .getUserFavourites(userId)
+                .stream()
+                .map(FavouriteEntity::toFavourite)
+                .collect(Collectors.toList());
     }
 }

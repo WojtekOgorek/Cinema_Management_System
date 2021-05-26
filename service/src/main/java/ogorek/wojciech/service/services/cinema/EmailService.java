@@ -5,10 +5,7 @@ import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.math.BigDecimal;
@@ -26,15 +23,20 @@ import static j2html.TagCreator.h1;
 public class EmailService {
 
 
-    private static final String EMAIL_ADDRESS = "<email>";
+    private static final String EMAIL_ADDRESS = "<email_sender>";
     private static final String EMAIL_PASSWORD = "<password>";
 
     private static void send(String to, String title, String html) {
-        System.out.println("SENDING EMAIL MESSAGE ...");
-        Session session = createSession();
-        MimeMessage mimeMessage = new MimeMessage(session);
-        prepareEmailMessage(mimeMessage, to, title, html);
-        System.out.println("EMAIL MESSAGE HAS BEEN SENT");
+        try {
+            System.out.println("SENDING EMAIL MESSAGE ...");
+            Session session = createSession();
+            MimeMessage mimeMessage = new MimeMessage(session);
+            prepareEmailMessage(mimeMessage, to, title, html);
+            Transport.send(mimeMessage);
+            System.out.println("EMAIL MESSAGE HAS BEEN SENT ...");
+        } catch (Exception e) {
+            throw new AppServiceException("Sending an email failed " + e.getMessage());
+        }
     }
 
     private static void prepareEmailMessage(MimeMessage mimeMessage, String to, String title, String html) {

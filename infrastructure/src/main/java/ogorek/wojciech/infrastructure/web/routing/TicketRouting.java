@@ -31,88 +31,83 @@ public class TicketRouting {
     @Value("${http.response.header.content-type.value")
     private String contentTypeHeaderValue;
 
+    private final JsonTransformer jsonTransformer;
+
     private final TicketService ticketService;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void initUserRouting() {
-        // /ticket
+        // /api/ticket
         path("/api/ticket", () -> {
 
             //TICKET GENERAL CRUD
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return ticketService.findAllTickets();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var ticketToAdd = new CreateTicketDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket add"));
-                var ticketToAdd = gson.fromJson(request.body(), CreateTicketDto.class);
+                var ticketToAdd = jsonTransformer.fromJson(request.body(), CreateTicketDto.class);
                 return ticketService.addTicket(ticketToAdd);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return ticketService.deleteAllTickets();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /ticket/:id
-            path("/:id", () -> {
+            // /api/ticket/id/:id
+            path("/id/:id", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return ticketService.findTicketById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return ticketService.findTicketById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-//                    var ticketToUpdate = new CreateTicketDtoJsonConverter(request.body())
-//                            .fromJson()
-//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for ticket update"));
-                    var ticketToUpdate = gson.fromJson(request.body(), CreateTicketDto.class);
-                    return ticketService.updateTicket(ticketToUpdate);
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    var ticketToUpdate = jsonTransformer.fromJson(request.body(), CreateTicketDto.class);
+                    return ticketService.updateTicket(id, ticketToUpdate);
+                }, jsonTransformer);
 
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return ticketService.deleteTicket(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return ticketService.deleteTicket(id);
+                }, jsonTransformer);
             });
 
-            //todo check
-            //ticket/many?ids=1,2,3,4,5;
+            //  /api/ticket/many?ids=1,2,3,4,5;
             get("/many", (request, response) -> {
                 var params = request.queryParams("ids");
                 response.header(contentTypeHeader, contentTypeHeaderValue);
 
-                var ids =
-                        Arrays
-                                .stream(request.params(request.body()).split(","))
-                                .mapToLong(Long::getLong)
-                                .boxed()
-                                .collect(Collectors.toList());
+                var ids = Arrays
+                        .stream(params.split(","))
+                        .map(Long::parseLong)
+                        .collect(Collectors.toList());
+
+
                 return ticketService.findAllTicketsByIds(ids);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             //SPECIAL TICKETS CRUD
-            //ticket/:username
-            get("/:username", (request, response) -> {
+            //  /api/ticket/username?username=Username 1
+            get("/username", (request, response) -> {
+                var params = request.queryParams("username");
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return ticketService.findTicketByUsername(request.params("username"));
-            }, new JsonTransformer());
+                return ticketService.findTicketByUsername(params);
+            }, jsonTransformer);
 
-
+            // /api/ticket/order
             post("/order", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var tickets = new CreateOrderDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new AppConverterException("Order json body request is invalid"));
-                var tickets = gson.fromJson(request.body(), CreateOrderDto.class);
+                var tickets = jsonTransformer.fromJson(request.body(), CreateOrderDto.class);
                 return ticketService.orderATicket(tickets);
-            }, new JsonTransformer());
+            }, jsonTransformer);
         });
     }
 }

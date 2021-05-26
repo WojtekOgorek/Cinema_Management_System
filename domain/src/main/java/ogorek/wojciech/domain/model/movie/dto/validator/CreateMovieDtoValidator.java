@@ -40,6 +40,7 @@ public class CreateMovieDtoValidator implements Validator<CreateMovieDto> {
         return title != null && title.matches("[A-Z][a-z]{0,20}( [A-Z][a-z]{0,20})?");
     }
     private boolean isMovieGenreValid(String genre){
+        //todo check it
         return genre != null && genre.matches("[A-Z][a-z]{0,20}( [A-Z][a-z]{0,20})?");
     }
 

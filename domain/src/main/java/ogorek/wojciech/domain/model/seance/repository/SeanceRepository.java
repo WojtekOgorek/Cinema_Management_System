@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface SeanceRepository extends CrudRepository<Seance, Long> {
 
-    List<SeanceByDate> getSeanceByDate(String dateFrom, String dateTo);
+    List<SeanceByDate> getSeanceByDateTicketsReserved(String dateFrom, String dateTo);
+    List<SeanceByDate> getSeanceByDateTicketsBought(String dateFrom, String dateTo);
 }

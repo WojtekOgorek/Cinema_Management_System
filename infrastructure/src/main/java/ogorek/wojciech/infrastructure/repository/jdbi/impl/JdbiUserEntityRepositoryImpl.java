@@ -20,8 +20,8 @@ public class JdbiUserEntityRepositoryImpl extends AbstractCrudRepository<UserEnt
     public List<UserWithTicket> getUserWithTickets(Long userId) {
         final String SQL = """
                      select 
-                       u.id,
-                       t.id
+                       u.id as userId,
+                       t.id as ticketId
                        from users u 
                        join tickets t on u.id = t.user_id
                        where u.id = :id                 
@@ -38,11 +38,11 @@ public class JdbiUserEntityRepositoryImpl extends AbstractCrudRepository<UserEnt
     public List<UserHistory> getUserHistory(Long userId) {
         final String SQL = """
                 select
-                u.id,
-                c.name,
-                m.title,
-                s.date_time,
-                t.price
+                u.id as userId,
+                c.name as cinemaName,
+                m.title as movieTitle,
+                s.date_time as dateTime,
+                t.price as price
                 from tickets t
                 join users u on u.id = t.user_id
                 join seances s on s.id = t.seance_id
@@ -70,9 +70,10 @@ public class JdbiUserEntityRepositoryImpl extends AbstractCrudRepository<UserEnt
                 """;
         return jdbi.withHandle(handle -> handle
                 .createQuery(SQL)
-                .bind("name", name)).bind("surname", surname)
+                .bind("name", name)
+                .bind("surname", surname)
                 .mapToBean(UserEntity.class)
-                .findFirst();
+                .findFirst());
     }
 
     @Override

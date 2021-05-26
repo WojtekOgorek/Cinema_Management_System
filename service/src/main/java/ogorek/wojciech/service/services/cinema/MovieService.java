@@ -2,6 +2,7 @@ package ogorek.wojciech.service.services.cinema;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
+import ogorek.wojciech.domain.model.cinema.Cinema;
 import ogorek.wojciech.domain.model.movie.Movie;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
 import ogorek.wojciech.domain.model.movie.dto.GetMovieDto;
@@ -41,11 +42,20 @@ public class MovieService {
                 .orElseThrow();
     }
 
-    public GetMovieDto updateMovie(CreateMovieDto createMovieDto){
+    public GetMovieDto updateMovie(Long id, CreateMovieDto createMovieDto){
         Validator.validate(new CreateMovieDtoValidator(), createMovieDto);
-        var movie = createMovieDto.toMovie();
+
+        var movieToUpdate = Movie
+                .builder()
+                .id(id)
+                .title(createMovieDto.getTitle())
+                .genre(createMovieDto.getGenre())
+                .startDate(createMovieDto.getStartDate())
+                .endDate(createMovieDto.getEndDate())
+                .build();
+
         return movieRepository
-                .update(movie)
+                .update(movieToUpdate)
                 .map(Movie::toGetMovieDto)
                 .orElseThrow();
     }

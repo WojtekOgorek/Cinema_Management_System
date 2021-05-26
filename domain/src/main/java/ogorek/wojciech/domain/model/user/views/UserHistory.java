@@ -14,7 +14,7 @@ public class UserHistory {
     private Long userId;
     private String cinemaName;
     private String movieTitle;
-    private LocalDateTime date_time;
+    private LocalDateTime dateTime;
     private BigDecimal price;
 
     public GetUserHistoryDto toGetUserHistoryDto(){
@@ -23,7 +23,7 @@ public class UserHistory {
                 .userId(userId)
                 .cinemaName(cinemaName)
                 .movieTitle(movieTitle)
-                .date_time(date_time)
+                .date_time(dateTime)
                 .price(price)
                 .build();
     }

@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Encoder;
 import io.jsonwebtoken.io.EncodingException;
 import lombok.RequiredArgsConstructor;
+import ogorek.wojciech.domain.model.user.User;
 import ogorek.wojciech.domain.model.user.UserFunctors;
 import ogorek.wojciech.domain.model.user.repository.UserRepository;
 import ogorek.wojciech.infrastructure.security.dto.AuthenticationDto;
@@ -93,7 +94,26 @@ public class AppTokenService {
     */
 
     public AuthorizedUserDto parseToken(String header){
-        return AuthorizedUserDto.builder().build();
+        if (header == null) {
+            throw new AppTokensServiceException("Header is null");
+        }
+
+        if (!header.startsWith(tokensPrefix)) {
+            throw new AppTokensServiceException("Header has invalid format");
+        }
+
+        var token = header.replace(tokensPrefix, "");
+        var userId = id(token);
+        var getUserDto = userRepository
+                .findById(userId)
+                .map(User::toGetUserDto)
+                .orElseThrow();
+
+        return AuthorizedUserDto.builder()
+                .id(getUserDto.getId())
+                .username(getUserDto.getUsername())
+                .role(getUserDto.getRole())
+                .build();
     }
 
     private Claims claims(String token) {

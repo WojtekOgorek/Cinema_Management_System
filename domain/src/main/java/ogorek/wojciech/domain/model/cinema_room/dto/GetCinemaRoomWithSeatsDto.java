@@ -13,5 +13,4 @@ import ogorek.wojciech.domain.model.ticket.enums.State;
 public class GetCinemaRoomWithSeatsDto {
     private Long cinemaRoomId;
     private Long seatId;
-    private State state;
 }

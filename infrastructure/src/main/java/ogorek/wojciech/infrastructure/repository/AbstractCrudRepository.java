@@ -177,6 +177,15 @@ public class AbstractCrudRepository<T, ID> implements CrudRepository<T, ID> {
                         if(field.getType().equals(String.class)){
                             return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = '" + field.get(t) + "'";
                         }
+                        if(field.getType().equals(LocalDateTime.class)){
+                            var localDateTime = (LocalDateTime)field.get(t);
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            String formattedLocalDateTime = localDateTime.format(formatter);
+                            return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = '" + formattedLocalDateTime + "'";
+                        }
+                        if(Enum.class.isAssignableFrom(field.getType())){
+                            return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = '" + field.get(t) + "'";
+                        }
                         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()) + " = " + field.get(t);
                     }catch(Exception e){
                         throw new AbstractCrudRepositoryException("updating column and values is invalid: " + e.getMessage());

@@ -13,18 +13,19 @@ import java.util.List;
 @Repository
 public class JdbiCinemaRoomEntityRepositoryImpl extends AbstractCrudRepository<CinemaRoomEntity, Long> implements JdbiCinemaRoomEntityRepository {
 
-    public JdbiCinemaRoomEntityRepositoryImpl(Jdbi jdbi){super (jdbi);}
+    public JdbiCinemaRoomEntityRepositoryImpl(Jdbi jdbi) {
+        super(jdbi);
+    }
 
     @Override
     public List<CinemaRoomWithSeats> specificCinemaRoomWithSeats(Long cinemaRoomId) {
         final String SQL = """
-                select cr.id,
-                       s.id,         
-                       t.state
+                select
+                cr.id as cinemaRoomId,
+                s.id as seatId
                 from cinema_rooms cr
-                         join seats s on cr.id = s.cinema_room_id
-                         join tickets t on s.id = t.seat_id
-                         where cr.id = :id
+                join seats s on cr.id = s.cinema_room_id
+                where cr.id = :id
                 """;
 
         return jdbi.withHandle(handle -> handle
@@ -37,8 +38,8 @@ public class JdbiCinemaRoomEntityRepositoryImpl extends AbstractCrudRepository<C
     @Override
     public List<CinemaRoomWithSeance> specificCinemaRoomWithSeances(Long cinemaRoomId) {
         final String SQL = """
-                    select cr.id,
-                           s.id
+                    select cr.id as cinemaRoomId,
+                           s.id as seanceId
                            from cinema_rooms cr
                            join seances s on cr.id = s.cinema_room_id
                            where cr.id = :id

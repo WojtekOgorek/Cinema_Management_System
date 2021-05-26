@@ -21,7 +21,9 @@ public class JdbiCinemaEntityRepositoryImpl extends AbstractCrudRepository<Cinem
     public List<CinemaWithCinemaRooms> cinemasWithCinemaRooms() {
 
         final String SQL = """
-                select c.id, cr.id
+                select
+                c.id as cinemaId,
+                cr.id as cinemaRoomId
                 from cinemas c join cinema_rooms cr on c.id = cr.cinema_id
                 """;
 
@@ -36,7 +38,9 @@ public class JdbiCinemaEntityRepositoryImpl extends AbstractCrudRepository<Cinem
     @Override
     public List<CinemaWithCinemaRooms> specificCinemaWithCinemaRooms(Long cinemaId) {
         final String SQL = """
-                select c.id, cr.id
+                select
+                c.id as cinemaId,
+                cr.id as cinemaRoomId
                 from cinemas c join cinema_rooms cr on c.id = cr.cinema_id
                 where c.id = :id
                 """;
@@ -53,8 +57,11 @@ public class JdbiCinemaEntityRepositoryImpl extends AbstractCrudRepository<Cinem
     @Override
     public List<CinemaWithMovies> cinemasWithMovies() {
         final String SQL = """
-                select c.id, m.title, s.id
-                from cinemas c 
+                select
+                c.id as cinemaId,
+                m.id as movieId,
+                s.id as seanceId
+                from cinemas c
                 join cities c2 on c2.id = c.city_id
                 join cinema_rooms cr on c.id = cr.cinema_id
                 join seances s on cr.id = s.cinema_room_id
@@ -70,7 +77,10 @@ public class JdbiCinemaEntityRepositoryImpl extends AbstractCrudRepository<Cinem
     @Override
     public List<CinemaWithMovies> specificCinemaWithMovies(Long cinemaId) {
         final String SQL = """
-                select c.id, m.title, s.id
+                select
+                c.id as cinemaId,
+                m.id as movieId,
+                s.id as seanceId
                 from cinemas c 
                 join cities c2 on c2.id = c.city_id
                 join cinema_rooms cr on c.id = cr.cinema_id
@@ -90,13 +100,13 @@ public class JdbiCinemaEntityRepositoryImpl extends AbstractCrudRepository<Cinem
     @Override
     public List<CinemaWithSeances> specificCinemaWithSeances(Long cinemaId) {
         final String SQL = """
-                select c.id,
-                        s.id
-                       from seances s 
-                       join cinema_rooms cr on cr.id = s.cinema_room_id 
-                       join cinemas c on c.id = cr.cinema_id
-                       where c.id = :id
-                                
+                select
+                c.id as cinemaId,
+                s.id as seanceId
+                from seances s 
+                join cinema_rooms cr on cr.id = s.cinema_room_id 
+                join cinemas c on c.id = cr.cinema_id
+                where c.id = :id            
                 """;
         return jdbi.withHandle(handle ->
                 handle

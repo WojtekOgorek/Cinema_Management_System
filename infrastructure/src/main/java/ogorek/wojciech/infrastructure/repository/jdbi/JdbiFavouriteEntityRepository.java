@@ -10,6 +10,6 @@ import java.util.List;
 public interface JdbiFavouriteEntityRepository extends CrudRepository<FavouriteEntity, Long> {
 
     List<FavouriteUserGenre> findFavouritesUserGenre(Long id);
-    List<Favourite> getUserFavourites(Long userId);
+    List<FavouriteEntity> getUserFavourites(Long userId);
 
 }

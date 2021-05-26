@@ -61,7 +61,7 @@ public class CinemaRoomRepositoryImpl implements CinemaRoomRepository {
     @Override
     public Optional<CinemaRoom> update(CinemaRoom cinemaRoom) {
         return jdbiCinemaRoomEntityRepository
-                .add(new CinemaRoomEntity().fromCinemaRoom(cinemaRoom))
+                .update(new CinemaRoomEntity().fromCinemaRoom(cinemaRoom))
                 .map(CinemaRoomEntity::toCinemaRoom);
     }
 

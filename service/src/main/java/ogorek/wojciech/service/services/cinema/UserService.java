@@ -54,7 +54,7 @@ public class UserService {
     public GetUserDto registerUser(CreateUserDto createUserDto) {
         Validator.validate(new CreateUserDtoValidator(), createUserDto);
 
-        if(userRepository.getUserByUsername(createUserDto.getUsername()).isPresent()){
+        if (userRepository.getUserByUsername(createUserDto.getUsername()).isPresent()) {
             throw new AppServiceException("Fail to register user. Username has already been taken " + createUserDto.getUsername());
         }
         var user = createUserDto.toUser();
@@ -66,13 +66,26 @@ public class UserService {
 
     }
 
-    public Long updateUser(CreateUserDto createUserDto) {
+    public Long updateUser(Long id, CreateUserDto createUserDto) {
         Validator.validate(new CreateUserDtoValidator(), createUserDto);
+        if(!createUserDto.getPassword().equals(createUserDto.getPasswordConfirmation())){
+            throw new AppServiceException("Updating user password confirmation failed");
+        }
 
-        var user = createUserDto.toUser();
-        user.setPassword(passwordEncoder);
+        var userToUpdate = User
+                .builder()
+                .id(id)
+                .name(createUserDto.getName())
+                .surname(createUserDto.getSurname())
+                .username(createUserDto.getUsername())
+                .email(createUserDto.getEmail())
+                .role(createUserDto.getRole())
+                .password(createUserDto.getPassword())
+                .build();
+
+        userToUpdate.setPassword(passwordEncoder);
         return userRepository
-                .update(user)
+                .update(userToUpdate)
                 .map(UserFunctors.toId)
                 .orElseThrow();
     }
@@ -113,7 +126,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public GetUserDto findUserIdByUsername(String username){
+    public GetUserDto findUserIdByUsername(String username) {
         return userRepository
                 .getUserByUsername(username)
                 .map(User::toGetUserDto)
@@ -131,6 +144,7 @@ public class UserService {
                 .map(Favourite::toGetFavDto)
                 .collect(Collectors.toList());
     }
+
     public List<GetFavUserGenreDto> findFavouritesUserGenre(Long id) {
         return favouritesRepository
                 .findFavouritesUserGenre(id)
@@ -139,7 +153,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public GetFavDto addFavourite(CreateFavDto createFavDto){
+    public GetFavDto addFavourite(CreateFavDto createFavDto) {
         Validator.validate(new CreateFavouriteDtoValidator(), createFavDto);
         var favourite = createFavDto.toFavourite();
         return favouritesRepository

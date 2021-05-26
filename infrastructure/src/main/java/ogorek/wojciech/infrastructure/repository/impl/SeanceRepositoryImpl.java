@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.seance.Seance;
 import ogorek.wojciech.domain.model.seance.repository.SeanceRepository;
 import ogorek.wojciech.domain.model.seance.views.SeanceByDate;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.SeanceEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiSeanceEntityRepository;
-import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -80,8 +78,13 @@ public class SeanceRepositoryImpl implements SeanceRepository {
     }
 
     @Override
-    public List<SeanceByDate> getSeanceByDate(String dateFrom, String dateTo) {
+    public List<SeanceByDate> getSeanceByDateTicketsReserved(String dateFrom, String dateTo) {
         return jdbiSeanceEntityRepository
-                .getSeanceByDate(dateFrom,dateTo);
+                .getSeanceByDateTicketsReserved(dateFrom,dateTo);
+    }
+    @Override
+    public List<SeanceByDate> getSeanceByDateTicketsBought(String dateFrom, String dateTo) {
+        return jdbiSeanceEntityRepository
+                .getSeanceByDateTicketsBought(dateFrom,dateTo);
     }
 }

@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface JdbiSeanceEntityRepository extends CrudRepository<SeanceEntity,Long> {
 
-    List<SeanceByDate> getSeanceByDate(String dateFrom, String dateTo);
+    List<SeanceByDate> getSeanceByDateTicketsReserved(String dateFrom, String dateTo);
+    List<SeanceByDate> getSeanceByDateTicketsBought(String dateFrom, String dateTo);
 }

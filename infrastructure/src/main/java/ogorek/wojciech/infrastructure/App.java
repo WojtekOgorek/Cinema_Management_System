@@ -2,9 +2,14 @@ package ogorek.wojciech.infrastructure;
 
 import ogorek.wojciech.infrastructure.web.error.ErrorRouting;
 import ogorek.wojciech.infrastructure.web.routing.*;
+import ogorek.wojciech.service.services.cinema.SeatService;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static spark.Spark.initExceptionHandler;
 import static spark.Spark.port;
@@ -102,7 +107,7 @@ public class App {
                     );
                 """;
         final String FAVOURITES_SQL = """
-                create table if not exists favourite (
+                create table if not exists favourites (
                 id integer primary key auto_increment,
                 add_date timestamp, 
                 user_id integer,
@@ -169,6 +174,17 @@ public class App {
         seatRouting.initSeatRouting();
         ticketRouting.initUserRouting();
         userRouting.initUserRouting();
+
+        /*
+         * -----------------SEAT CHECKER-----------------
+         *
+         */
+
+        var seatService = context.getBean("seatService", SeatService.class);
+        var checker = seatService.seatReservationChecker();
+        ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
+
+        schedule.scheduleWithFixedDelay(checker, 10, 60, TimeUnit.SECONDS);
 
     }
 }

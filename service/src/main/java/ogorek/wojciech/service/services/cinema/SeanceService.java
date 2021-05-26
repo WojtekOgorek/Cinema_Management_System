@@ -11,6 +11,7 @@ import ogorek.wojciech.domain.model.seance.dto.GetSeanceDto;
 import ogorek.wojciech.domain.model.seance.dto.validator.CreateSeanceDtoValidator;
 import ogorek.wojciech.domain.model.seance.repository.SeanceRepository;
 import ogorek.wojciech.domain.model.seance.views.SeanceByDate;
+import ogorek.wojciech.domain.model.ticket.enums.State;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class SeanceService {
     private final MovieRepository movieRepository;
     private final CinemaRoomRepository cinemaRoomRepository;
 
-    public List<GetSeanceDto> findAllSeances(){
+    public List<GetSeanceDto> findAllSeances() {
         return seanceRepository
                 .findAll()
                 .stream()
@@ -32,18 +33,18 @@ public class SeanceService {
                 .collect(Collectors.toList());
     }
 
-    public GetSeanceDto findSeanceById(Long id){
+    public GetSeanceDto findSeanceById(Long id) {
         return seanceRepository
                 .findById(id)
                 .map(Seance::toGetSeanceDto)
                 .orElseThrow();
     }
 
-    public GetSeanceDto addSeance(CreateSeanceDto createSeanceDto){
+    public GetSeanceDto addSeance(CreateSeanceDto createSeanceDto) {
         Validator.validate(new CreateSeanceDtoValidator(), createSeanceDto);
-        if(movieRepository.findById(createSeanceDto.getMovieId()).isEmpty()){
+        if (movieRepository.findById(createSeanceDto.getMovieId()).isEmpty()) {
             throw new AppServiceException("Fail to add seance. There is no such movie id in Db " + createSeanceDto.getMovieId());
-        }else if(cinemaRoomRepository.findById(createSeanceDto.getCinemaRoomId()).isEmpty()){
+        } else if (cinemaRoomRepository.findById(createSeanceDto.getCinemaRoomId()).isEmpty()) {
             throw new AppServiceException("Fail to add seance. There is no such cinemaRoom id in Db " + createSeanceDto.getCinemaRoomId());
         }
         var seance = createSeanceDto.toSeance();
@@ -53,38 +54,53 @@ public class SeanceService {
                 .orElseThrow();
     }
 
-    public GetSeanceDto updateSeance(CreateSeanceDto createSeanceDto){
+    public GetSeanceDto updateSeance(Long id, CreateSeanceDto createSeanceDto) {
         Validator.validate(new CreateSeanceDtoValidator(), createSeanceDto);
-        var seance = createSeanceDto.toSeance();
-        if(movieRepository.findById(createSeanceDto.getMovieId()).isEmpty()){
+        if (movieRepository.findById(createSeanceDto.getMovieId()).isEmpty()) {
             throw new AppServiceException("Fail to update seance. There is no such movie id in Db " + createSeanceDto.getMovieId());
-        }else if(cinemaRoomRepository.findById(createSeanceDto.getCinemaRoomId()).isEmpty()){
+        } else if (cinemaRoomRepository.findById(createSeanceDto.getCinemaRoomId()).isEmpty()) {
             throw new AppServiceException("Fail to update seance. There is no such cinemaRoom id in Db " + createSeanceDto.getCinemaRoomId());
         }
+        var seanceToUpdate = Seance
+                .builder()
+                .id(id)
+                .cinemaRoomId(createSeanceDto.getCinemaRoomId())
+                .dateTime(createSeanceDto.getDateTime())
+                .movieId(createSeanceDto.getMovieId())
+                .build();
+
         return seanceRepository
-                .update(seance)
+                .update(seanceToUpdate)
                 .map(Seance::toGetSeanceDto)
                 .orElseThrow();
     }
 
-    public GetSeanceDto deleteSeance(Long id){
+    public GetSeanceDto deleteSeance(Long id) {
         return seanceRepository
                 .delete(id)
                 .map(Seance::toGetSeanceDto)
                 .orElseThrow();
     }
 
-    public boolean deleteAllSeances(){
+    public boolean deleteAllSeances() {
         return seanceRepository
                 .deleteAll();
     }
 
-    public List<GetSeanceByDateDto> findSeancesByDate(String from, String to){
-        return seanceRepository
-                .getSeanceByDate(from, to)
-                .stream()
-                .map(SeanceByDate::toGetSeanceByDateDto)
-                .collect(Collectors.toList());
+    public List<GetSeanceByDateDto> findSeancesByDate(String from, String to, String state) {
+
+        return state.toUpperCase().equals(String.valueOf(State.RESERVED)) ?
+                seanceRepository
+                        .getSeanceByDateTicketsReserved(from, to)
+                        .stream()
+                        .map(SeanceByDate::toGetSeanceByDateDto)
+                        .collect(Collectors.toList())
+                :
+                seanceRepository
+                        .getSeanceByDateTicketsBought(from, to)
+                        .stream()
+                        .map(SeanceByDate::toGetSeanceByDateDto)
+                        .collect(Collectors.toList());
     }
 
 }

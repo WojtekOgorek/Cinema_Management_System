@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -67,7 +64,7 @@ public class TicketService {
                 .stream()
                 .map(Ticket::toGetTicketDto)
                 .findFirst()
-                .orElseThrow(() -> new AppServiceException("Fail fiding a this ticket id in db: " + id));
+                .orElseThrow(() -> new AppServiceException("Fail finding a this ticket id in db: " + id));
     }
 
     public GetTicketDto addTicket(CreateTicketDto createTicketDto) {
@@ -90,7 +87,7 @@ public class TicketService {
                 .orElseThrow();
     }
 
-    public GetTicketDto updateTicket(CreateTicketDto createTicketDto) {
+    public GetTicketDto updateTicket(Long id, CreateTicketDto createTicketDto) {
         Validator.validate(new CreateTicketDtoValidator(), createTicketDto);
 
         if (userRepository.findById(createTicketDto.getUserId()).isEmpty()) {
@@ -103,9 +100,21 @@ public class TicketService {
             throw new AppServiceException("Fail to add ticket. There is no such seat id in db");
         }
 
-        var ticket = createTicketDto.toTicket();
+
+        var ticketToUpdate = Ticket
+                .builder()
+                .id(id)
+                .seatId(createTicketDto.getSeatId())
+                .userId(createTicketDto.getUserId())
+                .seanceId(createTicketDto.getSeanceId())
+                .price(createTicketDto.getPrice())
+                .state(createTicketDto.getState())
+                .discount(createTicketDto.getDiscount())
+                .build();
+
+
         return ticketRepository
-                .update(ticket)
+                .update(ticketToUpdate)
                 .map(Ticket::toGetTicketDto)
                 .orElseThrow();
     }
@@ -150,17 +159,22 @@ public class TicketService {
                     .map(SeatOccupancyDto::getSeatId)
                     .collect(Collectors.toList());
 
+
             if (!seatService.getSeatState(seatIds)) {
                 throw new AppServiceException("order dto is invalid - seats are not free");
             }
 
-            var user = userRepository
-                    .getUserByUsername(createOrderDto.getUsername())
-                    .orElseThrow(() -> new AppServiceException("create order dto username is invalid. There is no such user in db"));
-
             var createTicketsDto = getTickets(createOrderDto);
             var totalPrice = totalPrice(createTicketsDto);
+            var user = userRepository
+                    .getUserByUsername(createOrderDto.getUsername())
+                    .flatMap(userId -> userRepository.findById(userId.toGetUserDto().getId()))
+                    .orElseThrow(() -> new AppServiceException("create order dto username is invalid. There is no such user in db"));
+
+            createTicketsDto.stream().map(this::addTicket);
+
             emailService.orderToMail(user.toGetUserDto().getEmail(), createTicketsDto, totalPrice);
+
 
             return createTicketsDto
                     .stream()

@@ -1,12 +1,7 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.favourite.dto.CreateFavDto;
-import ogorek.wojciech.domain.model.favourite.dto.converter.CreateFavouriteDtoJsonConverter;
-import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
 import ogorek.wojciech.domain.model.user.dto.CreateUserDto;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.UserService;
@@ -26,91 +21,98 @@ public class UserRouting {
     @Value("${http.response.header.content-type.value")
     private String contentTypeHeaderValue;
 
-    private final UserService userService;
+    private final JsonTransformer jsonTransformer;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final UserService userService;
 
     public void initUserRouting() {
 
         //USER GENERAL CRUD/
-        // /user
+        // /api/user
         path("/api/user", () -> {
 
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return userService.findAllUsers();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             post("/register", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var userToAdd = gson.fromJson(request.body(), CreateUserDto.class);
+                var userToAdd = jsonTransformer.fromJson(request.body(), CreateUserDto.class);
                 return userService.registerUser(userToAdd);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return userService.deleteAllUsers();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /user/:id
-            path("/:id", () -> {
+            // /api/user/id/:id
+            path("/id/:id", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findUserById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.findUserById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    var userToUpdate = gson.fromJson(request.body(), CreateUserDto.class);
-                    return userService.updateUser(userToUpdate);
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    var userToUpdate = jsonTransformer.fromJson(request.body(), CreateUserDto.class);
+                    return userService.updateUser(id, userToUpdate);
+                }, jsonTransformer);
 
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.deleteUser(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.deleteUser(id);
+                }, jsonTransformer);
             });
             //USER SPECIAL CRUD
 
-            // /user/:name/:surname
-            get("/:name/:surname", (request, response) -> {
+            // /user/name&surname?name=Joe&surname=Doe
+            get("/name&surname", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return userService.findUserByNameAndSurname(request.params("name"), request.params("surname"));
-            }, new JsonTransformer());
+                var paramName = request.queryParams("name");
+                var paramSurname = request.queryParams("surname");
+                return userService.findUserByNameAndSurname(paramName, paramSurname);
+            }, jsonTransformer);
 
-            //user/:id
-
-            path("/:id", () -> {
-                //users/:id/favourite
+            // /api/user/id/:id
+            path("/id/:id", () -> {
+                //user/id/:id/favourite
                 get("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findUserFavourites(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.findUserFavourites(id);
+                }, jsonTransformer);
+
                 post("/favourite", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-//                    var favToAdd = new CreateFavouriteDtoJsonConverter(request.body())
-//                            .fromJson()
-//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for favourite add"));
-                    var favToAdd = gson.fromJson(request.body(), CreateFavDto.class);
+                    var favToAdd = jsonTransformer.fromJson(request.body(), CreateFavDto.class);
                     return userService.addFavourite(favToAdd);
-                }, new JsonTransformer());
+                }, jsonTransformer);
+
                 get("/genre", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findFavouritesUserGenre(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
-                //users/:id/ticket
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.findFavouritesUserGenre(id);
+                }, jsonTransformer);
+
+                //users/id/:id/ticket
                 get("/ticket", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findUserWithTicket(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.findUserWithTicket(id);
+                }, jsonTransformer);
 
-                //users/:id/history
+                //users/id/:id/history
                 get("/history", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return userService.findUserHistory(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
-
+                    var id = Long.parseLong(request.params("id"));
+                    return userService.findUserHistory(id);
+                }, jsonTransformer);
             });
 
         });

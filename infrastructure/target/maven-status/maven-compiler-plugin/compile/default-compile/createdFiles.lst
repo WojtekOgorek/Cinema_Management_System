@@ -1,5 +1,6 @@
 ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiCinemaRoomEntityRepositoryImpl.class
 ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiTicketEntityRepositoryImpl.class
+ogorek\wojciech\infrastructure\web\utils\Permission$PermissionBuilder.class
 ogorek\wojciech\infrastructure\repository\jdbi\impl\JdbiSeanceEntityRepositoryImpl.class
 ogorek\wojciech\infrastructure\repository\impl\CinemaRepositoryImpl.class
 ogorek\wojciech\infrastructure\security\dto\TokensDto$TokensDtoBuilder.class
@@ -68,3 +69,4 @@ ogorek\wojciech\infrastructure\repository\entity\SeatEntity$SeatEntityBuilder.cl
 ogorek\wojciech\infrastructure\repository\impl\UserRepositoryImpl.class
 ogorek\wojciech\infrastructure\repository\entity\UserEntity.class
 ogorek\wojciech\infrastructure\web\routing\SeanceRouting.class
+ogorek\wojciech\infrastructure\web\utils\Permission.class

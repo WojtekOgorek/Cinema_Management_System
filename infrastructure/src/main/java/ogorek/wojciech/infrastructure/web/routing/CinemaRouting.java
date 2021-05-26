@@ -24,9 +24,9 @@ public class CinemaRouting {
     @Value("${http.response.header.content-type.value")
     private String contentTypeHeaderValue;
 
-    private final CinemaService cinemaService;
+    private final JsonTransformer jsonTransformer;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final CinemaService cinemaService;
 
 
     public void initCinemaRoutes() {
@@ -38,74 +38,75 @@ public class CinemaRouting {
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaService.findAllCinemas();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var cinemaToAdd = new CreateCinemaDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for cinema add"));
-                var cinemaToAdd = gson.fromJson(request.body(), CreateCinemaDto.class);
+                var cinemaToAdd = jsonTransformer.fromJson(request.body(), CreateCinemaDto.class);
                 return cinemaService.addCinema(cinemaToAdd);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaService.deleteAllCinemas();
-            }, new JsonTransformer());
-            // /cinema/:id
-            path("/:id", () -> {
+            }, jsonTransformer);
+            // /api/cinema/id/:id
+            path("/id/:id", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cinemaService.findCinemaById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return cinemaService.findCinemaById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-//                    var cinemaToUpdate = new CreateCinemaDtoJsonConverter(request.body())
-//                            .fromJson()
-//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for cinema update"));
-                    var cinemaToUpdate = gson.fromJson(request.body(), CreateCinemaDto.class);
-                    return cinemaService.updateCinema(cinemaToUpdate);
-                }, new JsonTransformer());
-                delete("/:id", (request, response) -> {
+                    var id = Long.parseLong(request.params("id"));
+                    var cinemaToUpdate = jsonTransformer.fromJson(request.body(), CreateCinemaDto.class);
+                    return cinemaService.updateCinema(id, cinemaToUpdate);
+                }, jsonTransformer);
+
+                delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cinemaService.deleteCinema(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return cinemaService.deleteCinema(id);
+                }, jsonTransformer);
             });
 
-            // /cinema/cinemaRoom
+            // /api/cinema/cinemaRoom
             get("/cinemaRoom", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return cinemaService.findCinemasWithCinemaRooms();
             }, new JsonTransformer());
 
-            // /cinema/:id/cinemaRoom
-            get("/:id/cinemaRoom", (request, response) -> {
+            // /api/cinema/id/:id/cinemaRoom
+            get("/id/:id/cinemaRoom", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return cinemaService.findOneCinemaWithCinemaRooms(Long.parseLong(request.params("id")));
-            }, new JsonTransformer());
+                var id = Long.parseLong(request.params("id"));
+                return cinemaService.findOneCinemaWithCinemaRooms(id);
+            }, jsonTransformer);
 
-            // /cinema/movie
-            path("/movie", () -> {
-                get("", (request, response) -> {
-                    response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cinemaService.findCinemasWithMovies();
-                }, new JsonTransformer());
+            // /api/cinema/movie
 
-                //  /cinema/:id/movie
-                get("/:id/movie", (request, response) -> {
-                    response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return cinemaService.findOneCinemaWithMovies(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
-
-            });
-            // /cinema/:id/seance
-            get("/:id/seance", (request, response) -> {
+            get("/movie", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return cinemaService.findOneCinemaWithSeances(Long.parseLong(request.params("id")));
-            }, new JsonTransformer());
+                return cinemaService.findCinemasWithMovies();
+            }, jsonTransformer);
+
+            //  /api/cinema/id/:id/movie
+            get("/id/:id/movie", (request, response) -> {
+                response.header(contentTypeHeader, contentTypeHeaderValue);
+                var id = Long.parseLong(request.params("id"));
+                return cinemaService.findOneCinemaWithMovies(id);
+            }, jsonTransformer);
+
+
+            // /api/cinema/id/:id/seance
+            get("/id/:id/seance", (request, response) -> {
+                response.header(contentTypeHeader, contentTypeHeaderValue);
+                var id = Long.parseLong(request.params("id"));
+                return cinemaService.findOneCinemaWithSeances(id);
+            }, jsonTransformer);
         });
 
     }

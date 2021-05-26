@@ -26,86 +26,80 @@ public class MovieRouting {
     @Value("${http.response.header.content-type.value}")
     private String contentTypeHeaderValue;
 
-    private final MovieService movieService;
+    private final JsonTransformer jsonTransformer;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final MovieService movieService;
 
 
     public void initMovieRouting() {
 
-        // /movies
+        // /api/movies
         path("/api/movie", () -> {
 
             //MOVIE GENERAL CRUD
             get("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return movieService.findAllMovies();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var movieToAdd = new CreateMovieDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new IllegalStateException("Invalid json body for movie add"));
-                var movieToAdd = gson.fromJson(request.body(), CreateMovieDto.class);
+                var movieToAdd = jsonTransformer.fromJson(request.body(), CreateMovieDto.class);
                 return movieService.addMovie(movieToAdd);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return movieService.deleteAllMovies();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /movie/:id
-            path("/:id", () -> {
-
+            // /api/movie/id/:id
+            path("/id/:id", () -> {
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return movieService.findMovieById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return movieService.findMovieById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-//                    var movieToUpdate = new CreateMovieDtoJsonConverter(request.body())
-//                            .fromJson()
-//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for movie update"));
-                    var movieToUpdate = gson.fromJson(request.body(), CreateMovieDto.class);
-                    return movieService.updateMovie(movieToUpdate);
-
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    var movieToUpdate = jsonTransformer.fromJson(request.body(), CreateMovieDto.class);
+                    return movieService.updateMovie(id ,movieToUpdate);
+                }, jsonTransformer);
 
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
                     return movieService.deleteMovie(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                }, jsonTransformer);
             });
 
             //MOVIES SPECIAL CRUD
-            // /movie/:genre
-            get("/:genre", (request, response) -> {
+            // /api/movie/genre?genre=Sci Fi
+            get("/genre", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                var movie = movieService.findMoviesByGenre(request.params("genre"));
-                return movie;
-            }, new JsonTransformer());
+                var name = request.queryParams("genre");
+                return movieService.findMoviesByGenre(name);
+            }, jsonTransformer);
 
-            // /movie/:title
-            get("/:title", (request, response) -> {
+            // /api/movie/title?title=Movie A
+            get("/title", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return movieService.findMovieByName(request.params("title"));
-            }, new JsonTransformer());
+                var title = request.queryParams("title");
+                return movieService.findMovieByName(title);
+            }, jsonTransformer);
 
-            // /movie/:dateFrom/:dateTo
-            get("/:dateFrom/:dateTo", (request, response) -> {
+            // api/movie/:dateFrom/dateTo/:dateTo
+            get("/dateFrom/:dateFrom/dateTo/:dateTo", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return movieService.findMoviesByEmissionDate(request.params("dateFrom"), request.params("dateTo"));
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /movie/:byLetter
-            get("/:byLetter", (request, response) -> {
+            // /api/movie/letters/:letters
+            get("/letters/:letters", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                System.out.println(request.params("letter"));
-                return movieService.findMoviesByFirstLetters(request.params("byLetter"));
-            }, new JsonTransformer());
+                return movieService.findMoviesByFirstLetters(request.params("letters"));
+            }, jsonTransformer);
         });
     }
 }

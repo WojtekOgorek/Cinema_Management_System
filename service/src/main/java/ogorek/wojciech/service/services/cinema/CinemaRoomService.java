@@ -2,7 +2,9 @@ package ogorek.wojciech.service.services.cinema;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
+import ogorek.wojciech.domain.model.cinema.Cinema;
 import ogorek.wojciech.domain.model.cinema.repository.CinemaRepository;
+import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema_room.CinemaRoom;
 import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
 import ogorek.wojciech.domain.model.cinema_room.dto.GetCinemaRoomDto;
@@ -12,10 +14,12 @@ import ogorek.wojciech.domain.model.cinema_room.dto.validator.CreateCinemaRoomDt
 import ogorek.wojciech.domain.model.cinema_room.repository.CinemaRoomRepository;
 import ogorek.wojciech.domain.model.cinema_room.views.CinemaRoomWithSeance;
 import ogorek.wojciech.domain.model.cinema_room.views.CinemaRoomWithSeats;
+import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,9 +46,15 @@ public class CinemaRoomService {
 
     public GetCinemaRoomDto addCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto) {
         Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto);
-        if(cinemaRepository.findById(createCinemaRoomDto.getCinemaId()).isEmpty()){
+        if (cinemaRepository.findById(createCinemaRoomDto.getCinemaId()).isEmpty()) {
             throw new AppServiceException("Fail to add cinemaRoom, there is no such cinema in db");
         }
+
+        var cinemaRoomNamesInCinema = cinemaRoomNamesInCinema(createCinemaRoomDto);
+        if (cinemaRoomNamesInCinema.contains(createCinemaRoomDto.getName())) {
+            throw new AppServiceException("There is cinema room with this name in this cinema = " + createCinemaRoomDto.getName());
+        }
+
         var cinemaRoom = createCinemaRoomDto.toCinemaRoom();
         return cinemaRoomRepository
                 .add(cinemaRoom)
@@ -52,16 +62,43 @@ public class CinemaRoomService {
                 .orElseThrow();
     }
 
-    public GetCinemaRoomDto updateCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto) {
+    public GetCinemaRoomDto updateCinemaRoom(Long id, CreateCinemaRoomDto createCinemaRoomDto) {
         Validator.validate(new CreateCinemaRoomDtoValidator(), createCinemaRoomDto);
-        if(cinemaRepository.findById(createCinemaRoomDto.getCinemaId()).isEmpty()){
+
+        if (cinemaRepository.findById(createCinemaRoomDto.getCinemaId()).isEmpty()) {
             throw new AppServiceException("Fail to update cinemaRoom, there is no such cinema in db");
         }
-        var cinemaRoom = createCinemaRoomDto.toCinemaRoom();
+
+        var cinemaRoomNamesInCinema = cinemaRoomNamesInCinema(createCinemaRoomDto);
+        if (cinemaRoomNamesInCinema.contains(createCinemaRoomDto.getName())) {
+            throw new AppServiceException("There is cinema room with this name in this cinema = " + createCinemaRoomDto.getName());
+        }
+
+        var cinemaRoomToUpdate = CinemaRoom
+                .builder()
+                .id(id)
+                .name(createCinemaRoomDto.getName())
+                .placeQuantity(createCinemaRoomDto.getPlaceQuantity())
+                .rowQuantity(createCinemaRoomDto.getRowQuantity())
+                .cinemaId(createCinemaRoomDto.getCinemaId())
+                .build();
+
         return cinemaRoomRepository
-                .update(cinemaRoom)
+                .update(cinemaRoomToUpdate)
                 .map(CinemaRoom::toGetCinemaRoomDto)
                 .orElseThrow();
+    }
+
+    private List<String> cinemaRoomNamesInCinema(CreateCinemaRoomDto createCinemaRoomDto) {
+        return cinemaRoomRepository
+                .findAllById(cinemaRepository
+                        .specificCinemaWithCinemaRooms(createCinemaRoomDto.getCinemaId())
+                        .stream()
+                        .map(CinemaWithCinemaRooms::getCinemaRoomId)
+                        .collect(Collectors.toList()))
+                .stream()
+                .map(names -> names.toGetCinemaRoomDto().getName())
+                .collect(Collectors.toList());
     }
 
     public GetCinemaRoomDto deleteCinemaRoom(Long id) {

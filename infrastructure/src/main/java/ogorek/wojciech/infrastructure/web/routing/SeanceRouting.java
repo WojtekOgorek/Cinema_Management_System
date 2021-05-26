@@ -1,12 +1,7 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.converter.JsonConverter;
-import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
 import ogorek.wojciech.domain.model.seance.dto.CreateSeanceDto;
-import ogorek.wojciech.domain.model.seance.dto.converter.CreateSeanceDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.SeanceService;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +20,10 @@ public class SeanceRouting {
     @Value("${http.response.header.content-type.value}")
     private String contentTypeHeaderValue;
 
+    private final JsonTransformer jsonTransformer;
+
     private final SeanceService seanceService;
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void initSeanceRouting() {
 
@@ -42,48 +38,44 @@ public class SeanceRouting {
 
             post("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-//                var seanceToAdd = new CreateSeanceDtoJsonConverter(request.body())
-//                        .fromJson()
-//                        .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance add"));
-                var seanceToAdd = gson.fromJson(request.body(), CreateSeanceDto.class);
+                var seanceToAdd = jsonTransformer.fromJson(request.body(), CreateSeanceDto.class);
                 return seanceService.addSeance(seanceToAdd);
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
             delete("", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
                 return seanceService.deleteAllSeances();
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
-            // /seance/:id
-            path("/:id", () -> {
+            // /api/seance/id/:id
+            path("/id/:id", () -> {
 
                 get("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return seanceService.findSeanceById(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return seanceService.findSeanceById(id);
+                }, jsonTransformer);
 
                 put("", (request, response) -> {
-
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-//                    var seanceToUpdate = new CreateSeanceDtoJsonConverter(request.body())
-//                            .fromJson()
-//                            .orElseThrow(() -> new IllegalArgumentException("Invalid json body for seance update"));
-                    var seanceToUpdate = gson.fromJson(request.body(), CreateSeanceDto.class);
-                    return seanceService.updateSeance(seanceToUpdate);
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    var seanceToUpdate = jsonTransformer.fromJson(request.body(), CreateSeanceDto.class);
+                    return seanceService.updateSeance(id, seanceToUpdate);
+                }, jsonTransformer);
 
                 delete("", (request, response) -> {
                     response.header(contentTypeHeader, contentTypeHeaderValue);
-                    return seanceService.deleteSeance(Long.parseLong(request.params("id")));
-                }, new JsonTransformer());
+                    var id = Long.parseLong(request.params("id"));
+                    return seanceService.deleteSeance(id);
+                }, jsonTransformer);
             });
 
             //SEANCES SPECIAL CRUD
-            // /seances/:dateFrom/:dateTo
-            get("/:dateFrom/:dateTo", (request, response) -> {
+            // /api/seances/dateFrom/:dateFrom/dateTo/:dateTo/state/:state
+            get("/dateFrom/:dateFrom/dateTo/:dateTo/state/:state", (request, response) -> {
                 response.header(contentTypeHeader, contentTypeHeaderValue);
-                return seanceService.findSeancesByDate(request.params("dateFrom"), request.params("dateTo"));
-            }, new JsonTransformer());
+                return seanceService.findSeancesByDate(request.params("dateFrom"), request.params("dateTo"), request.params("state"));
+            }, jsonTransformer);
         });
     }
 }

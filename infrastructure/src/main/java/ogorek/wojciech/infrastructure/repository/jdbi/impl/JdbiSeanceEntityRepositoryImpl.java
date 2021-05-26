@@ -16,15 +16,36 @@ public class JdbiSeanceEntityRepositoryImpl extends AbstractCrudRepository<Seanc
     }
 
     @Override
-    public List<SeanceByDate> getSeanceByDate(String dateFrom, String dateTo) {
+    public List<SeanceByDate> getSeanceByDateTicketsReserved(String dateFrom, String dateTo) {
         final String SQL = """
-                select s.id,
-                       s.date_time,
-                       t.id
+                select s.id as seanceId,
+                       s.date_time as dateTime,
+                       t.id as ticketId
                 from seances s
                 join tickets t on s.id = t.seance_id
                 where s.date_time BETWEEN :dateFrom and :dateTo
                 and t.state = 'RESERVED' 
+                                """;
+        return jdbi.withHandle(handle ->
+                handle
+                        .createQuery(SQL)
+                        .bind("dateFrom", dateFrom)
+                        .bind("dateTo", dateTo)
+                        .mapToBean(SeanceByDate.class)
+                        .list()
+        );
+    }
+
+    @Override
+    public List<SeanceByDate> getSeanceByDateTicketsBought(String dateFrom, String dateTo) {
+        final String SQL = """
+                select s.id as seanceId,
+                       s.date_time as dateTime,
+                       t.id as ticketId
+                from seances s
+                join tickets t on s.id = t.seance_id
+                where s.date_time BETWEEN :dateFrom and :dateTo
+                and t.state = 'BOUGHT' 
                                 """;
         return jdbi.withHandle(handle ->
                 handle
