@@ -29,4 +29,4 @@ java -jar --enable-preview infrastructure.jar
 
 Full api documentation published on Postman web:
 
-https://web.postman.co/workspace/My-Workspace~ba933dc2-3236-4662-884a-26436cfa543e/documentation/13022165-0ff528ff-31ba-4dc3-9bad-c48aa3327b2b
+https://documenter.getpostman.com/view/13022165/TzK15Erk
