@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.seat.Seat;
 import ogorek.wojciech.domain.model.seat.repository.SeatRepository;
 import ogorek.wojciech.domain.model.seat.views.SeatWithState;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.SeatEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiSeatEntityRepository;
-import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

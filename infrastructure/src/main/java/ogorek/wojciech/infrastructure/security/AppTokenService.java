@@ -1,10 +1,7 @@
 package ogorek.wojciech.infrastructure.security;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Encoder;
-import io.jsonwebtoken.io.EncodingException;
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.user.User;
 import ogorek.wojciech.domain.model.user.UserFunctors;
@@ -13,13 +10,10 @@ import ogorek.wojciech.infrastructure.security.dto.AuthenticationDto;
 import ogorek.wojciech.infrastructure.security.dto.AuthorizedUserDto;
 import ogorek.wojciech.infrastructure.security.dto.TokensDto;
 import ogorek.wojciech.service.services.exceptions.AppTokensServiceException;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 
 @Service

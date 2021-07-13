@@ -1,15 +1,8 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.converter.AppConverterException;
-import ogorek.wojciech.domain.configs.converter.JsonConverter;
 import ogorek.wojciech.domain.model.order.dto.CreateOrderDto;
-import ogorek.wojciech.domain.model.order.dto.converter.CreateOrderDtoJsonConverter;
-import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
 import ogorek.wojciech.domain.model.ticket.dto.CreateTicketDto;
-import ogorek.wojciech.domain.model.ticket.dto.converter.CreateTicketDtoJsonConverter;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
 import ogorek.wojciech.service.services.cinema.TicketService;
 import org.springframework.beans.factory.annotation.Value;

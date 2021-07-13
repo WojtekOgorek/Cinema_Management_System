@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.city.repository.CityRepository;
 import ogorek.wojciech.domain.model.city.views.CityWithCinemas;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.CityEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiCityEntityRepository;
-import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

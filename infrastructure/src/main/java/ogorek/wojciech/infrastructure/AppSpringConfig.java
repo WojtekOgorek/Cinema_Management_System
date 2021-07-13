@@ -1,7 +1,5 @@
 package ogorek.wojciech.infrastructure;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;

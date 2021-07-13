@@ -1,6 +1,5 @@
 package ogorek.wojciech.domain.model.cinema_room.view;
 
-import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema_room.dto.GetCinemaRoomWithSeanceDto;
 import ogorek.wojciech.domain.model.cinema_room.views.CinemaRoomWithSeance;
 import org.junit.jupiter.api.DisplayName;

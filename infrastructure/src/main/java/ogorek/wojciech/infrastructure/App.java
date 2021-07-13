@@ -153,8 +153,8 @@ public class App {
         initExceptionHandler(e -> System.out.println(e.getMessage()));
         port(8081);
 
-        var errorRouting = context.getBean("errorRouting", ErrorRouting.class);
         var securityFilter = context.getBean("securityFilter", SecurityFilter.class);
+        var errorRouting = context.getBean("errorRouting", ErrorRouting.class);
         var cityRouting = context.getBean("cityRouting", CityRouting.class);
         var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
         var cinemaRoomRouting = context.getBean("cinemaRoomRouting", CinemaRoomRouting.class);

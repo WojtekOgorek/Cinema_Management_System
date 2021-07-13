@@ -2,11 +2,6 @@ package ogorek.wojciech.domain.configs.converter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.Primitives;
-import com.google.gson.internal.bind.JsonTreeReader;
-import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
 import java.io.FileWriter;

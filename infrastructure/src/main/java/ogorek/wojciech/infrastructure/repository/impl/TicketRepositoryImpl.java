@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.model.ticket.Ticket;
 import ogorek.wojciech.domain.model.ticket.repository.TicketRepository;
 import ogorek.wojciech.domain.model.ticket.views.TicketInfo;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.TicketEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiTicketEntityRepository;
-import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

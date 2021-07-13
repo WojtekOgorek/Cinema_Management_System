@@ -2,7 +2,6 @@ package ogorek.wojciech.service.services.cinema;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
-import ogorek.wojciech.domain.model.cinema.Cinema;
 import ogorek.wojciech.domain.model.cinema.repository.CinemaRepository;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema_room.CinemaRoom;
@@ -14,12 +13,10 @@ import ogorek.wojciech.domain.model.cinema_room.dto.validator.CreateCinemaRoomDt
 import ogorek.wojciech.domain.model.cinema_room.repository.CinemaRoomRepository;
 import ogorek.wojciech.domain.model.cinema_room.views.CinemaRoomWithSeance;
 import ogorek.wojciech.domain.model.cinema_room.views.CinemaRoomWithSeats;
-import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service

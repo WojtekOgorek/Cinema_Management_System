@@ -1,7 +1,6 @@
 package ogorek.wojciech.extension.cinema.dto.converter;
 
 import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoJsonConverter;
-import ogorek.wojciech.domain.model.cinema.dto.converter.CreateCinemaDtoListJsonConverter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;

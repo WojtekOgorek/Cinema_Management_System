@@ -9,7 +9,6 @@ import ogorek.wojciech.domain.model.cinema.repository.CinemaRepository;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithCinemaRooms;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithMovies;
 import ogorek.wojciech.domain.model.cinema.views.CinemaWithSeances;
-import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.city.repository.CityRepository;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;

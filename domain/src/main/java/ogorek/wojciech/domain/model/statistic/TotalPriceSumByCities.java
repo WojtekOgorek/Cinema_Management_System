@@ -1,6 +1,9 @@
 package ogorek.wojciech.domain.model.statistic;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ogorek.wojciech.domain.model.statistic.dto.GetTotalPriceSumByCitiesDto;
 
 import java.math.BigDecimal;

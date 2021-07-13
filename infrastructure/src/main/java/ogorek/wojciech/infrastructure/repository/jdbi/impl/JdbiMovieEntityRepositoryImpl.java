@@ -1,6 +1,5 @@
 package ogorek.wojciech.infrastructure.repository.jdbi.impl;
 
-import ogorek.wojciech.domain.model.movie.Movie;
 import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import ogorek.wojciech.infrastructure.repository.entity.MovieEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiMovieEntityRepository;

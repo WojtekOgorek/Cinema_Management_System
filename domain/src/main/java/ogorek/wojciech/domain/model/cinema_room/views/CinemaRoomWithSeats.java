@@ -1,8 +1,10 @@
 package ogorek.wojciech.domain.model.cinema_room.views;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ogorek.wojciech.domain.model.cinema_room.dto.GetCinemaRoomWithSeatsDto;
-import ogorek.wojciech.domain.model.ticket.enums.State;
 
 @AllArgsConstructor
 @NoArgsConstructor

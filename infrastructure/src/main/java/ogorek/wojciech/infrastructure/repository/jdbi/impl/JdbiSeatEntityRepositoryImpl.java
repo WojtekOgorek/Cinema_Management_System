@@ -2,7 +2,6 @@ package ogorek.wojciech.infrastructure.repository.jdbi.impl;
 
 import ogorek.wojciech.domain.model.seat.views.SeatWithState;
 import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
-import ogorek.wojciech.infrastructure.repository.entity.CityEntity;
 import ogorek.wojciech.infrastructure.repository.entity.SeatEntity;
 import ogorek.wojciech.infrastructure.repository.jdbi.JdbiSeatEntityRepository;
 import org.jdbi.v3.core.Jdbi;

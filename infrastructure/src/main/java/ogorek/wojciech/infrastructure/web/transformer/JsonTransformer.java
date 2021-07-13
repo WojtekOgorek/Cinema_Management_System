@@ -3,13 +3,8 @@ package ogorek.wojciech.infrastructure.web.transformer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.Primitives;
-import ogorek.wojciech.domain.configs.converter.AppConverterException;
 import org.springframework.stereotype.Component;
 import spark.ResponseTransformer;
-
-import java.lang.reflect.Type;
 
 @Component
 public class JsonTransformer implements ResponseTransformer {

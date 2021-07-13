@@ -1,6 +1,9 @@
 package ogorek.wojciech.domain.model.user.views;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ogorek.wojciech.domain.model.user.dto.GetUserHistoryDto;
 
 import java.math.BigDecimal;

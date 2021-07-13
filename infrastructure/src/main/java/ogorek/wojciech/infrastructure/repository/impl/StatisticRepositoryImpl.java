@@ -1,10 +1,8 @@
 package ogorek.wojciech.infrastructure.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.model.city.City;
 import ogorek.wojciech.domain.model.statistic.*;
 import ogorek.wojciech.domain.model.statistic.repository.StatisticRepository;
-import ogorek.wojciech.infrastructure.repository.AbstractCrudRepository;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 

@@ -1,19 +1,12 @@
 package ogorek.wojciech.infrastructure.web.routing;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ogorek.wojciech.domain.configs.converter.JsonConverter;
-import ogorek.wojciech.domain.model.cinema_room.dto.CreateCinemaRoomDto;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
-import ogorek.wojciech.domain.model.movie.dto.converter.CreateMovieDtoJsonConverter;
-import ogorek.wojciech.service.services.cinema.MovieService;
 import ogorek.wojciech.infrastructure.web.transformer.JsonTransformer;
-
+import ogorek.wojciech.service.services.cinema.MovieService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import static spark.Spark.path;
 import static spark.Spark.*;
 
 @Component

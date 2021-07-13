@@ -1,6 +1,9 @@
 package ogorek.wojciech.domain.model.city.views;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ogorek.wojciech.domain.model.city.dto.GetCityWithCinemasDto;
 
 @AllArgsConstructor

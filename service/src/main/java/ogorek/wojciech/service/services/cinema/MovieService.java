@@ -2,7 +2,6 @@ package ogorek.wojciech.service.services.cinema;
 
 import lombok.RequiredArgsConstructor;
 import ogorek.wojciech.domain.configs.validator.Validator;
-import ogorek.wojciech.domain.model.cinema.Cinema;
 import ogorek.wojciech.domain.model.movie.Movie;
 import ogorek.wojciech.domain.model.movie.dto.CreateMovieDto;
 import ogorek.wojciech.domain.model.movie.dto.GetMovieDto;

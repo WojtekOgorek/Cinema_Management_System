@@ -32,8 +32,8 @@ public class SecurityFilter {
     public void initSecurityFilter() {
         before("/*", (request, response) -> {
             var permitAllUris = List.of(
-                "/api/user/register",
-                "/login"
+                    "/api/user/register",
+                    "/login"
             );
             var permissions = Map.ofEntries(
 

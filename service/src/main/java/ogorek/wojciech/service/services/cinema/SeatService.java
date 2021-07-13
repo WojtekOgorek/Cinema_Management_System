@@ -9,23 +9,16 @@ import ogorek.wojciech.domain.model.seance.views.SeanceByDate;
 import ogorek.wojciech.domain.model.seat.Seat;
 import ogorek.wojciech.domain.model.seat.dto.CreateSeatDto;
 import ogorek.wojciech.domain.model.seat.dto.GetSeatDto;
-import ogorek.wojciech.domain.model.seat.dto.GetSeatWithState;
 import ogorek.wojciech.domain.model.seat.dto.validator.CreateSeatDtoValidator;
 import ogorek.wojciech.domain.model.seat.repository.SeatRepository;
-import ogorek.wojciech.domain.model.seat.views.SeatWithState;
-import ogorek.wojciech.domain.model.ticket.enums.State;
 import ogorek.wojciech.domain.model.ticket.repository.TicketRepository;
 import ogorek.wojciech.service.services.exceptions.AppServiceException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor

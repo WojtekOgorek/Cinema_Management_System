@@ -1,7 +1,6 @@
 package ogorek.wojciech.extension.favourite.dto.converter;
 
 import ogorek.wojciech.domain.model.favourite.dto.converter.CreateFavouriteDtoJsonConverter;
-import ogorek.wojciech.domain.model.favourite.dto.converter.CreateFavouriteDtoListJsonConverter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
